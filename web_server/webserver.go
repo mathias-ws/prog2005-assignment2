@@ -2,6 +2,8 @@ package web_server
 
 import (
 	"assignment-2/constants"
+	"assignment-2/logic"
+	"assignment-2/web_server/handlers"
 	"log"
 	"net/http"
 	"os"
@@ -9,7 +11,7 @@ import (
 
 // setHandlers sets all the web handlers that the server has.
 func setHandlers() {
-	//TODO add handlers
+	http.HandleFunc(constants.STATUS_LOCATION, handlers.StatusHandler)
 }
 
 // StartWebServer starts the webserver for the api.
@@ -23,6 +25,7 @@ func StartWebServer() {
 	}
 
 	setHandlers()
+	logic.SetStartTime()
 
 	log.Println("Webserver started on port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
