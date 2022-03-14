@@ -12,6 +12,7 @@ import (
 // setHandlers sets all the web handlers that the server has.
 func setHandlers() {
 	http.HandleFunc(constants.STATUS_LOCATION, handlers.StatusHandler)
+	http.HandleFunc(constants.POLICY_LOCATION, handlers.PolicyHandler)
 }
 
 // StartWebServer starts the webserver for the api.
