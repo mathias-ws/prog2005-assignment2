@@ -1,6 +1,7 @@
 package utilities
 
 import (
+	"assignment-2/constants"
 	"regexp"
 	"strings"
 )
@@ -11,7 +12,19 @@ func CheckIfStringIsNotEmpty(str string) bool {
 	strToCheck := strings.ReplaceAll(str, " ", "")
 
 	if strToCheck != "" {
-		return regexp.MustCompile(`^[a-zA-Z]+$`).MatchString(strToCheck)
+		return regexp.MustCompile(constants.REGEX_CHECK_VALID_STRING).MatchString(strToCheck)
 	}
+	return false
+}
+
+// CheckIfValidDateFormat takes a string and checks if it is a valid date format.
+func CheckIfValidDateFormat(str string) bool {
+	//Removes whitespaces
+	strToCheck := strings.ReplaceAll(str, " ", "")
+
+	if strToCheck != "" {
+		return regexp.MustCompile(constants.REGEX_CHECK_VALID_DATE).MatchString(strToCheck)
+	}
+
 	return false
 }
