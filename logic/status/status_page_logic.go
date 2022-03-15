@@ -16,9 +16,16 @@ func SetStartTime() {
 	startTime = time.Now()
 }
 
-// GetUptime returns the current time since the startTime variable was set (the uptime).
+// getUptime returns the current time since the startTime variable was set (the uptime)
+// in hours, minutes and seconds.
 func getUptime() string {
-	return fmt.Sprintf("%ds", int(time.Since(startTime).Seconds()))
+	deltaTime := int(time.Since(startTime).Seconds())
+
+	hours := (deltaTime / (60 * 60)) % 60
+	minutes := (deltaTime / 60) % 60
+	seconds := deltaTime % 60
+
+	return fmt.Sprintf("%dh %dm %ds", hours, minutes, seconds)
 }
 
 // getStatusCode gets the status code from a webpage specified by an urlHandlingClient.
