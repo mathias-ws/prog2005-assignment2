@@ -2,7 +2,6 @@ package status
 
 import (
 	"assignment-2/constants"
-	"assignment-2/model"
 	"assignment-2/web_client"
 	"fmt"
 	"net/http"
@@ -35,10 +34,10 @@ func getStatusCode(url string) (int, error) {
 }
 
 // GetStatusInfo gets the diagnosis information and turns it into a struct.
-func GetStatusInfo() model.Status {
+func GetStatusInfo() status {
 	// Gets the status codes.
 	covidCasesApiStatusCode, errCases := getStatusCode(constants.CovidCasesBaseUrl)
-	covidPolicyApiStatusCode, errPolicy := getStatusCode(constants.CovidTrackerEndpoint)
+	covidPolicyApiStatusCode, errPolicy := getStatusCode(constants.CovidTrackerBaseUrl)
 
 	// If the apis are unreachable set a proper error code.
 	if errCases != nil {
@@ -48,7 +47,7 @@ func GetStatusInfo() model.Status {
 		covidPolicyApiStatusCode = http.StatusBadGateway
 	}
 
-	return model.Status{
+	return status{
 		CasesApiStatusCode:  covidCasesApiStatusCode,
 		PolicyApiStatusCode: covidPolicyApiStatusCode,
 		NumberOfWebhooks:    0,
