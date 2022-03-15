@@ -3,7 +3,7 @@ package handlers
 import (
 	"assignment-2/custom_errors"
 	"assignment-2/json_parser"
-	"assignment-2/logic"
+	"assignment-2/logic/status"
 	"net/http"
 )
 
@@ -19,7 +19,7 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetRequestStatus(w http.ResponseWriter) {
-	err := json_parser.Encode(w, logic.GetStatusInfo())
+	err := json_parser.Encode(w, status.GetStatusInfo())
 
 	// Checks for errors in the encoding process.
 	if err != nil {

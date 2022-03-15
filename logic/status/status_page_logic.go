@@ -1,4 +1,4 @@
-package logic
+package status
 
 import (
 	"assignment-2/constants"
