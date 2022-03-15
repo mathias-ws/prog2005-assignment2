@@ -37,8 +37,8 @@ func getStatusCode(url string) (int, error) {
 // GetStatusInfo gets the diagnosis information and turns it into a struct.
 func GetStatusInfo() model.Status {
 	// Gets the status codes.
-	covidCasesApiStatusCode, errCases := getStatusCode(constants.COVID_CASES_BASE_URL)
-	covidPolicyApiStatusCode, errPolicy := getStatusCode(constants.COVID_TRACKER_BASE_URL)
+	covidCasesApiStatusCode, errCases := getStatusCode(constants.CovidCasesBaseUrl)
+	covidPolicyApiStatusCode, errPolicy := getStatusCode(constants.CovidTrackerEndpoint)
 
 	// If the apis are unreachable set a proper error code.
 	if errCases != nil {

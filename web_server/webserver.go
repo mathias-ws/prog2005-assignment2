@@ -1,7 +1,6 @@
 package web_server
 
 import (
-	"assignment-2/constants"
 	"assignment-2/logic"
 	"assignment-2/web_server/handlers"
 	"log"
@@ -11,8 +10,8 @@ import (
 
 // setHandlers sets all the web handlers that the server has.
 func setHandlers() {
-	http.HandleFunc(constants.STATUS_LOCATION, handlers.StatusHandler)
-	http.HandleFunc(constants.POLICY_LOCATION, handlers.PolicyHandler)
+	http.HandleFunc(statusLocation, handlers.StatusHandler)
+	http.HandleFunc(policyLocation, handlers.PolicyHandler)
 }
 
 // StartWebServer starts the webserver for the api.
@@ -21,8 +20,8 @@ func StartWebServer() {
 
 	// Checks if the port env variable is set, if not it will set the default port.
 	if port == "" {
-		log.Println("Port variable not set, using default: " + constants.PORT)
-		port = constants.PORT
+		log.Println("Port variable not set, using default: " + defaultPort)
+		port = defaultPort
 	}
 
 	setHandlers()

@@ -1,7 +1,6 @@
 package web_client
 
 import (
-	"assignment-2/constants"
 	"assignment-2/custom_errors"
 	"log"
 	"net/http"
@@ -23,7 +22,7 @@ func GetResponseFromWebPage(url string) (*http.Response, error) {
 	webClient := &http.Client{}
 
 	// Setting timeout for web web_client
-	webClient.Timeout = constants.CLIENT_TIMEOUT
+	webClient.Timeout = clientTimeout
 
 	// Sending the request
 	response, errorFromResponse := webClient.Do(request)
