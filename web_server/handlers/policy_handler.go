@@ -2,6 +2,9 @@ package handlers
 
 import (
 	"assignment-2/custom_errors"
+	"assignment-2/policy_endpoint"
+	"assignment-2/web_server/json_parsing"
+	"assignment-2/web_server/urlHandlingServer"
 	"net/http"
 )
 
@@ -9,22 +12,38 @@ import (
 func PolicyHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		//handleGetRequestPolicy(w)
+		handleGetRequestPolicy(w, r)
 	default:
 		// Returns method not supported for unsupported rest methods.
 		custom_errors.HttpUnsupportedMethod(w)
 	}
 }
 
-func handleGetRequestPolicy(w http.ResponseWriter) {
-	/*response, _ := web_client.GetResponseFromWebPage(
-		"https://covidtrackerapi.bsg.ox.ac.uk/api/v2/stringency/actions/swe/2022-03-15")
-	list := json_parser.DecodePolicyInfo(response)
-	err := webserver.Encode(w, policy_endpoint.GenerateOutputStruct(list))
+func handleGetRequestPolicy(w http.ResponseWriter, r *http.Request) {
+	urlParameters, errParameters := urlHandlingServer.GetUrlParametersPolicy(r.URL)
 
 	// Checks for errors in the encoding process.
-	if err != nil {
+	if errParameters != nil {
+		custom_errors.HttpSearchParameters(w)
+		return
+	}
+
+	policyInformation, errPolicy := policy_endpoint.FindPolicyInformation(urlParameters)
+
+	// Checks for errors in the process of getting the policy and stringency information.
+	if errPolicy.Error() == custom_errors.GetNoContentStringencyFoundError().Error() {
+		custom_errors.HttpNoContent(w)
+		return
+	} else if errPolicy != nil {
 		custom_errors.HttpUnknownServerError(w)
 		return
-	}*/
+	}
+
+	errEncoding := json_parsing.Encode(w, policyInformation)
+
+	// Checks for errors in the encoding process.
+	if errEncoding != nil {
+		custom_errors.HttpUnknownServerError(w)
+		return
+	}
 }

@@ -9,12 +9,12 @@ import (
 // decodePolicyInfo decodes the policy_endpoint info into the PolicyInputFromApi struct.
 func decodePolicyInfo(httpResponse *http.Response) policyInputFromApi {
 	decoder := json.NewDecoder(httpResponse.Body)
-	var list policyInputFromApi
+	var policyInfo policyInputFromApi
 
 	// Checks for errors in the decoding process.
-	if err := decoder.Decode(&list); err != nil {
+	if err := decoder.Decode(&policyInfo); err != nil {
 		log.Println(err)
 	}
 
-	return list
+	return policyInfo
 }
