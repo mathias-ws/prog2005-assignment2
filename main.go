@@ -1,6 +1,6 @@
 package main
 
-import "web_server"
+import "assignment-2/web_server"
 
 // main starts the program.
 func main() {

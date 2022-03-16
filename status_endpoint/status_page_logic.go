@@ -1,11 +1,11 @@
 package status_endpoint
 
 import (
-	"constants"
+	"assignment-2/constants"
+	"assignment-2/web_client"
 	"fmt"
 	"net/http"
 	"time"
-	"web_client"
 )
 
 // Variable containing the start time of the web_server.

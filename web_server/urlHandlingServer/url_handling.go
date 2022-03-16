@@ -1,12 +1,12 @@
 package urlHandlingServer
 
 import (
-	"constants"
-	"custom_errors"
+	"assignment-2/constants"
+	"assignment-2/custom_errors"
+	"assignment-2/utilities"
 	"net/url"
 	"strconv"
 	"time"
-	"utilities"
 )
 
 // GetLimit returns the limit specified by the user.

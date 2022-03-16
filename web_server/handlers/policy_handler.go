@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"custom_errors"
+	"assignment-2/custom_errors"
 	"net/http"
 )
 

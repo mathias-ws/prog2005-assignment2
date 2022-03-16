@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"custom_errors"
+	"assignment-2/custom_errors"
+	"assignment-2/status_endpoint"
+	"assignment-2/web_server/json_parsing"
 	"net/http"
-	"status_endpoint"
-	"web_server/v1.0.0/json_parsing"
 )
 
 // StatusHandler checks for the http method and handles the error appropriately.
