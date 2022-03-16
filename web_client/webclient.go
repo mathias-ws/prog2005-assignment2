@@ -1,7 +1,7 @@
 package web_client
 
 import (
-	"assignment-2/custom_errors"
+	"custom_errors"
 	"log"
 	"net/http"
 )

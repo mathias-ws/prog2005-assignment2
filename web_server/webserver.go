@@ -1,11 +1,11 @@
 package web_server
 
 import (
-	"assignment-2/logic/status"
-	"assignment-2/web_server/handlers"
 	"log"
 	"net/http"
 	"os"
+	"status_endpoint"
+	"web_server/v1.0.0/handlers"
 )
 
 // setHandlers sets all the web handlers that the server has.
@@ -25,7 +25,7 @@ func StartWebServer() {
 	}
 
 	setHandlers()
-	status.SetStartTime()
+	status_endpoint.SetStartTime()
 
 	log.Println("Webserver started on port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

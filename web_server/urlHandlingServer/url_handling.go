@@ -1,12 +1,12 @@
 package urlHandlingServer
 
 import (
-	"assignment-2/constants"
-	"assignment-2/custom_errors"
-	"assignment-2/utilities"
+	"constants"
+	"custom_errors"
 	"net/url"
 	"strconv"
 	"time"
+	"utilities"
 )
 
 // GetLimit returns the limit specified by the user.
@@ -28,7 +28,7 @@ func GetLimit(url *url.URL) (int, error) {
 	return 0, nil
 }
 
-// GetUrlParametersPolicy checks that the given url contains the wanted parameters for the policy endpoint
+// GetUrlParametersPolicy checks that the given url contains the wanted parameters for the policy_endpoint endpoint
 // with valid and correct parameters. If no scope set, the current date is set.
 func GetUrlParametersPolicy(url *url.URL) (map[string]string, error) {
 	obtainedQuery := url.Query()
