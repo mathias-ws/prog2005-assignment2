@@ -10,9 +10,9 @@ func GetUnableToReachBackendApisError() error {
 	return errors.New("error sending request or getting response from the api")
 }
 
-// GetNoContentFoundError returns the error message for when the given country was not found.
-func GetNoContentFoundError() error {
-	return errors.New("no universities with the given search parameters were not found")
+// GetNoContentStringencyFoundError returns the error message for when the given stringency information was not found.
+func GetNoContentStringencyFoundError() error {
+	return errors.New("no stringency information with the given search parameters were not found")
 }
 
 //GetParameterError returns error message for when the user has not provided the mandatory parameters.
