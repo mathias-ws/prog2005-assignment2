@@ -1,4 +1,4 @@
-package policy_endpoint
+package policy
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// decodePolicyInfo decodes the policy_endpoint info into the PolicyInputFromApi struct.
+// decodePolicyInfo decodes the policy info into the PolicyInputFromApi struct.
 func decodePolicyInfo(httpResponse *http.Response) policyInputFromApi {
 	decoder := json.NewDecoder(httpResponse.Body)
 	var policyInfo policyInputFromApi

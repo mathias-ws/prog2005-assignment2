@@ -1,6 +1,6 @@
-package policy_endpoint
+package policy
 
-// policyOutput represents the output structure of the policy_endpoint endpoint.
+// policyOutput represents the output structure of the policy endpoint.
 type policyOutput struct {
 	CountryCode string
 	Scope       string
@@ -8,7 +8,7 @@ type policyOutput struct {
 	Policy      int
 }
 
-// policyInputFromApi represents the input data from the policy_endpoint api.
+// policyInputFromApi represents the input data from the policy api.
 type policyInputFromApi struct {
 	StringencyData map[string]interface{}   `json:"stringencyData"`
 	PolicyData     []map[string]interface{} `json:"policyActions"`

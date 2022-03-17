@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"assignment-2/custom_errors"
-	"assignment-2/policy_endpoint"
+	"assignment-2/policy"
 	"assignment-2/web_server/json_parsing"
 	"assignment-2/web_server/urlHandlingServer"
 	"net/http"
@@ -28,7 +28,7 @@ func handleGetRequestPolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	policyInformation, errPolicy := policy_endpoint.FindPolicyInformation(urlParameters)
+	policyInformation, errPolicy := policy.FindPolicyInformation(urlParameters)
 
 	// Checks for errors in the process of getting the policy and stringency information.
 	if errPolicy != nil {

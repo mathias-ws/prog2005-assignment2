@@ -1,4 +1,4 @@
-package status_endpoint
+package status
 
 // status output struct for the status endpoint.
 type status struct {

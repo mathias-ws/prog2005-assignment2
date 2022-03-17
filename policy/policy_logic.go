@@ -1,4 +1,4 @@
-package policy_endpoint
+package policy
 
 import (
 	"assignment-2/constants"

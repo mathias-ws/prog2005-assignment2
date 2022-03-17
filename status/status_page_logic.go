@@ -1,4 +1,4 @@
-package status_endpoint
+package status
 
 import (
 	"assignment-2/constants"
