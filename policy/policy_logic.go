@@ -52,7 +52,7 @@ func buildSearchUrl(parameters map[string]string) string {
 // FindPolicyInformation takes in a map of url parameter values and uses them to search the backend api
 // and generates an output struct that is returned.
 func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error) {
-	response, err := web_client.GetResponseFromWebPage(buildSearchUrl(urlParameters))
+	response, err := web_client.GetRequest(buildSearchUrl(urlParameters))
 
 	if err != nil {
 		return policyOutput{}, err

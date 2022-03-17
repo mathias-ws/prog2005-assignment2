@@ -28,23 +28,11 @@ func getUptime() string {
 	return fmt.Sprintf("%dh %dm %ds", hours, minutes, seconds)
 }
 
-// getStatusCode gets the status code from a webpage specified by an urlHandlingClient.
-func getStatusCode(url string) (int, error) {
-	statusCode, err := web_client.GetResponseFromWebPage(url)
-
-	// Checks for errors when fetching the api.
-	if err != nil {
-		return 0, err
-	}
-
-	return statusCode.StatusCode, err
-}
-
 // GetStatusInfo gets the diagnosis information and turns it into a struct.
 func GetStatusInfo() status {
 	// Gets the status codes.
-	covidCasesApiStatusCode, errCases := getStatusCode(constants.CovidCasesBaseUrl)
-	covidPolicyApiStatusCode, errPolicy := getStatusCode(constants.CovidTrackerBaseUrl)
+	covidCasesApiStatusCode, errCases := web_client.GetStatusCode(constants.CovidCasesBaseUrl)
+	covidPolicyApiStatusCode, errPolicy := web_client.GetStatusCode(constants.CovidTrackerBaseUrl)
 
 	// If the apis are unreachable set a proper error code.
 	if errCases != nil {
