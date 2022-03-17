@@ -31,10 +31,7 @@ func handleGetRequestPolicy(w http.ResponseWriter, r *http.Request) {
 	policyInformation, errPolicy := policy_endpoint.FindPolicyInformation(urlParameters)
 
 	// Checks for errors in the process of getting the policy and stringency information.
-	if errPolicy.Error() == custom_errors.GetNoContentStringencyFoundError().Error() {
-		custom_errors.HttpNoContent(w)
-		return
-	} else if errPolicy != nil {
+	if errPolicy != nil {
 		custom_errors.HttpUnknownServerError(w)
 		return
 	}

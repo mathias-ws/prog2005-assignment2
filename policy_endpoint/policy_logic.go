@@ -2,7 +2,6 @@ package policy_endpoint
 
 import (
 	"assignment-2/constants"
-	"assignment-2/custom_errors"
 	"assignment-2/web_client"
 	"strings"
 )
@@ -20,32 +19,21 @@ func countPolicies(policies []map[string]interface{}) int {
 func getStringency(stringency map[string]interface{}) float64 {
 	if stringency["stringency_actual"] != nil {
 		return stringency["stringency_actual"].(float64)
-	} else {
+	} else if stringency["stringency_actual"] != nil {
 		return stringency["stringency"].(float64)
-	}
-}
-
-// stringencyIsValid checks if there is any stringency information in the struct.
-func stringencyIsValid(stringency map[string]interface{}) bool {
-	if stringency["msg"] != nil {
-		return false
 	} else {
-		return true
+		return defaultStringencyValue
 	}
 }
 
-// generateOutputStruct generates a policyOutput struct if the stringency information is valid.
-func generateOutputStruct(inputStruct policyInputFromApi) (policyOutput, error) {
-	if !stringencyIsValid(inputStruct.StringencyData) {
-		return policyOutput{}, custom_errors.GetNoContentStringencyFoundError()
-	}
-
+// generateOutputStruct generates a populated policyOutput struct.
+func generateOutputStruct(inputStruct policyInputFromApi, parameters map[string]string) policyOutput {
 	return policyOutput{
-		CountryCode: inputStruct.StringencyData["country_code"].(string),
-		Scope:       inputStruct.StringencyData["date_value"].(string),
+		CountryCode: parameters[constants.URL_SCOPE_PARAMETER],
+		Scope:       parameters[constants.URL_COUNTRY_NAME_PARAM],
 		Stringency:  getStringency(inputStruct.StringencyData),
 		Policy:      countPolicies(inputStruct.PolicyData),
-	}, nil
+	}
 }
 
 // buildSearchUrl builds the url that can be used to search the backend api.
@@ -72,5 +60,5 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 
 	obtainedPolicyInformation := decodePolicyInfo(response)
 
-	return generateOutputStruct(obtainedPolicyInformation)
+	return generateOutputStruct(obtainedPolicyInformation, urlParameters), nil
 }
