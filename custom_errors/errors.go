@@ -24,3 +24,8 @@ func GetParameterError() error {
 func GetInvalidLimitError() error {
 	return errors.New("invalid limit")
 }
+
+// GetFailedToDecode returns error message for when the decoder/unmarshall is unable to convert the object.
+func GetFailedToDecode() error {
+	return errors.New("failed to decode the object")
+}
