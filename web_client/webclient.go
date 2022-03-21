@@ -2,6 +2,7 @@ package web_client
 
 import (
 	"assignment-2/custom_errors"
+	"bytes"
 	"log"
 	"net/http"
 )
@@ -26,8 +27,8 @@ func getResponse(request *http.Request) (*http.Response, error) {
 }
 
 // createRequest creates a request with the wanted method and url.
-func createRequest(url string, method string) (*http.Request, error) {
-	request, errorFromRequest := http.NewRequest(method, url, nil)
+func createRequest(url string, method string, body []byte) (*http.Request, error) {
+	request, errorFromRequest := http.NewRequest(method, url, bytes.NewBuffer(body))
 
 	if errorFromRequest != nil {
 		log.Println("Error when creating the request:", errorFromRequest.Error())
@@ -39,7 +40,20 @@ func createRequest(url string, method string) (*http.Request, error) {
 
 // GetRequest sends a get request to a given webpage.
 func GetRequest(url string) (*http.Response, error) {
-	request, err := createRequest(url, http.MethodGet)
+	request, err := createRequest(url, http.MethodGet, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("content-type", "application/json")
+
+	return getResponse(request)
+}
+
+// PostRequest sends a post request to a webpage with the provided body.
+func PostRequest(url string, body []byte) (*http.Response, error) {
+	request, err := createRequest(url, http.MethodPost, body)
 
 	if err != nil {
 		return nil, err
@@ -52,7 +66,7 @@ func GetRequest(url string) (*http.Response, error) {
 
 // GetStatusCode gets status code from a web page.
 func GetStatusCode(url string) (int, error) {
-	request, err := createRequest(url, http.MethodHead)
+	request, err := createRequest(url, http.MethodHead, nil)
 
 	if err != nil {
 		return 0, err
