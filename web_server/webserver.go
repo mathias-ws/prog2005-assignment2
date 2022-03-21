@@ -12,6 +12,7 @@ import (
 func setHandlers() {
 	http.HandleFunc(statusLocation, handlers.StatusHandler)
 	http.HandleFunc(policyLocation, handlers.PolicyHandler)
+	http.HandleFunc(casesLocation, handlers.CovidCasesHandler)
 }
 
 // StartWebServer starts the webserver for the api.
