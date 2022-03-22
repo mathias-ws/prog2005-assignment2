@@ -6,14 +6,17 @@ type CovidCases struct {
 	MostRecent CovidCasesMostRecent `json:"mostRecent"`
 }
 
-type CovidCases2 struct {
+// CountryStruct represents the country in the nested structure in the input json.
+type CountryStruct struct {
 	Country CovidCases `json:"country"`
 }
 
-type Data struct {
-	Data CovidCases2 `json:"data"`
+// DataStruct represents the data in the nested structure in the input json.
+type DataStruct struct {
+	Data CountryStruct `json:"data"`
 }
 
+// CovidCasesMostRecent represents the most recent field in the nested structure in the input json.
 type CovidCasesMostRecent struct {
 	Date           string  `json:"date"`
 	ConfirmedCases int     `json:"confirmed"`
@@ -22,6 +25,7 @@ type CovidCasesMostRecent struct {
 	GrowthRate     float64 `json:"growthRate"`
 }
 
+// CovidCasesOutput represents the flat output structure of the endpoint.
 type CovidCasesOutput struct {
 	Country        string  `json:"country"`
 	Date           string  `json:"date"`
