@@ -31,3 +31,6 @@ const CovidTrackerBaseUrl string = "https://covidtrackerapi.bsg.ox.ac.uk/api/"
 
 // CovidTrackerEndpoint endpoint for doing the search.
 const CovidTrackerEndpoint string = "v2/stringency/actions/"
+
+// CovidCasesDBCollection is the collection name for the covid cases collection.
+const CovidCasesDBCollection string = "covidcases"
