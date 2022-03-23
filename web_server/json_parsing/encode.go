@@ -16,7 +16,7 @@ func Encode(w http.ResponseWriter, valueToEncode interface{}) error {
 	encoder.SetIndent("", "\t")
 
 	if err := encoder.Encode(valueToEncode); err != nil {
-		log.Fatal("Unable to encode data: ", err)
+		log.Println("Unable to encode data: ", err)
 		return err
 	}
 
