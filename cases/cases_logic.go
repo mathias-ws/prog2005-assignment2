@@ -6,6 +6,7 @@ import (
 	"assignment-2/web_client"
 	"encoding/json"
 	"log"
+	"strings"
 )
 
 // createGraphQlRequest Generates the body for the graphql request to the backend api.
@@ -51,7 +52,7 @@ func generateOutPutStruct(covidCases CovidCases) CovidCasesOutput {
 
 // GetCovidCases takes in the url parameter and uses it to query the backend api and builds the output struct.
 func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
-	requestBody, err := createGraphQlRequest(urlParameters[constants.URL_COUNTRY_NAME_PARAM])
+	requestBody, err := createGraphQlRequest(strings.Title(urlParameters[constants.URL_COUNTRY_NAME_PARAM]))
 
 	if err != nil {
 		return CovidCasesOutput{}, err
