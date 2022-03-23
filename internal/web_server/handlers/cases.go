@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"assignment-2/cases"
-	"assignment-2/custom_errors"
-	"assignment-2/web_server/json_parsing"
-	"assignment-2/web_server/urlHandlingServer"
+	"assignment-2/internal/buisness_logic/cases"
+	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/web_server/json"
+	"assignment-2/internal/web_server/urlutil"
 	"net/http"
 )
 
@@ -21,9 +21,9 @@ func CovidCasesHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestCases handles the get request for the covid cases endpoint.
 func handleGetRequestCases(w http.ResponseWriter, r *http.Request) {
-	urlParameters, errParameters := urlHandlingServer.GetUrlParametersCases(r.URL)
+	urlParameters, errParameters := urlutil.GetUrlParametersCases(r.URL)
 
-	// Checks for errors finding the url parameters.
+	// Checks for errors finding the urlutil parameters.
 	if errParameters != nil {
 		custom_errors.HttpSearchParameters(w)
 		return
@@ -37,7 +37,7 @@ func handleGetRequestCases(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	errEncoding := json_parsing.Encode(w, covidCases)
+	errEncoding := json.Encode(w, covidCases)
 
 	// Checks for errors in the encoding process.
 	if errEncoding != nil {

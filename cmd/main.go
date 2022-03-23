@@ -1,8 +1,8 @@
 package main
 
 import (
-	"assignment-2/database"
-	"assignment-2/web_server"
+	"assignment-2/internal/database"
+	"assignment-2/internal/web_server"
 )
 
 // main starts the program.

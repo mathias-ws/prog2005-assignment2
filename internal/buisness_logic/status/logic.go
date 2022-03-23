@@ -1,8 +1,8 @@
 package status
 
 import (
-	"assignment-2/constants"
-	"assignment-2/web_client"
+	"assignment-2/internal/constants"
+	"assignment-2/internal/web_client"
 	"fmt"
 	"net/http"
 	"time"

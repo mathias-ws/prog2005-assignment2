@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"assignment-2/custom_errors"
-	"assignment-2/policy"
-	"assignment-2/web_server/json_parsing"
-	"assignment-2/web_server/urlHandlingServer"
+	"assignment-2/internal/buisness_logic/policy"
+	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/web_server/json"
+	"assignment-2/internal/web_server/urlutil"
 	"net/http"
 )
 
@@ -20,7 +20,7 @@ func PolicyHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetRequestPolicy(w http.ResponseWriter, r *http.Request) {
-	urlParameters, errParameters := urlHandlingServer.GetUrlParametersPolicy(r.URL)
+	urlParameters, errParameters := urlutil.GetUrlParametersPolicy(r.URL)
 
 	// Checks for errors in the encoding process.
 	if errParameters != nil {
@@ -36,7 +36,7 @@ func handleGetRequestPolicy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	errEncoding := json_parsing.Encode(w, policyInformation)
+	errEncoding := json.Encode(w, policyInformation)
 
 	// Checks for errors in the encoding process.
 	if errEncoding != nil {

@@ -1,7 +1,7 @@
 package database
 
 import (
-	"assignment-2/custom_errors"
+	"assignment-2/internal/custom_errors"
 	"cloud.google.com/go/firestore"
 	"context"
 	firebase "firebase.google.com/go"

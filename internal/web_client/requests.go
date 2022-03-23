@@ -1,7 +1,7 @@
 package web_client
 
 import (
-	"assignment-2/custom_errors"
+	"assignment-2/internal/custom_errors"
 	"bytes"
 	"log"
 	"net/http"
@@ -26,7 +26,7 @@ func getResponse(request *http.Request) (*http.Response, error) {
 	return response, nil
 }
 
-// createRequest creates a request with the wanted method and url.
+// createRequest creates a request with the wanted method and urlutil.
 func createRequest(url string, method string, body []byte) (*http.Request, error) {
 	request, errorFromRequest := http.NewRequest(method, url, bytes.NewBuffer(body))
 

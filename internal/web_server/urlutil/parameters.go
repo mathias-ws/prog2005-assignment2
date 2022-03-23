@@ -1,10 +1,10 @@
-package urlHandlingServer
+package urlutil
 
 import (
-	"assignment-2/constants"
-	"assignment-2/country"
-	"assignment-2/custom_errors"
-	"assignment-2/utilities"
+	"assignment-2/internal/buisness_logic/country"
+	"assignment-2/internal/constants"
+	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/strutils"
 	"net/url"
 	"strconv"
 	"strings"
@@ -36,22 +36,22 @@ func GetUrlParametersPolicy(url *url.URL) (map[string]string, error) {
 	obtainedQuery := url.Query()
 	parametersToReturn := map[string]string{}
 
-	// Checks if the url has the country parameter
+	// Checks if the urlutil has the country parameter
 	if obtainedQuery.Has(constants.URL_COUNTRY_NAME_PARAM) {
 		parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] = obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]
 
-		if !utilities.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
+		if !strutils.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
 			return nil, custom_errors.GetParameterError()
 		}
 	} else {
 		return nil, custom_errors.GetParameterError()
 	}
 
-	// Checks if url has the scope parameter
+	// Checks if urlutil has the scope parameter
 	if obtainedQuery.Has(constants.URL_SCOPE_PARAMETER) {
 		parametersToReturn[constants.URL_SCOPE_PARAMETER] = obtainedQuery[constants.URL_SCOPE_PARAMETER][0]
 
-		if !utilities.CheckIfValidDateFormat(parametersToReturn[constants.URL_SCOPE_PARAMETER]) {
+		if !strutils.CheckIfValidDateFormat(parametersToReturn[constants.URL_SCOPE_PARAMETER]) {
 			return nil, custom_errors.GetParameterError()
 		}
 	} else {
@@ -67,7 +67,7 @@ func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
 	obtainedQuery := url.Query()
 	parametersToReturn := map[string]string{}
 
-	if !utilities.CheckIfStringIsNotEmpty(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) {
+	if !strutils.CheckIfStringIsNotEmpty(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) {
 		return nil, custom_errors.GetParameterError()
 	}
 
@@ -86,7 +86,7 @@ func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
 				strings.Title(strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]))
 		}
 
-		if !utilities.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
+		if !strutils.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
 			return nil, custom_errors.GetParameterError()
 		}
 	} else {

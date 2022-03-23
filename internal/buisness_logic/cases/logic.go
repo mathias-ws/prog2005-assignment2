@@ -1,10 +1,10 @@
 package cases
 
 import (
-	"assignment-2/constants"
-	"assignment-2/custom_errors"
-	"assignment-2/database"
-	"assignment-2/web_client"
+	"assignment-2/internal/constants"
+	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/database"
+	"assignment-2/internal/web_client"
 	"encoding/json"
 	"log"
 	"strings"

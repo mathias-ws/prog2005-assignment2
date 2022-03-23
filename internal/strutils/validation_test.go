@@ -1,4 +1,4 @@
-package utilities
+package strutils
 
 import "testing"
 import "github.com/stretchr/testify/assert"

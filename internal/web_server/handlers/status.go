@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"assignment-2/custom_errors"
-	"assignment-2/status"
-	"assignment-2/web_server/json_parsing"
+	"assignment-2/internal/buisness_logic/status"
+	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/web_server/json"
 	"net/http"
 )
 
@@ -19,7 +19,7 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetRequestStatus(w http.ResponseWriter) {
-	err := json_parsing.Encode(w, status.GetStatusInfo())
+	err := json.Encode(w, status.GetStatusInfo())
 
 	// Checks for errors in the encoding process.
 	if err != nil {

@@ -1,13 +1,13 @@
 package country
 
 import (
-	"assignment-2/database"
-	"assignment-2/web_client"
+	"assignment-2/internal/database"
+	"assignment-2/internal/web_client"
 	"strings"
 	"time"
 )
 
-// buildSearchUrl builds a search url for the country api.
+// buildSearchUrl builds a search urlutil for the country api.
 func buildSearchUrl(cca3Code string) string {
 	urlToSearch := strings.Builder{}
 	urlToSearch.WriteString(countryApiUrl)

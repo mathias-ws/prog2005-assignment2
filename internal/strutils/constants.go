@@ -1,4 +1,4 @@
-package utilities
+package strutils
 
 // RegexCheckValidDate regex expression for checking if string is valid date format.
 // Inspired by: https://www.golangprograms.com/regular-expression-to-validate-the-date-format-in-dd-mm-yyyy.html
