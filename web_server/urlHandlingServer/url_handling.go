@@ -2,10 +2,12 @@ package urlHandlingServer
 
 import (
 	"assignment-2/constants"
+	"assignment-2/country"
 	"assignment-2/custom_errors"
 	"assignment-2/utilities"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -56,5 +58,36 @@ func GetUrlParametersPolicy(url *url.URL) (map[string]string, error) {
 		parametersToReturn[constants.URL_SCOPE_PARAMETER] = time.Now().Format(constants.URL_PARAMETER_WANTED_TIME_FORMAT)
 	}
 
+	return parametersToReturn, nil
+}
+
+// GetUrlParametersCases gets the parameters needed for the cases endpoint. The input is sanitized and
+// potential cca3 codes are converted into the common names of the countries.
+func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
+	obtainedQuery := url.Query()
+	parametersToReturn := map[string]string{}
+
+	if !utilities.CheckIfStringIsNotEmpty(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) {
+		return nil, custom_errors.GetParameterError()
+	}
+
+	// Checks if the url has the country parameter
+	if obtainedQuery.Has(constants.URL_COUNTRY_NAME_PARAM) {
+		// Checks if it is a cca3 code (contains 3 letters).
+		if len(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) == 3 {
+			countryString, err := country.GetCountryNameFromCca3(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0])
+			if err != nil {
+				return nil, err
+			}
+			parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] = strings.Title(strings.ToLower(countryString))
+
+		} else {
+			parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] =
+				strings.Title(strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]))
+		}
+
+	} else {
+		return nil, custom_errors.GetParameterError()
+	}
 	return parametersToReturn, nil
 }

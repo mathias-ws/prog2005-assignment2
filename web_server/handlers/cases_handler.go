@@ -21,7 +21,7 @@ func CovidCasesHandler(w http.ResponseWriter, r *http.Request) {
 
 // handleGetRequestCases handles the get request for the covid cases endpoint.
 func handleGetRequestCases(w http.ResponseWriter, r *http.Request) {
-	urlParameters, errParameters := urlHandlingServer.GetUrlParametersPolicy(r.URL)
+	urlParameters, errParameters := urlHandlingServer.GetUrlParametersCases(r.URL)
 
 	// Checks for errors finding the url parameters.
 	if errParameters != nil {
