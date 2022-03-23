@@ -40,7 +40,7 @@ func GetFromDatabase(collection string, document string) map[string]interface{} 
 }
 
 // WriteToDatabase creates or updates a document in a collection (and a document).
-func WriteToDatabase(collection string, document string, data map[string]interface{}) error {
+func WriteToDatabase(collection string, document string, data interface{}) error {
 	client, errOpeningClient := app.Firestore(ctx)
 
 	if errOpeningClient != nil {
