@@ -28,26 +28,6 @@ func getStringency(stringency map[string]interface{}) float64 {
 	}
 }
 
-// generateOutputStruct generates a populated policyOutput struct.
-func generateOutputStruct(inputStruct policyInputFromApi, parameters map[string]string) policyOutput {
-	return policyOutput{
-		CountryCode: parameters[constants.URL_COUNTRY_NAME_PARAM],
-		Scope:       parameters[constants.URL_SCOPE_PARAMETER],
-		Stringency:  getStringency(inputStruct.StringencyData),
-		Policy:      countPolicies(inputStruct.PolicyData),
-	}
-}
-
-// generateOutPutStructFromMap turns the map retrieved from firestore back into a struct.
-func generateOutPutStructFromMap(inputData map[string]interface{}) policyOutput {
-	return policyOutput{
-		CountryCode: inputData["CountryCode"].(string),
-		Scope:       inputData["Scope"].(string),
-		Policy:      int(inputData["Policy"].(int64)),
-		Stringency:  inputData["Stringency"].(float64),
-	}
-}
-
 // buildSearchUrl builds the url that can be used to search the backend api.
 func buildSearchUrl(parameters map[string]string) string {
 	urlToSearch := strings.Builder{}

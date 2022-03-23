@@ -42,11 +42,5 @@ func GetStatusInfo() status {
 		covidPolicyApiStatusCode = http.StatusBadGateway
 	}
 
-	return status{
-		CasesApiStatusCode:  covidCasesApiStatusCode,
-		PolicyApiStatusCode: covidPolicyApiStatusCode,
-		NumberOfWebhooks:    0,
-		Uptime:              getUptime(),
-		Version:             constants.PROGRAM_VERSION,
-	}
+	return generateOutputStruct(covidCasesApiStatusCode, covidPolicyApiStatusCode, 0, getUptime())
 }
