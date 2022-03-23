@@ -51,13 +51,24 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 	}
 
 	//TODO error handling
-	_, _ = client.Collection(collection).Doc(document).Set(ctx, data)
-	_, _ = client.Collection(collection).Doc(document).Update(ctx, []firestore.Update{
+	_, errSet := client.Collection(collection).Doc(document).Set(ctx, data)
+
+	if errSet != nil {
+		log.Printf("Error setting data in db: %v", errSet)
+		return custom_errors.GetDatabaseError()
+	}
+
+	_, errUpdate := client.Collection(collection).Doc(document).Update(ctx, []firestore.Update{
 		{
 			Path:  "timestamp",
 			Value: time.Now(),
 		},
 	})
+
+	if errUpdate != nil {
+		log.Printf("Error setting data in db: %v", errUpdate)
+		return custom_errors.GetDatabaseError()
+	}
 
 	errClosingClient := client.Close()
 
