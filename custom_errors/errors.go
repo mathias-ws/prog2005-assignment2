@@ -29,3 +29,8 @@ func GetInvalidLimitError() error {
 func GetFailedToDecode() error {
 	return errors.New("failed to decode the object")
 }
+
+// GetDatabaseError returns error message for when there is an error accessing the database.
+func GetDatabaseError() error {
+	return errors.New("error accessing the database")
+}
