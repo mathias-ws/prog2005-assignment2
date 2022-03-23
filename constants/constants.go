@@ -34,3 +34,6 @@ const CovidTrackerEndpoint string = "v2/stringency/actions/"
 
 // CovidCasesDBCollection is the collection name for the covid cases collection.
 const CovidCasesDBCollection string = "covidcases"
+
+// PolicyDBCollection is the collection name for the policy caching collection.
+const PolicyDBCollection string = "stringency"
