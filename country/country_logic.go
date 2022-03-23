@@ -39,6 +39,11 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 
 	country := decodeCountryInfo(response)
 
+	// If the country object is an empty struct.
+	if (countryStruct{}) == country {
+		return "", nil
+	}
+
 	err := database.WriteToDatabase(countryDbCollection, cca3Code, map[string]string{"name": country.Name.Common})
 
 	if err != nil {

@@ -86,6 +86,9 @@ func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
 				strings.Title(strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]))
 		}
 
+		if !utilities.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
+			return nil, custom_errors.GetParameterError()
+		}
 	} else {
 		return nil, custom_errors.GetParameterError()
 	}

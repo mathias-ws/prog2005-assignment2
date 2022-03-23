@@ -14,6 +14,7 @@ func decodeCountryInfo(httpResponse *http.Response) countryStruct {
 	// Checks for errors in the decoding process.
 	if err := decoder.Decode(&obtainedCountry); err != nil {
 		log.Printf("Error parsing json: %v", err)
+		return countryStruct{}
 	}
 
 	return obtainedCountry[0]
