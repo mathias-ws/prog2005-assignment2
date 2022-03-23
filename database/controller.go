@@ -8,6 +8,7 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"log"
+	"time"
 )
 
 // Firebase context and client used by Firestore functions throughout the program.
@@ -51,6 +52,12 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 
 	//TODO error handling
 	_, _ = client.Collection(collection).Doc(document).Set(ctx, data)
+	_, _ = client.Collection(collection).Doc(document).Update(ctx, []firestore.Update{
+		{
+			Path:  "timestamp",
+			Value: time.Now(),
+		},
+	})
 
 	errClosingClient := client.Close()
 
