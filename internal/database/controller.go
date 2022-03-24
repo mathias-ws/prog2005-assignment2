@@ -33,18 +33,20 @@ func GetFromDatabase(collection string, document string) map[string]interface{} 
 		return nil
 	}
 
+	defer func() {
+		errClosingClient := client.Close()
+
+		if errClosingClient != nil {
+			log.Printf("Error closing db: %v", errClosingClient)
+		}
+	}()
+
 	hashedCollection, _ := hashing.HashString(collection)
 	hashedDoc, _ := hashing.HashString(document)
 
 	res := client.Collection(hashedCollection).Doc(hashedDoc)
 	doc, _ := res.Get(ctx)
 	data := doc.Data()
-
-	err := client.Close()
-
-	if err != nil {
-		return nil
-	}
 
 	return data
 }
@@ -57,6 +59,14 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 		log.Println(errOpeningClient)
 		return custom_errors.GetDatabaseError()
 	}
+
+	defer func() {
+		errClosingClient := client.Close()
+
+		if errClosingClient != nil {
+			log.Printf("Error closing db: %v", errClosingClient)
+		}
+	}()
 
 	hashedCollection, _ := hashing.HashString(collection)
 	hashedDoc, _ := hashing.HashString(document)
@@ -81,13 +91,6 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 		return custom_errors.GetDatabaseError()
 	}
 
-	errClosingClient := client.Close()
-
-	if errClosingClient != nil {
-		log.Println(errClosingClient)
-		return custom_errors.GetDatabaseError()
-	}
-
 	return nil
 }
 
@@ -100,6 +103,14 @@ func DeleteDocument(collection string, document string) error {
 		return custom_errors.GetDatabaseError()
 	}
 
+	defer func() {
+		errClosingClient := client.Close()
+
+		if errClosingClient != nil {
+			log.Printf("Error closing db: %v", errClosingClient)
+		}
+	}()
+
 	hashedCollection, _ := hashing.HashString(collection)
 	hashedDoc, _ := hashing.HashString(document)
 
@@ -107,13 +118,6 @@ func DeleteDocument(collection string, document string) error {
 	if err != nil {
 		log.Printf("Error deleteing document: %v", err)
 		return err
-	}
-
-	errClosingClient := client.Close()
-
-	if errClosingClient != nil {
-		log.Println(errClosingClient)
-		return custom_errors.GetDatabaseError()
 	}
 
 	return nil
@@ -127,6 +131,14 @@ func DeleteCollection(collection string) error {
 		log.Println(errOpeningClient)
 		return custom_errors.GetDatabaseError()
 	}
+
+	defer func() {
+		errClosingClient := client.Close()
+
+		if errClosingClient != nil {
+			log.Printf("Error closing db: %v", errClosingClient)
+		}
+	}()
 
 	hashedCollection, _ := hashing.HashString(collection)
 
