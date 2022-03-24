@@ -34,3 +34,8 @@ func GetFailedToDecode() error {
 func GetDatabaseError() error {
 	return errors.New("error accessing the database")
 }
+
+// GetHashingError returns error message for issues in the hashing process.
+func GetHashingError() error {
+	return errors.New("error hashing the message")
+}

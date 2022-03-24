@@ -2,6 +2,7 @@ package database
 
 import (
 	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/hashing"
 	"cloud.google.com/go/firestore"
 	"context"
 	firebase "firebase.google.com/go"
@@ -32,7 +33,10 @@ func GetFromDatabase(collection string, document string) map[string]interface{} 
 		return nil
 	}
 
-	res := client.Collection(collection).Doc(document)
+	hashedCollection, _ := hashing.HashString(collection)
+	hashedDoc, _ := hashing.HashString(document)
+
+	res := client.Collection(hashedCollection).Doc(hashedDoc)
 	doc, _ := res.Get(ctx)
 	data := doc.Data()
 
@@ -54,8 +58,11 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 		return custom_errors.GetDatabaseError()
 	}
 
+	hashedCollection, _ := hashing.HashString(collection)
+	hashedDoc, _ := hashing.HashString(document)
+
 	//TODO error handling
-	_, errSet := client.Collection(collection).Doc(document).Set(ctx, data)
+	_, errSet := client.Collection(hashedCollection).Doc(hashedDoc).Set(ctx, data)
 
 	if errSet != nil {
 		log.Printf("Error setting data in db: %v", errSet)
@@ -93,7 +100,10 @@ func DeleteDocument(collection string, document string) error {
 		return custom_errors.GetDatabaseError()
 	}
 
-	_, err := client.Collection(collection).Doc(document).Delete(ctx)
+	hashedCollection, _ := hashing.HashString(collection)
+	hashedDoc, _ := hashing.HashString(document)
+
+	_, err := client.Collection(hashedCollection).Doc(hashedDoc).Delete(ctx)
 	if err != nil {
 		log.Printf("Error deleteing document: %v", err)
 		return err
@@ -118,11 +128,13 @@ func DeleteCollection(collection string) error {
 		return custom_errors.GetDatabaseError()
 	}
 
+	hashedCollection, _ := hashing.HashString(collection)
+
 	// Code taken/inspired by the firestore documentation:
 	// https://firebase.google.com/docs/firestore/manage-data/delete-data
 	for {
 		// Get a batch of documents
-		iter := client.Collection(collection).Documents(ctx)
+		iter := client.Collection(hashedCollection).Documents(ctx)
 		numDeleted := 0
 
 		// Iterate through the documents, adding
