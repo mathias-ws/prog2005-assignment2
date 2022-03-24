@@ -13,20 +13,24 @@ import (
 
 // Firebase context and client used by Firestore functions throughout the program.
 var ctx context.Context
-var client *firestore.Client
 var app *firebase.App
 
 // InitDB initializes the database setup.
 func InitDB() {
 	ctx = context.Background()
-	opt := option.WithCredentialsFile("database/auth.json")
+	opt := option.WithCredentialsFile("internal/database/auth.json")
 	app, _ = firebase.NewApp(ctx, nil, opt)
 }
 
 // GetFromDatabase gets data from a collection and a document in the database.
 func GetFromDatabase(collection string, document string) map[string]interface{} {
 	//TODO error handling
-	client, _ = app.Firestore(ctx)
+	client, errClient := app.Firestore(ctx)
+
+	if errClient != nil {
+		log.Printf("Error creating db client: %v", errClient)
+		return nil
+	}
 
 	res := client.Collection(collection).Doc(document)
 	doc, _ := res.Get(ctx)
