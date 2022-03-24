@@ -69,7 +69,7 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 		return custom_errors.GetDatabaseError()
 	}
 
-	_, errUpdate := client.Collection(collection).Doc(document).Update(ctx, []firestore.Update{
+	_, errUpdate := client.Collection(hashedCollection).Doc(hashedDoc).Update(ctx, []firestore.Update{
 		{
 			Path:  "timestamp",
 			Value: time.Now(),
