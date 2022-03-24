@@ -24,13 +24,13 @@ func InitDB() {
 }
 
 // GetFromDatabase gets data from a collection and a document in the database.
-func GetFromDatabase(collection string, document string) map[string]interface{} {
+func GetFromDatabase(collection string, document string, structToExtractTo interface{}) {
 	//TODO error handling
 	client, errClient := app.Firestore(ctx)
 
 	if errClient != nil {
 		log.Printf("Error creating db client: %v", errClient)
-		return nil
+		return
 	}
 
 	defer func() {
@@ -46,9 +46,11 @@ func GetFromDatabase(collection string, document string) map[string]interface{} 
 
 	res := client.Collection(hashedCollection).Doc(hashedDoc)
 	doc, _ := res.Get(ctx)
-	data := doc.Data()
-
-	return data
+	err := doc.DataTo(&structToExtractTo)
+	if err != nil {
+		log.Printf("Error extracting data into struct: %v", err)
+		return
+	}
 }
 
 // WriteToDatabase creates or updates a document in a collection (and a document).

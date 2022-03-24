@@ -39,13 +39,3 @@ func generateOutputStruct(inputStruct policyInputFromApi, parameters map[string]
 		Policy:      countPolicies(inputStruct.PolicyData),
 	}
 }
-
-// generateOutPutStructFromMap turns the map retrieved from firestore back into a struct.
-func generateOutPutStructFromMap(inputData map[string]interface{}) policyOutput {
-	return policyOutput{
-		CountryCode: inputData["CountryCode"].(string),
-		Scope:       inputData["Scope"].(string),
-		Policy:      int(inputData["Policy"].(int64)),
-		Stringency:  inputData["Stringency"].(float64),
-	}
-}

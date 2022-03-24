@@ -45,11 +45,12 @@ func buildSearchUrl(parameters map[string]string) string {
 // and generates an output struct that is returned.
 func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error) {
 	// Checks if the country is in the cache.
-	dataFromDatabase := database.GetFromDatabase(constants.PolicyDBCollection,
-		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER])
+	var dataFromDatabase policyOutput
+	database.GetFromDatabase(constants.PolicyDBCollection,
+		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER], dataFromDatabase)
 
-	if len(dataFromDatabase) != 0 {
-		return generateOutPutStructFromMap(dataFromDatabase), nil
+	if (policyOutput{}) != dataFromDatabase {
+		return dataFromDatabase, nil
 	}
 
 	response, err := web_client.GetRequest(buildSearchUrl(urlParameters))

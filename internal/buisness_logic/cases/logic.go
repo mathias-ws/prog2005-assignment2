@@ -44,11 +44,13 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 	country := strings.Title(strings.ToLower(urlParameters[constants.URL_COUNTRY_NAME_PARAM]))
 
 	// Checks if the country is in the cache.
-	dataFromDatabase := database.GetFromDatabase(constants.CovidCasesDBCollection,
-		country)
+	var dataFromDatabase CovidCasesOutput
 
-	if len(dataFromDatabase) != 0 {
-		return generateOutPutStructFromMap(dataFromDatabase), nil
+	database.GetFromDatabase(constants.CovidCasesDBCollection,
+		country, dataFromDatabase)
+
+	if (CovidCasesOutput{}) != dataFromDatabase {
+		return dataFromDatabase, nil
 	}
 
 	requestBody, err := createGraphQlRequest(country)
