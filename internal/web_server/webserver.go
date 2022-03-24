@@ -2,7 +2,7 @@ package web_server
 
 import (
 	"assignment-2/internal/buisness_logic/status"
-	handlers2 "assignment-2/internal/web_server/handlers"
+	"assignment-2/internal/web_server/handlers"
 	"log"
 	"net/http"
 	"os"
@@ -10,9 +10,10 @@ import (
 
 // setHandlers sets all the web handlers that the server has.
 func setHandlers() {
-	http.HandleFunc(statusLocation, handlers2.StatusHandler)
-	http.HandleFunc(policyLocation, handlers2.PolicyHandler)
-	http.HandleFunc(casesLocation, handlers2.CovidCasesHandler)
+	http.HandleFunc(statusLocation, handlers.StatusHandler)
+	http.HandleFunc(policyLocation, handlers.PolicyHandler)
+	http.HandleFunc(casesLocation, handlers.CovidCasesHandler)
+	http.HandleFunc(webhookLocation, handlers.NotificationHandler)
 }
 
 // StartWebServer starts the webserver for the api.
