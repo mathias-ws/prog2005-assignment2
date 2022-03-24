@@ -12,8 +12,22 @@ type policyOutput struct {
 
 // policyInputFromApi represents the input data from the policy api.
 type policyInputFromApi struct {
-	StringencyData map[string]interface{}   `json:"stringencyData"`
-	PolicyData     []map[string]interface{} `json:"policyActions"`
+	StringencyData stringency `json:"stringencyData"`
+	PolicyData     []policy   `json:"policyActions"`
+}
+
+type stringency struct {
+	DateValue        string  `json:"date_value"`
+	CountryCode      string  `json:"country_code"`
+	Confirmed        int     `json:"confirmed"`
+	Deaths           int     `json:"deaths"`
+	StringencyActual float64 `json:"stringency_actual"`
+	Stringency       float64 `json:"stringency"`
+}
+
+type policy struct {
+	PolicyTypeCode          string `json:"policy_type_code"`
+	PolicyValueDisplayField string `json:"policy_value_display_field"`
 }
 
 // generateOutputStruct generates a populated policyOutput struct.

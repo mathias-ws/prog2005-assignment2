@@ -9,8 +9,8 @@ import (
 )
 
 // countPolicies counts the number of policies in place.
-func countPolicies(policies []map[string]interface{}) int {
-	if policies[0]["policy_type_code"] == "NONE" {
+func countPolicies(policies []policy) int {
+	if policies[0].PolicyTypeCode == "NONE" {
 		return 0
 	}
 
@@ -18,11 +18,11 @@ func countPolicies(policies []map[string]interface{}) int {
 }
 
 // getStringency checks if the stringency_actual is not null, if it is the stringency field is returned.
-func getStringency(stringency map[string]interface{}) float64 {
-	if stringency["stringency_actual"] != nil {
-		return stringency["stringency_actual"].(float64)
-	} else if stringency["stringency_actual"] != nil {
-		return stringency["stringency"].(float64)
+func getStringency(stringencyInfo stringency) float64 {
+	if stringencyInfo.StringencyActual != 0 {
+		return stringencyInfo.StringencyActual
+	} else if stringencyInfo.Stringency != 0 {
+		return stringencyInfo.Stringency
 	} else {
 		return defaultStringencyValue
 	}
