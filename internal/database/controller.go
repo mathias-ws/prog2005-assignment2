@@ -9,7 +9,6 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"log"
-	"time"
 )
 
 // Firebase context and client used by Firestore functions throughout the program.
@@ -25,7 +24,6 @@ func InitDB() {
 
 // GetFromDatabase gets data from a collection and a document in the database.
 func GetFromDatabase(collection string, document string, structToExtractTo interface{}) {
-	//TODO error handling
 	client, errClient := app.Firestore(ctx)
 
 	if errClient != nil {
@@ -41,12 +39,28 @@ func GetFromDatabase(collection string, document string, structToExtractTo inter
 		}
 	}()
 
-	hashedCollection, _ := hashing.HashString(collection)
-	hashedDoc, _ := hashing.HashString(document)
+	hashedCollection, errHashCol := hashing.HashString(collection)
+
+	if errHashCol != nil {
+		return
+	}
+
+	hashedDoc, errHashDoc := hashing.HashString(document)
+
+	if errHashDoc != nil {
+		return
+	}
 
 	res := client.Collection(hashedCollection).Doc(hashedDoc)
-	doc, _ := res.Get(ctx)
+	doc, errGetDoc := res.Get(ctx)
+
+	if errGetDoc != nil {
+		log.Printf("Error getting document: %v", errGetDoc)
+		return
+	}
+
 	err := doc.DataTo(&structToExtractTo)
+
 	if err != nil {
 		log.Printf("Error extracting data into struct: %v", err)
 		return
@@ -83,8 +97,8 @@ func WriteToDatabase(collection string, document string, data interface{}) error
 
 	_, errUpdate := client.Collection(hashedCollection).Doc(hashedDoc).Update(ctx, []firestore.Update{
 		{
-			Path:  "timestamp",
-			Value: time.Now(),
+			Path:  "time",
+			Value: firestore.ServerTimestamp,
 		},
 	})
 

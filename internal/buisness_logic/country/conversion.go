@@ -4,6 +4,7 @@ import (
 	"assignment-2/internal/database"
 	"assignment-2/internal/web_client"
 	"strings"
+	"time"
 )
 
 // buildSearchUrl builds a search urlutil for the country api.
@@ -24,9 +25,9 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 
 	if (countryStruct{}) != countryObtainedFromDb {
 		// Checks if the cache is more than ten days old, if not it will return the item from the db.
-		/*if !(time.Since(countryObtainedFromDb["timestamp"].(time.Time)).Hours() > (time.Hour * 24 * 10).Hours()) {
-			return countryObtainedFromDb["name"].(string), nil
-		}*/
+		if !(time.Since(countryObtainedFromDb.TimeStamp).Hours() > (time.Hour * 24 * 10).Hours()) {
+			return countryObtainedFromDb.Name.Common, nil
+		}
 	}
 
 	url := buildSearchUrl(cca3Code)

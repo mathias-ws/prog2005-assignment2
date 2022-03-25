@@ -47,7 +47,7 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 	var dataFromDatabase CovidCasesOutput
 
 	database.GetFromDatabase(constants.CovidCasesDBCollection,
-		country, dataFromDatabase)
+		country, &dataFromDatabase)
 
 	if (CovidCasesOutput{}) != dataFromDatabase {
 		return dataFromDatabase, nil

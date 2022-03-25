@@ -1,5 +1,7 @@
 package cases
 
+import "time"
+
 // CovidCases represents the output of the cases api.
 type CovidCases struct {
 	Country    string               `json:"name"`
@@ -27,12 +29,13 @@ type CovidCasesMostRecent struct {
 
 // CovidCasesOutput represents the flat output structure of the endpoint.
 type CovidCasesOutput struct {
-	Country        string  `json:"country"`
-	Date           string  `json:"date"`
-	ConfirmedCases int     `json:"confirmed"`
-	Recovered      int     `json:"recovered"`
-	Deaths         int     `json:"deaths"`
-	GrowthRate     float64 `json:"growth_rate"`
+	Country        string    `json:"country" firestore:"country"`
+	Date           string    `json:"date" firestore:"date"`
+	ConfirmedCases int       `json:"confirmed" firestore:"confirmed"`
+	Recovered      int       `json:"recovered" firestore:"recovered"`
+	Deaths         int       `json:"deaths" firestore:"deaths"`
+	GrowthRate     float64   `json:"growth_rate" firestore:"growth_rate"`
+	TimeStamp      time.Time `firestore:"time" json:"-"`
 }
 
 // generateOutPutStruct generates the output struct so that the output from this api is a flat structure.
