@@ -18,7 +18,7 @@ func Register(request *http.Request) (string, error) {
 		return "", custom_errors.GetFailedToDecode()
 	}
 
-	err := database.WriteToDatabase(webhookDbCollection, fmt.Sprintf("%v", registrationInfo), registrationInfo)
+	err := database.WriteDocument(webhookDbCollection, fmt.Sprintf("%v", registrationInfo), registrationInfo)
 	if err != nil {
 		return "", err
 	}

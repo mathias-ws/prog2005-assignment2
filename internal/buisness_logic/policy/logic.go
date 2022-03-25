@@ -48,7 +48,7 @@ func buildSearchUrl(parameters map[string]string) string {
 func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error) {
 	// Checks if the country is in the cache.
 	var dataFromDatabase policyOutput
-	database.GetFromDatabase(constants.PolicyDBCollection,
+	database.GetDocument(constants.PolicyDBCollection,
 		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER], dataFromDatabase)
 
 	if (policyOutput{}) != dataFromDatabase {
@@ -73,7 +73,7 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 
 	// Starts a new goroutine that caches the struct.
 	go func() {
-		err := database.WriteToDatabase(constants.PolicyDBCollection,
+		err := database.WriteDocument(constants.PolicyDBCollection,
 			outputStruct.CountryCode+outputStruct.Scope, outputStruct)
 		if err != nil {
 			log.Printf("Error writing to cache: %v", err)

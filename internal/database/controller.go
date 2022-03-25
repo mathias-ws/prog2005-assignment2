@@ -22,8 +22,8 @@ func InitDB() {
 	app, _ = firebase.NewApp(ctx, nil, opt)
 }
 
-// GetFromDatabase gets data from a collection and a document in the database.
-func GetFromDatabase(collection string, document string, structToExtractTo interface{}) {
+// GetDocument gets data from a collection and a document in the database.
+func GetDocument(collection string, document string, structToExtractTo interface{}) {
 	client, errClient := app.Firestore(ctx)
 
 	if errClient != nil {
@@ -72,8 +72,8 @@ func GetFromDatabase(collection string, document string, structToExtractTo inter
 	}
 }
 
-// WriteToDatabase creates or updates a document in a collection (and a document).
-func WriteToDatabase(collection string, document string, data interface{}) error {
+// WriteDocument creates or updates a document in a collection (and a document).
+func WriteDocument(collection string, document string, data interface{}) error {
 	client, errOpeningClient := app.Firestore(ctx)
 
 	if errOpeningClient != nil {

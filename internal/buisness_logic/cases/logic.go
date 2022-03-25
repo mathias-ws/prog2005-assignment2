@@ -46,7 +46,7 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 	// Checks if the country is in the cache.
 	var dataFromDatabase CovidCasesOutput
 
-	database.GetFromDatabase(constants.CovidCasesDBCollection,
+	database.GetDocument(constants.CovidCasesDBCollection,
 		country, &dataFromDatabase)
 
 	if (CovidCasesOutput{}) != dataFromDatabase {
@@ -69,7 +69,7 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 
 	// Starts a new goroutine that caches the struct.
 	go func() {
-		err := database.WriteToDatabase(constants.CovidCasesDBCollection, outputStruct.Country, outputStruct)
+		err := database.WriteDocument(constants.CovidCasesDBCollection, outputStruct.Country, outputStruct)
 		if err != nil {
 			log.Printf("Error writing to cache: %v", err)
 		}
