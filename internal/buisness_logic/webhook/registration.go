@@ -5,16 +5,17 @@ import (
 	"assignment-2/internal/database"
 	"assignment-2/internal/hashing"
 	"assignment-2/internal/json_parsing"
+	"assignment-2/internal/structs"
 	"fmt"
 	"net/http"
 )
 
 func Register(request *http.Request) (string, error) {
-	var registrationInfo webHookRegistration
+	var registrationInfo structs.WebHookRegistration
 
 	json_parsing.Decode(request, &registrationInfo)
 
-	if (webHookRegistration{}) == registrationInfo {
+	if (structs.WebHookRegistration{}) == registrationInfo {
 		return "", custom_errors.GetFailedToDecode()
 	}
 

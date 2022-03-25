@@ -4,7 +4,6 @@ import (
 	"assignment-2/internal/buisness_logic/webhook"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/web_server/json"
-	"fmt"
 	"net/http"
 )
 
@@ -12,7 +11,7 @@ import (
 func NotificationHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		fmt.Println("Get")
+		handleGetWebhooks(w, r)
 	case http.MethodPost:
 		handleRegistration(w, r)
 	default:
@@ -29,6 +28,14 @@ func handleRegistration(w http.ResponseWriter, r *http.Request) {
 
 	err = json.Encode(w, map[string]string{"webhook_id": webhookId})
 
+	if err != nil {
+		return
+	}
+}
+
+func handleGetWebhooks(w http.ResponseWriter, r *http.Request) {
+	webhooks, _ := webhook.GetAllRegistered()
+	err := json.Encode(w, webhooks)
 	if err != nil {
 		return
 	}
