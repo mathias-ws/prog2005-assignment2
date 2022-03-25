@@ -2,7 +2,9 @@ package policy
 
 import (
 	"assignment-2/internal/constants"
+	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
+	"assignment-2/internal/json_parsing"
 	"assignment-2/internal/web_client"
 	"log"
 	"strings"
@@ -59,7 +61,13 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 		return policyOutput{}, err
 	}
 
-	obtainedPolicyInformation := decodePolicyInfo(response)
+	var obtainedPolicyInformation policyInputFromApi
+
+	json_parsing.Decode(response, &obtainedPolicyInformation)
+
+	if (policyInputFromApi{}.StringencyData.CountryCode) == obtainedPolicyInformation.StringencyData.CountryCode {
+		return policyOutput{}, custom_errors.GetFailedToDecode()
+	}
 
 	outputStruct := generateOutputStruct(obtainedPolicyInformation, urlParameters)
 

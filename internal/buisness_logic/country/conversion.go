@@ -1,7 +1,9 @@
 package country
 
 import (
+	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
+	"assignment-2/internal/json_parsing"
 	"assignment-2/internal/web_client"
 	"strings"
 	"time"
@@ -38,18 +40,18 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 		return "", errResponse
 	}
 
-	country := decodeCountryInfo(response)
+	var country []countryStruct
+	json_parsing.Decode(response, &country)
 
-	// If the country object is an empty struct.
-	if (countryStruct{}) == country {
-		return "", nil
+	if len(country) == 0 {
+		return "", custom_errors.GetFailedToDecode()
 	}
 
-	err := database.WriteToDatabase(countryDbCollection, cca3Code, map[string]string{"name": country.Name.Common})
+	err := database.WriteToDatabase(countryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
 
 	if err != nil {
 		return "", err
 	}
 
-	return country.Name.Common, nil
+	return country[0].Name.Common, nil
 }
