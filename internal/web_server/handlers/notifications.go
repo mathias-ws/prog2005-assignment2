@@ -3,6 +3,7 @@ package handlers
 import (
 	"assignment-2/internal/buisness_logic/webhook"
 	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/web_server/json"
 	"fmt"
 	"net/http"
 )
@@ -21,5 +22,14 @@ func NotificationHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRegistration(w http.ResponseWriter, r *http.Request) {
-	webhook.Register(r)
+	webhookId, err := webhook.Register(r)
+	if err != nil {
+		return
+	}
+
+	err = json.Encode(w, map[string]string{"webhook_id": webhookId})
+
+	if err != nil {
+		return
+	}
 }
