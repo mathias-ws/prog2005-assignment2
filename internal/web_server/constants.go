@@ -17,7 +17,7 @@ const policyLocation string = "/corona/v1/policy"
 const statusLocation string = "/corona/v1/status"
 
 // webhookLocation endpoint location for the webhook notifications
-const webhookLocation string = "/corona/v1/notifications/"
+const webhookLocation string = "/corona/v1/notifications"
 
 // defaultLocation endpoint location for the default location
 const defaultLocation string = "/"
