@@ -94,3 +94,19 @@ func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
 	}
 	return parametersToReturn, nil
 }
+
+// GetWebhookParameter gets the parameter for the webhook endpoint. It verifies that the input is valid.
+func GetWebhookParameter(url *url.URL) (map[string]string, error) {
+	obtainedQuery := url.Query()
+	parametersToReturn := map[string]string{}
+
+	if obtainedQuery.Has(constants.UrlParameterWebhookId) {
+		if len(obtainedQuery[constants.UrlParameterWebhookId][0]) == 64 {
+			parametersToReturn[constants.UrlParameterWebhookId] = obtainedQuery[constants.UrlParameterWebhookId][0]
+		} else {
+			return nil, custom_errors.GetParameterError()
+		}
+	}
+
+	return parametersToReturn, nil
+}

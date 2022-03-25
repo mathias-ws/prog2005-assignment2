@@ -23,6 +23,9 @@ const URL_SCOPE_PARAMETER string = "scope"
 // URL_PARAMETER_WANTED_TIME_FORMAT is the date format used for the current time.
 const URL_PARAMETER_WANTED_TIME_FORMAT string = "2006-01-02"
 
+// UrlParameterWebhookId is the url parm for the webhook id.
+const UrlParameterWebhookId string = "id"
+
 // CovidCasesBaseUrl covid cases api base urlutil
 const CovidCasesBaseUrl string = "https://covid19-graphql.now.sh"
 
