@@ -1,13 +1,17 @@
 package policy
 
-import "assignment-2/internal/constants"
+import (
+	"assignment-2/internal/constants"
+	"time"
+)
 
 // policyOutput represents the output structure of the policy endpoint.
 type policyOutput struct {
-	CountryCode string
-	Scope       string
-	Stringency  float64
-	Policy      int
+	CountryCode string    `json:"country_code"`
+	Scope       string    `json:"date_value"`
+	Stringency  float64   `json:"stringency"`
+	Policy      int       `json:"policies"`
+	TimeStamp   time.Time `firestore:"time" json:"-"`
 }
 
 // policyInputFromApi represents the input data from the policy api.
