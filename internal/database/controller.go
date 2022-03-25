@@ -52,7 +52,12 @@ func GetFromDatabase(collection string, document string, structToExtractTo inter
 	}
 
 	res := client.Collection(hashedCollection).Doc(hashedDoc)
+
 	doc, errGetDoc := res.Get(ctx)
+
+	if !doc.Exists() {
+		return
+	}
 
 	if errGetDoc != nil {
 		log.Printf("Error getting document: %v", errGetDoc)
