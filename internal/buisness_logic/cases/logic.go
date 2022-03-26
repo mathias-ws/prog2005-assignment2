@@ -6,13 +6,13 @@ import (
 	"assignment-2/internal/database"
 	"assignment-2/internal/web_client"
 	"encoding/json"
+	"fmt"
 	"log"
-	"strings"
 )
 
 // createGraphQlRequest Generates the body for the graphql request to the backend api.
 func createGraphQlRequest(country string) ([]byte, error) {
-
+	fmt.Println(country)
 	// Generates the graphql query.
 	jsonData := map[string]string{
 		"query": `query {
@@ -41,7 +41,7 @@ func createGraphQlRequest(country string) ([]byte, error) {
 
 // GetCovidCases takes in the url parameter and uses it to query the backend api and builds the output struct.
 func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
-	country := strings.Title(strings.ToLower(urlParameters[constants.URL_COUNTRY_NAME_PARAM]))
+	country := urlParameters[constants.URL_COUNTRY_NAME_PARAM]
 
 	// Checks if the country is in the cache.
 	var dataFromDatabase CovidCasesOutput
