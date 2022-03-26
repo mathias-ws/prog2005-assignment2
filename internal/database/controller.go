@@ -46,10 +46,18 @@ func GetDocument(collection string, document string, structToExtractTo interface
 		return
 	}
 
-	hashedDoc, errHashDoc := hashing.HashString(document)
+	var hashedDoc string
 
-	if errHashDoc != nil {
-		return
+	// Checking if the document name is already hashed.
+	if len(document) != 64 {
+		var errHashDoc error
+		hashedDoc, errHashDoc = hashing.HashString(document)
+
+		if errHashDoc != nil {
+			return
+		}
+	} else {
+		hashedDoc = document
 	}
 
 	res := client.Collection(hashedCollection).Doc(hashedDoc)
