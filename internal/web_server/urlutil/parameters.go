@@ -73,21 +73,28 @@ func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
 
 	// Checks if the url has the country parameter
 	if obtainedQuery.Has(constants.URL_COUNTRY_NAME_PARAM) {
-		// Checks if it is a cca3 code (contains 3 letters).
-		if len(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) == 3 {
-			countryString, err := country.GetCountryNameFromCca3(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0])
-			if err != nil {
-				return nil, err
-			}
-			parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] = strings.Title(strings.ToLower(countryString))
-
+		// Handling us
+		if strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) == "us" ||
+			strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) == "usa" ||
+			strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) == "united states" {
+			parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] = "US"
 		} else {
-			parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] =
-				strings.Title(strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]))
-		}
+			// Checks if it is a cca3 code (contains 3 letters).
+			if len(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) == 3 {
+				countryString, err := country.GetCountryNameFromCca3(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0])
+				if err != nil {
+					return nil, err
+				}
+				parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] = strings.Title(strings.ToLower(countryString))
 
-		if !strutils.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
-			return nil, custom_errors.GetParameterError()
+			} else {
+				parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] =
+					strings.Title(strings.ToLower(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]))
+			}
+
+			if !strutils.CheckIfStringIsNotEmpty(parametersToReturn[constants.URL_COUNTRY_NAME_PARAM]) {
+				return nil, custom_errors.GetParameterError()
+			}
 		}
 	} else {
 		return nil, custom_errors.GetParameterError()
