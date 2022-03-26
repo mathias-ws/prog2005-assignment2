@@ -7,3 +7,8 @@ type WebHookRegistration struct {
 	Country string `json:"country"`
 	Calls   int    `json:"calls"`
 }
+
+// CountryCounter represents the counter of a country.
+type CountryCounter struct {
+	Count int `firebase:"count"`
+}

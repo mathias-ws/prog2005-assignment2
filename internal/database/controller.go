@@ -261,3 +261,62 @@ func DeleteCollection(collection string) error {
 		}
 	}
 }
+
+// IncrementCounter counts up the counter in one document.
+func IncrementCounter(collection string, document string) {
+	client, errClient := app.Firestore(ctx)
+
+	if errClient != nil {
+		log.Printf("Error creating db client: %v", errClient)
+		return
+	}
+
+	defer func() {
+		errClosingClient := client.Close()
+
+		if errClosingClient != nil {
+			log.Printf("Error closing db: %v", errClosingClient)
+		}
+	}()
+
+	hashedCollection, errHashCol := hashing.HashString(collection)
+
+	if errHashCol != nil {
+		return
+	}
+
+	hashedDoc, errHashDoc := hashing.HashString(document)
+
+	if errHashDoc != nil {
+		return
+	}
+
+	res := client.Collection(hashedCollection).Doc(hashedDoc)
+
+	_, errGetDoc := res.Get(ctx)
+
+	// If it is not possible to get the document, a new one is created.
+	if errGetDoc != nil {
+		err := WriteDocument(collection, document, structs.CountryCounter{Count: 1})
+
+		if err != nil {
+			return
+		}
+	} else {
+		// If it exists the counter is updated.
+		_, err := res.Update(ctx, []firestore.Update{
+			{
+				Path:  "Count",
+				Value: firestore.Increment(1),
+			},
+		})
+		if err != nil {
+			return
+		}
+
+		if err != nil {
+			log.Printf("Error extracting data into struct: %v", err)
+			return
+		}
+	}
+}
