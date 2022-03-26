@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"assignment-2/internal/buisness_logic/webhook"
+	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/web_server/json"
 	"assignment-2/internal/web_server/urlutil"
@@ -36,11 +37,30 @@ func handleRegistration(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// handleGetWebhooks handles the get request for the notification endpoint. If the id parameter is present, it gets
+// one webhook if no parameter is present it gets all webhooks.
 func handleGetWebhooks(w http.ResponseWriter, r *http.Request) {
-	webhooks, _ := webhook.GetAllRegistered()
-	err := json.Encode(w, webhooks)
+	urlParams, err := urlutil.GetWebhookParameter(r.URL)
+
 	if err != nil {
+		custom_errors.HttpSearchParameters(w)
 		return
+	} else if !(urlParams[constants.UrlParameterWebhookId] == "") {
+		// Return
+		obtainedWebhook, err := webhook.GetOne(urlParams)
+		if err != nil {
+			return
+		}
+		err = json.Encode(w, obtainedWebhook)
+		if err != nil {
+			return
+		}
+	} else {
+		webhooks, _ := webhook.GetAllRegistered()
+		err := json.Encode(w, webhooks)
+		if err != nil {
+			return
+		}
 	}
 }
 

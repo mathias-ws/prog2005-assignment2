@@ -39,3 +39,8 @@ func GetDatabaseError() error {
 func GetHashingError() error {
 	return errors.New("error hashing the message")
 }
+
+// GetWebhookNotFoundError returns error message for when there is no webhook with given id.
+func GetWebhookNotFoundError() error {
+	return errors.New("no webhook with id found")
+}
