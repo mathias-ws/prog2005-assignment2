@@ -7,13 +7,12 @@ import (
 	"assignment-2/internal/database"
 	"assignment-2/internal/web_client"
 	"encoding/json"
-	"fmt"
 	"log"
 )
 
 // createGraphQlRequest Generates the body for the graphql request to the backend api.
 func createGraphQlRequest(country string) ([]byte, error) {
-	fmt.Println(country)
+
 	// Generates the graphql query.
 	jsonData := map[string]string{
 		"query": `query {
