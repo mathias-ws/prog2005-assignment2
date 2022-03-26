@@ -1,6 +1,7 @@
 package cases
 
 import (
+	"assignment-2/internal/buisness_logic/counter"
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
@@ -50,6 +51,15 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 		country, &dataFromDatabase)
 
 	if (CovidCasesOutput{}) != dataFromDatabase {
+		// Counts up the number of times the country has been searched.
+		go func() {
+			err := counter.CountUp(dataFromDatabase.Country)
+
+			if err != nil {
+				log.Printf("Error counting up the number of searches: %v", err)
+			}
+		}()
+
 		return dataFromDatabase, nil
 	}
 
@@ -72,6 +82,15 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 		err := database.WriteDocument(constants.CovidCasesDBCollection, outputStruct.Country, outputStruct)
 		if err != nil {
 			log.Printf("Error writing to cache: %v", err)
+		}
+	}()
+
+	// Counts up the number of times the country has been searched.
+	go func() {
+		err := counter.CountUp(outputStruct.Country)
+
+		if err != nil {
+			log.Printf("Error counting up the number of searches: %v", err)
 		}
 	}()
 

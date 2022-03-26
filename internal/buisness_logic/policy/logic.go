@@ -1,6 +1,7 @@
 package policy
 
 import (
+	"assignment-2/internal/buisness_logic/counter"
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
@@ -52,6 +53,15 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER], dataFromDatabase)
 
 	if (policyOutput{}) != dataFromDatabase {
+		// Counts up the number of times the country has been searched.
+		go func() {
+			err := counter.CountUp(dataFromDatabase.CountryCode)
+
+			if err != nil {
+				log.Printf("Error counting up the number of searches: %v", err)
+			}
+		}()
+
 		return dataFromDatabase, nil
 	}
 
@@ -77,6 +87,15 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 			outputStruct.CountryCode+outputStruct.Scope, outputStruct)
 		if err != nil {
 			log.Printf("Error writing to cache: %v", err)
+		}
+	}()
+
+	// Counts up the number of times the country has been searched.
+	go func() {
+		err := counter.CountUp(outputStruct.CountryCode)
+
+		if err != nil {
+			log.Printf("Error counting up the number of searches: %v", err)
 		}
 	}()
 
