@@ -22,13 +22,13 @@ func buildSearchUrl(cca3Code string) string {
 
 // GetCountryNameFromCca3 converts the inputted cca3 code into a full country name.
 func GetCountryNameFromCca3(cca3Code string) (string, error) {
-	var countryObtainedFromDb countryStruct
+	var countryObtainedFromDb countryInfo
 	database.GetDocument(countryDbCollection, cca3Code, &countryObtainedFromDb)
 
-	if (countryStruct{}) != countryObtainedFromDb {
+	if (countryInfo{}) != countryObtainedFromDb {
 		// Checks if the cache is more than ten days old, if not it will return the item from the db.
 		if !(time.Since(countryObtainedFromDb.TimeStamp).Hours() > (time.Hour * 24 * 10).Hours()) {
-			return countryObtainedFromDb.Name.Common, nil
+			return countryObtainedFromDb.Common, nil
 		}
 	}
 
