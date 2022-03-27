@@ -1,14 +1,52 @@
 package webhook
 
 import (
+	"assignment-2/internal/buisness_logic/counter"
+	"assignment-2/internal/buisness_logic/country"
 	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/database"
+	"assignment-2/internal/structs"
 	"assignment-2/internal/web_client"
 	"encoding/json"
 	"log"
 )
 
-// Trigger sends the request when a webhook is triggered.
-func Trigger(webhookId string, country string, numberOfCalls int, url string) error {
+// Check checks all the webhooks and sees if they need to be triggered.
+func Check(countryName string) {
+	if len(countryName) == 3 {
+		var err error
+		countryName, err = country.GetCountryNameFromCca3(countryName)
+
+		if err != nil {
+			return
+		}
+	}
+
+	webhooks, err := database.GetAllWebhooks(webhookDbCollection, countryName)
+	if err != nil {
+		return
+	}
+
+	for _, webhook := range webhooks {
+		go func(webhook structs.WebHookRegistration) {
+			calls, err := counter.GetNumberOfTimes(webhook.Country)
+			if err != nil {
+				return
+			}
+
+			if (calls-webhook.CallsAtRegistration)%webhook.Calls == 0 {
+				err := trigger(webhook.Id, webhook.Country, calls, webhook.Url)
+				if err != nil {
+					log.Println("Unable to trigger webhook.")
+					return
+				}
+			}
+		}(webhook)
+	}
+}
+
+// trigger sends the request when a webhook is triggered.
+func trigger(webhookId string, country string, numberOfCalls int, url string) error {
 	data := generateStruct(webhookId, country, numberOfCalls)
 
 	jsonData, err := json.Marshal(data)
