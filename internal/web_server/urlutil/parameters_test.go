@@ -26,6 +26,12 @@ func TestGetWebhookParameterNegative(t *testing.T) {
 	assert.NotContains(t, parameters3["country"], "Norway")
 	assert.Contains(t, "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470", parameters3["id"])
 	assert.Nil(t, err3)
+
+	testUrl4 := url.URL{RawQuery: ""}
+	parameters4, err4 := GetWebhookParameter(&testUrl4)
+
+	assert.Empty(t, parameters4)
+	assert.Nil(t, err4)
 }
 
 func TestGetWebhookParameterPositive(t *testing.T) {
