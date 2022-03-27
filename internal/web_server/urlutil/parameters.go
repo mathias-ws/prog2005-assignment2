@@ -36,7 +36,7 @@ func GetUrlParametersPolicy(url *url.URL) (map[string]string, error) {
 	obtainedQuery := url.Query()
 	parametersToReturn := map[string]string{}
 
-	// Checks if the urlutil has the country parameter
+	// Checks if the url has the country parameter
 	if obtainedQuery.Has(constants.URL_COUNTRY_NAME_PARAM) {
 		parametersToReturn[constants.URL_COUNTRY_NAME_PARAM] = obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]
 
@@ -47,7 +47,7 @@ func GetUrlParametersPolicy(url *url.URL) (map[string]string, error) {
 		return nil, custom_errors.GetParameterError()
 	}
 
-	// Checks if urlutil has the scope parameter
+	// Checks if url has the scope parameter
 	if obtainedQuery.Has(constants.URL_SCOPE_PARAMETER) {
 		parametersToReturn[constants.URL_SCOPE_PARAMETER] = obtainedQuery[constants.URL_SCOPE_PARAMETER][0]
 
