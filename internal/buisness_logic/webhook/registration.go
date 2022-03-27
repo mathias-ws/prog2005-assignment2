@@ -1,6 +1,7 @@
 package webhook
 
 import (
+	"assignment-2/internal/buisness_logic/counter"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/hashing"
@@ -18,6 +19,10 @@ func Register(request *http.Request) (string, error) {
 	if (structs.WebHookRegistration{}) == registrationInfo {
 		return "", custom_errors.GetFailedToDecode()
 	}
+
+	numberOfCounts, _ := counter.GetNumberOfTimes(registrationInfo.Country)
+
+	registrationInfo.CallsAtRegistration = numberOfCounts
 
 	err := database.WriteDocument(webhookDbCollection, fmt.Sprintf("%v", registrationInfo), registrationInfo)
 	if err != nil {

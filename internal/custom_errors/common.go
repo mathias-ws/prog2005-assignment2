@@ -54,3 +54,8 @@ func GetWebhookNotFoundError() error {
 func GetUnableToSendRequestError() error {
 	return errors.New("error in response")
 }
+
+// GetNoObjectFoundError returns error message for when an object is not found.
+func GetNoObjectFoundError() error {
+	return errors.New("no object found")
+}
