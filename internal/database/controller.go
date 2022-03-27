@@ -83,7 +83,7 @@ func GetDocument(collection string, document string, structToExtractTo interface
 
 // GetAllWebhooks gets all the webhooks from the webhook collection in the db and turns it into a slice of
 // structs.
-func GetAllWebhooks(collection string) ([]structs.WebHookRegistration, error) {
+func GetAllWebhooks(collection string, country string) ([]structs.WebHookRegistration, error) {
 	client, errClient := app.Firestore(ctx)
 
 	if errClient != nil {
@@ -105,8 +105,13 @@ func GetAllWebhooks(collection string) ([]structs.WebHookRegistration, error) {
 		return nil, nil
 	}
 
-	res := client.Collection(hashedCollection).Documents(ctx)
+	var res *firestore.DocumentIterator
 
+	if country == "" {
+		res = client.Collection(hashedCollection).Documents(ctx)
+	} else {
+		res = client.Collection(hashedCollection).Where("Country", "==", country).Documents(ctx)
+	}
 	var webhooks []structs.WebHookRegistration
 
 	// Iterate through all the documents in the collection.

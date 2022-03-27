@@ -2,6 +2,7 @@ package policy
 
 import (
 	"assignment-2/internal/buisness_logic/counter"
+	"assignment-2/internal/buisness_logic/webhook"
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
@@ -62,6 +63,8 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 			}
 		}()
 
+		go webhook.Check(dataFromDatabase.CountryCode)
+
 		return dataFromDatabase, nil
 	}
 
@@ -99,6 +102,8 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 			log.Printf("Error counting up the number of searches: %v", err)
 		}
 	}()
+
+	go webhook.Check(outputStruct.CountryCode)
 
 	return outputStruct, nil
 }

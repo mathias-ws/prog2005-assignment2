@@ -9,7 +9,7 @@ import (
 
 // GetAllRegistered returns a slice of all webhooks.
 func GetAllRegistered() ([]structs.WebHookRegistration, error) {
-	return database.GetAllWebhooks(webhookDbCollection)
+	return database.GetAllWebhooks(webhookDbCollection, "")
 }
 
 // GetOne returns one webhook found in the database.

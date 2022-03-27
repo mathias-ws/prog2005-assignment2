@@ -2,6 +2,7 @@ package cases
 
 import (
 	"assignment-2/internal/buisness_logic/counter"
+	"assignment-2/internal/buisness_logic/webhook"
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
@@ -59,6 +60,8 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 			}
 		}()
 
+		go webhook.Check(dataFromDatabase.Country)
+
 		return dataFromDatabase, nil
 	}
 
@@ -92,6 +95,8 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 			log.Printf("Error counting up the number of searches: %v", err)
 		}
 	}()
+
+	go webhook.Check(outputStruct.Country)
 
 	return outputStruct, nil
 }
