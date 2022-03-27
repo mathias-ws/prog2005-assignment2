@@ -6,29 +6,9 @@ import (
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/strutils"
 	"net/url"
-	"strconv"
 	"strings"
 	"time"
 )
-
-// GetLimit returns the limit specified by the user.
-func GetLimit(url *url.URL) (int, error) {
-	obtainedQuery := url.Query()
-
-	// Checks if the limit parameter exists.
-	if obtainedQuery.Has(constants.URL_PARAM_LIMIT) {
-		limit, err := strconv.Atoi(obtainedQuery[constants.URL_PARAM_LIMIT][0])
-
-		// Checks that the value is valid (bigger than zero).
-		if !(limit > 0) || err != nil {
-			return 0, custom_errors.GetInvalidLimitError()
-		}
-
-		return limit, nil
-	}
-
-	return 0, nil
-}
 
 // GetUrlParametersPolicy checks that the given url contains the wanted parameters for the policy endpoint
 // with valid and correct parameters. If no scope set, the current date is set.
