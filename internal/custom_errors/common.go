@@ -30,6 +30,11 @@ func GetFailedToDecode() error {
 	return errors.New("failed to decode the object")
 }
 
+// GetFailedToEncode returns error message for when the encoder/marshaller is unable to convert the object.
+func GetFailedToEncode() error {
+	return errors.New("failed to encode the object")
+}
+
 // GetDatabaseError returns error message for when there is an error accessing the database.
 func GetDatabaseError() error {
 	return errors.New("error accessing the database")
@@ -43,4 +48,9 @@ func GetHashingError() error {
 // GetWebhookNotFoundError returns error message for when there is no webhook with given id.
 func GetWebhookNotFoundError() error {
 	return errors.New("no webhook with id found")
+}
+
+// GetUnableToSendRequestError returns error message for when the request returned an invalid status code.
+func GetUnableToSendRequestError() error {
+	return errors.New("error in response")
 }
