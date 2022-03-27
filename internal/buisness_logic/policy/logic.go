@@ -50,7 +50,7 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 	// Checks if the country is in the cache.
 	var dataFromDatabase policyOutput
 	database.GetDocument(constants.PolicyDBCollection,
-		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER], dataFromDatabase)
+		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER], &dataFromDatabase)
 
 	if (policyOutput{}) != dataFromDatabase {
 		// Counts up the number of times the country has been searched.
@@ -75,6 +75,7 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 
 	json_parsing.Decode(response, &obtainedPolicyInformation)
 
+	//TODO: if not all data is populated yet, it goes here... Intended behaviour?
 	if (policyInputFromApi{}.StringencyData.CountryCode) == obtainedPolicyInformation.StringencyData.CountryCode {
 		return policyOutput{}, custom_errors.GetFailedToDecode()
 	}
