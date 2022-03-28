@@ -104,3 +104,59 @@ func TestGetUrlParametersPolicyWithoutScope(t *testing.T) {
 
 	assert.Nil(t, err)
 }
+
+func TestGetUrlParametersCasesCheckUppercase(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=norway"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string{"country": "Norway"}, parameters)
+	assert.Nil(t, err)
+}
+
+func TestGetUrlParametersCasesus(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=us"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string{"country": "US"}, parameters)
+	assert.Nil(t, err)
+}
+
+func TestGetUrlParametersCasesUs(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=Us"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string{"country": "US"}, parameters)
+	assert.Nil(t, err)
+}
+
+func TestGetUrlParametersCasesUsa(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=Usa"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string{"country": "US"}, parameters)
+	assert.Nil(t, err)
+}
+
+func TestGetUrlParametersCasesUSA(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=USA"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string{"country": "US"}, parameters)
+	assert.Nil(t, err)
+}
+
+func TestGetUrlParametersCasesCca3Code(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=nor"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string{"country": "Norway"}, parameters)
+	assert.Nil(t, err)
+}
+
+func TestGetUrlParametersCasesNumber(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=nor2"}
+	parameters, err := GetUrlParametersCases(&testUrl)
+
+	assert.Equal(t, map[string]string(nil), parameters)
+	assert.Equal(t, custom_errors.GetParameterError(), err)
+}
