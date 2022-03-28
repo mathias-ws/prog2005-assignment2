@@ -61,9 +61,9 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 			if err != nil {
 				log.Printf("Error counting up the number of searches: %v", err)
 			}
-		}()
 
-		go webhook.Check(dataFromDatabase.CountryCode)
+			webhook.Check(dataFromDatabase.CountryCode)
+		}()
 
 		return dataFromDatabase, nil
 	}
@@ -101,9 +101,9 @@ func FindPolicyInformation(urlParameters map[string]string) (policyOutput, error
 		if err != nil {
 			log.Printf("Error counting up the number of searches: %v", err)
 		}
-	}()
 
-	go webhook.Check(outputStruct.CountryCode)
+		webhook.Check(outputStruct.CountryCode)
+	}()
 
 	return outputStruct, nil
 }

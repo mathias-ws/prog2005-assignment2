@@ -58,9 +58,9 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 			if err != nil {
 				log.Printf("Error counting up the number of searches: %v", err)
 			}
-		}()
 
-		go webhook.Check(dataFromDatabase.Country)
+			webhook.Check(dataFromDatabase.Country)
+		}()
 
 		return dataFromDatabase, nil
 	}
@@ -94,9 +94,9 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 		if err != nil {
 			log.Printf("Error counting up the number of searches: %v", err)
 		}
-	}()
 
-	go webhook.Check(outputStruct.Country)
+		webhook.Check(outputStruct.Country)
+	}()
 
 	return outputStruct, nil
 }
