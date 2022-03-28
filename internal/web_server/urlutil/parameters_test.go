@@ -8,31 +8,45 @@ import (
 	"time"
 )
 
-func TestGetWebhookParameterNegative(t *testing.T) {
-	testUrl1 := url.URL{RawQuery: "country=Norway"}
-	parameters1, err1 := GetWebhookParameter(&testUrl1)
+func TestGetWebhookParameterWrongParameter(t *testing.T) {
+	testUrl := url.URL{RawQuery: "country=Norway"}
+	parameters, err := GetWebhookParameter(&testUrl)
 
-	assert.Empty(t, parameters1)
-	assert.Nil(t, err1)
+	assert.Empty(t, parameters)
+	assert.Nil(t, err)
+}
 
-	testUrl2 := url.URL{RawQuery: "id=Norway"}
-	parameters2, err2 := GetWebhookParameter(&testUrl2)
+func TestGetWebhookParameterWrongData(t *testing.T) {
+	testUrl := url.URL{RawQuery: "id=Norway"}
+	parameters, err := GetWebhookParameter(&testUrl)
 
-	assert.Empty(t, parameters2)
-	assert.Equal(t, custom_errors.GetParameterError(), err2)
+	assert.Empty(t, parameters)
+	assert.Equal(t, custom_errors.GetParameterError(), err)
+}
 
-	testUrl3 := url.URL{RawQuery: "id=a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470&country=Norway"}
-	parameters3, err3 := GetWebhookParameter(&testUrl3)
+func TestGetWebhookParameterExtraParam(t *testing.T) {
+	testUrl := url.URL{RawQuery: "id=a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470&country=Norway"}
+	parameters, err := GetWebhookParameter(&testUrl)
 
-	assert.NotContains(t, parameters3["country"], "Norway")
-	assert.Contains(t, "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470", parameters3["id"])
-	assert.Nil(t, err3)
+	assert.NotContains(t, parameters["country"], "Norway")
+	assert.Contains(t, "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470", parameters["id"])
+	assert.Nil(t, err)
+}
 
-	testUrl4 := url.URL{RawQuery: ""}
-	parameters4, err4 := GetWebhookParameter(&testUrl4)
+func TestGetWebhookParameterValid(t *testing.T) {
+	testUrl := url.URL{RawQuery: "id=a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470"}
+	parameters, err := GetWebhookParameter(&testUrl)
 
-	assert.Empty(t, parameters4)
-	assert.Nil(t, err4)
+	assert.Contains(t, "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470", parameters["id"])
+	assert.Nil(t, err)
+}
+
+func TestGetWebhookParameterNoQuery(t *testing.T) {
+	testUrl := url.URL{RawQuery: ""}
+	parameters, err := GetWebhookParameter(&testUrl)
+
+	assert.Empty(t, parameters)
+	assert.Nil(t, err)
 }
 
 func TestGetWebhookParameterPositive(t *testing.T) {
