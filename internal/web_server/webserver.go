@@ -1,7 +1,6 @@
 package web_server
 
 import (
-	"assignment-2/internal/buisness_logic/status"
 	"assignment-2/internal/web_server/handlers"
 	"log"
 	"net/http"
@@ -27,7 +26,6 @@ func StartWebServer() {
 	}
 
 	setHandlers()
-	status.SetStartTime()
 
 	log.Println("Webserver started on port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

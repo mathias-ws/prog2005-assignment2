@@ -9,12 +9,7 @@ import (
 )
 
 // Variable containing the start time of the web_server.
-var startTime time.Time
-
-// SetStartTime sets the startTime variable to the current time.
-func SetStartTime() {
-	startTime = time.Now()
-}
+var startTime = time.Now()
 
 // getUptime returns the current time since the startTime variable was set (the uptime)
 // in hours, minutes and seconds.
