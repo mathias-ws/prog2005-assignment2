@@ -6,6 +6,7 @@ import (
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
+	"assignment-2/internal/json_parsing"
 	"assignment-2/internal/structs"
 	"assignment-2/internal/web_client"
 	"encoding/json"
@@ -78,7 +79,10 @@ func GetCovidCases(urlParameters map[string]string) (structs.CovidCasesOutput, e
 		return structs.CovidCasesOutput{}, err
 	}
 
-	outputStruct := generateOutPutStruct(decodeCovidCases(response))
+	covidInfo := structs.DataStruct{}
+	json_parsing.Decode(response, &covidInfo)
+
+	outputStruct := generateOutPutStruct(covidInfo.Data.Country)
 
 	// Starts a new goroutine that caches the struct.
 	go func() {
