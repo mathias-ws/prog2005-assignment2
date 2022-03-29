@@ -24,7 +24,7 @@ func TestMain(m *testing.M) {
 func TestGetCountryNameFromCca3(t *testing.T) {
 	countryName, err := GetCountryNameFromCca3("nor")
 
-	errDel := database.DeleteDocument(countryDbCollection, "nor")
+	errDel := database.DeleteDocument(CountryDbCollection, "nor")
 
 	assert.Equal(t, "Norway", countryName)
 	assert.Nil(t, err)

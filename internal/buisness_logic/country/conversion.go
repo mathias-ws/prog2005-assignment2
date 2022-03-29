@@ -25,7 +25,7 @@ func buildSearchUrl(cca3Code string) string {
 // GetCountryNameFromCca3 converts the inputted cca3 code into a full country name.
 func GetCountryNameFromCca3(cca3Code string) (string, error) {
 	var countryObtainedFromDb structs.CountryInfo
-	database.GetDocument(countryDbCollection, cca3Code, &countryObtainedFromDb)
+	database.GetDocument(CountryDbCollection, cca3Code, &countryObtainedFromDb)
 
 	if (structs.CountryInfo{}) != countryObtainedFromDb {
 		// Checks if the cache is more than ten days old, if not it will return the item from the db.
@@ -50,7 +50,7 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 	}
 
 	go func() {
-		err := database.WriteDocument(countryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
+		err := database.WriteDocument(CountryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
 
 		if err != nil {
 			log.Printf("Error writing to db: %v", err)
