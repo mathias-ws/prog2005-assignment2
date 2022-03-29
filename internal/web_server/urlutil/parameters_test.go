@@ -1,8 +1,13 @@
 package urlutil
 
 import (
+	"assignment-2/internal/buisness_logic/country"
 	"assignment-2/internal/custom_errors"
+	"assignment-2/internal/database"
+	"assignment-2/test/stubs"
 	"github.com/stretchr/testify/assert"
+	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"testing"
 	"time"
@@ -146,11 +151,22 @@ func TestGetUrlParametersCasesUSA(t *testing.T) {
 }
 
 func TestGetUrlParametersCasesCca3Code(t *testing.T) {
+	database.InitDB("../../../auth.json")
+
+	countryStub := httptest.NewServer(http.HandlerFunc(stubs.CountryHandler))
+	defer countryStub.Close()
+
+	country.SetTestCollection()
+	country.SetTestUrlCountry(countryStub.URL)
+
 	testUrl := url.URL{RawQuery: "country=nor"}
 	parameters, err := GetUrlParametersCases(&testUrl)
 
+	errDel := database.DeleteDocument(country.CountryDbCollection, "nor")
+
 	assert.Equal(t, map[string]string{"country": "Norway"}, parameters)
 	assert.Nil(t, err)
+	assert.Nil(t, errDel)
 }
 
 func TestGetUrlParametersCasesNumber(t *testing.T) {
