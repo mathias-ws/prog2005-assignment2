@@ -4,6 +4,7 @@ import (
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/json_parsing"
+	"assignment-2/internal/structs"
 	"assignment-2/internal/web_client"
 	"strings"
 	"time"
@@ -22,10 +23,10 @@ func buildSearchUrl(cca3Code string) string {
 
 // GetCountryNameFromCca3 converts the inputted cca3 code into a full country name.
 func GetCountryNameFromCca3(cca3Code string) (string, error) {
-	var countryObtainedFromDb countryInfo
+	var countryObtainedFromDb structs.CountryInfo
 	database.GetDocument(countryDbCollection, cca3Code, &countryObtainedFromDb)
 
-	if (countryInfo{}) != countryObtainedFromDb {
+	if (structs.CountryInfo{}) != countryObtainedFromDb {
 		// Checks if the cache is more than ten days old, if not it will return the item from the db.
 		if !(time.Since(countryObtainedFromDb.TimeStamp).Hours() > (time.Hour * 24 * 10).Hours()) {
 			return countryObtainedFromDb.Common, nil
@@ -40,7 +41,7 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 		return "", errResponse
 	}
 
-	var country []countryStruct
+	var country []structs.CountryNameStruct
 	json_parsing.Decode(response, &country)
 
 	if len(country) == 0 {

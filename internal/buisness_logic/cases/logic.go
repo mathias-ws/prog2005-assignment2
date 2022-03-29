@@ -6,6 +6,7 @@ import (
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
+	"assignment-2/internal/structs"
 	"assignment-2/internal/web_client"
 	"encoding/json"
 	"log"
@@ -41,16 +42,16 @@ func createGraphQlRequest(country string) ([]byte, error) {
 }
 
 // GetCovidCases takes in the url parameter and uses it to query the backend api and builds the output struct.
-func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
+func GetCovidCases(urlParameters map[string]string) (structs.CovidCasesOutput, error) {
 	country := urlParameters[constants.URL_COUNTRY_NAME_PARAM]
 
 	// Checks if the country is in the cache.
-	var dataFromDatabase CovidCasesOutput
+	var dataFromDatabase structs.CovidCasesOutput
 
 	database.GetDocument(constants.CovidCasesDBCollection,
 		country, &dataFromDatabase)
 
-	if (CovidCasesOutput{}) != dataFromDatabase {
+	if (structs.CovidCasesOutput{}) != dataFromDatabase {
 		// Counts up the number of times the country has been searched.
 		go func() {
 			err := counter.CountUp(dataFromDatabase.Country)
@@ -68,13 +69,13 @@ func GetCovidCases(urlParameters map[string]string) (CovidCasesOutput, error) {
 	requestBody, err := createGraphQlRequest(country)
 
 	if err != nil {
-		return CovidCasesOutput{}, err
+		return structs.CovidCasesOutput{}, err
 	}
 
 	response, err := web_client.PostRequest(constants.CovidCasesBaseUrl, requestBody)
 
 	if err != nil {
-		return CovidCasesOutput{}, err
+		return structs.CovidCasesOutput{}, err
 	}
 
 	outputStruct := generateOutPutStruct(decodeCovidCases(response))
