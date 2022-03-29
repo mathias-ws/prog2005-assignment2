@@ -1,6 +1,7 @@
 package country
 
 import (
+	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/json_parsing"
@@ -14,7 +15,7 @@ import (
 // buildSearchUrl builds a search url for the country api.
 func buildSearchUrl(cca3Code string) string {
 	urlToSearch := strings.Builder{}
-	urlToSearch.WriteString(countryApiUrl)
+	urlToSearch.WriteString(constants.CountryApiUrl)
 	urlToSearch.WriteString(countryApiCodeParam)
 	urlToSearch.WriteString(cca3Code)
 	urlToSearch.WriteString(countryApiFieldParam)
@@ -25,7 +26,7 @@ func buildSearchUrl(cca3Code string) string {
 // GetCountryNameFromCca3 converts the inputted cca3 code into a full country name.
 func GetCountryNameFromCca3(cca3Code string) (string, error) {
 	var countryObtainedFromDb structs.CountryInfo
-	database.GetDocument(CountryDbCollection, cca3Code, &countryObtainedFromDb)
+	database.GetDocument(constants.CountryDbCollection, cca3Code, &countryObtainedFromDb)
 
 	if (structs.CountryInfo{}) != countryObtainedFromDb {
 		// Checks if the cache is more than ten days old, if not it will return the item from the db.
@@ -50,7 +51,7 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 	}
 
 	go func() {
-		err := database.WriteDocument(CountryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
+		err := database.WriteDocument(constants.CountryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
 
 		if err != nil {
 			log.Printf("Error writing to db: %v", err)

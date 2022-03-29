@@ -29,18 +29,21 @@ const UrlParameterWebhookId string = "id"
 // CovidTrackerEndpoint endpoint for doing the search.
 const CovidTrackerEndpoint string = "v2/stringency/actions/"
 
-// CovidCasesDBCollection is the collection name for the covid cases collection.
-const CovidCasesDBCollection string = "covidcases"
-
-// PolicyDBCollection is the collection name for the policy caching collection.
-const PolicyDBCollection string = "stringency"
-
 var (
 	// CovidCasesBaseUrl covid cases api base url
 	CovidCasesBaseUrl = "https://covid19-graphql.now.sh"
 
 	// CovidTrackerBaseUrl covidtracker api base url
 	CovidTrackerBaseUrl = "https://covidtrackerapi.bsg.ox.ac.uk/api/"
+
+	// CovidCasesDBCollection is the collection name for the covid cases collection.
+	CovidCasesDBCollection = "covidcases"
+
+	// PolicyDBCollection is the collection name for the policy caching collection.
+	PolicyDBCollection = "stringency"
+
+	CountryApiUrl       = "https://restcountries.com/v3.1/alpha/"
+	CountryDbCollection = "cca3tocountry"
 )
 
 // SetTestUrlCases sets the test url for the cases api.
@@ -51,4 +54,16 @@ func SetTestUrlCases(testUrl string) {
 // SetTestUrlPolicy sets the test url for the policy api.
 func SetTestUrlPolicy(testUrl string) {
 	CovidTrackerBaseUrl = testUrl
+}
+
+// SetTestUrlCountry sets the test url for the country api.
+func SetTestUrlCountry(testUrl string) {
+	CountryApiUrl = testUrl
+}
+
+//SetTestDB sets the db collections to test mode.
+func SetTestDB() {
+	PolicyDBCollection = "teststringency"
+	CovidCasesDBCollection = "testcovidcases"
+	CountryDbCollection = "testcca3tocountry"
 }

@@ -1,7 +1,7 @@
 package urlutil
 
 import (
-	"assignment-2/internal/buisness_logic/country"
+	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/test/stubs"
@@ -156,13 +156,13 @@ func TestGetUrlParametersCasesCca3Code(t *testing.T) {
 	countryStub := httptest.NewServer(http.HandlerFunc(stubs.CountryHandler))
 	defer countryStub.Close()
 
-	country.SetTestCollection()
-	country.SetTestUrlCountry(countryStub.URL)
+	constants.SetTestDB()
+	constants.SetTestUrlCountry(countryStub.URL)
 
 	testUrl := url.URL{RawQuery: "country=nor"}
 	parameters, err := GetUrlParametersCases(&testUrl)
 
-	errDel := database.DeleteDocument(country.CountryDbCollection, "nor")
+	errDel := database.DeleteDocument(constants.CountryDbCollection, "nor")
 
 	assert.Equal(t, map[string]string{"country": "Norway"}, parameters)
 	assert.Nil(t, err)

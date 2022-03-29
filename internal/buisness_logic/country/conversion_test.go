@@ -1,6 +1,7 @@
 package country
 
 import (
+	"assignment-2/internal/constants"
 	"assignment-2/internal/database"
 	"assignment-2/test/stubs"
 	"github.com/stretchr/testify/assert"
@@ -15,8 +16,8 @@ func TestMain(m *testing.M) {
 	countryStub := httptest.NewServer(http.HandlerFunc(stubs.CountryHandler))
 	defer countryStub.Close()
 
-	SetTestCollection()
-	SetTestUrlCountry(countryStub.URL)
+	constants.SetTestDB()
+	constants.SetTestUrlCountry(countryStub.URL)
 
 	m.Run()
 }
@@ -24,7 +25,7 @@ func TestMain(m *testing.M) {
 func TestGetCountryNameFromCca3(t *testing.T) {
 	countryName, err := GetCountryNameFromCca3("nor")
 
-	errDel := database.DeleteDocument(CountryDbCollection, "nor")
+	errDel := database.DeleteDocument(constants.CountryDbCollection, "nor")
 
 	assert.Equal(t, "Norway", countryName)
 	assert.Nil(t, err)
