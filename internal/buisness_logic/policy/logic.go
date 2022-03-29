@@ -15,11 +15,15 @@ import (
 
 // countPolicies counts the number of policies in place.
 func countPolicies(policies []structs.Policy) int {
-	if policies[0].PolicyTypeCode == "NONE" {
+	if policies != nil {
+		if policies[0].PolicyTypeCode == "NONE" {
+			return 0
+		}
+
+		return len(policies)
+	} else {
 		return 0
 	}
-
-	return len(policies)
 }
 
 // getStringency checks if the stringency_actual is not null, if it is the stringency field is returned.
