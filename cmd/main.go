@@ -7,6 +7,7 @@ import (
 
 // main starts the program.
 func main() {
-	database.InitDB()
+	database.InitDB("auth.json")
+	defer database.CloseFirestore()
 	web_server.StartWebServer()
 }

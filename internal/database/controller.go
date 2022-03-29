@@ -15,31 +15,28 @@ import (
 // Firebase context and client used by Firestore functions throughout the program.
 var ctx context.Context
 var app *firebase.App
+var client *firestore.Client
 
 // InitDB initializes the database setup.
-func InitDB() {
+func InitDB(authFile string) {
 	ctx = context.Background()
-	opt := option.WithCredentialsFile("auth.json")
+	opt := option.WithCredentialsFile(authFile)
 	app, _ = firebase.NewApp(ctx, nil, opt)
+
+	client, _ = app.Firestore(ctx)
+}
+
+// CloseFirestore closes the firestore client.
+func CloseFirestore() {
+	err := client.Close()
+	if err != nil {
+		log.Printf("Error closing client: %v", err)
+		return
+	}
 }
 
 // GetDocument gets data from a collection and a document in the database.
 func GetDocument(collection string, document string, structToExtractTo interface{}) {
-	client, errClient := app.Firestore(ctx)
-
-	if errClient != nil {
-		log.Printf("Error creating db client: %v", errClient)
-		return
-	}
-
-	defer func() {
-		errClosingClient := client.Close()
-
-		if errClosingClient != nil {
-			log.Printf("Error closing db: %v", errClosingClient)
-		}
-	}()
-
 	hashedCollection, errHashCol := hashing.HashString(collection)
 
 	if errHashCol != nil {
@@ -84,21 +81,6 @@ func GetDocument(collection string, document string, structToExtractTo interface
 // GetAllWebhooks gets all the webhooks from the webhook collection in the db and turns it into a slice of
 // structs.
 func GetAllWebhooks(collection string, country string) ([]structs.WebHookRegistration, error) {
-	client, errClient := app.Firestore(ctx)
-
-	if errClient != nil {
-		log.Printf("Error creating db client: %v", errClient)
-		return nil, nil
-	}
-
-	defer func() {
-		errClosingClient := client.Close()
-
-		if errClosingClient != nil {
-			log.Printf("Error closing db: %v", errClosingClient)
-		}
-	}()
-
 	hashedCollection, errHashCol := hashing.HashString(collection)
 
 	if errHashCol != nil {
@@ -140,21 +122,6 @@ func GetAllWebhooks(collection string, country string) ([]structs.WebHookRegistr
 
 // WriteDocument creates or updates a document in a collection (and a document).
 func WriteDocument(collection string, document string, data interface{}) error {
-	client, errOpeningClient := app.Firestore(ctx)
-
-	if errOpeningClient != nil {
-		log.Println(errOpeningClient)
-		return custom_errors.GetDatabaseError()
-	}
-
-	defer func() {
-		errClosingClient := client.Close()
-
-		if errClosingClient != nil {
-			log.Printf("Error closing db: %v", errClosingClient)
-		}
-	}()
-
 	hashedCollection, _ := hashing.HashString(collection)
 	hashedDoc, _ := hashing.HashString(document)
 
@@ -183,21 +150,6 @@ func WriteDocument(collection string, document string, data interface{}) error {
 
 // DeleteDocument deletes a document from a collection.
 func DeleteDocument(collection string, document string) error {
-	client, errOpeningClient := app.Firestore(ctx)
-
-	if errOpeningClient != nil {
-		log.Println(errOpeningClient)
-		return custom_errors.GetDatabaseError()
-	}
-
-	defer func() {
-		errClosingClient := client.Close()
-
-		if errClosingClient != nil {
-			log.Printf("Error closing db: %v", errClosingClient)
-		}
-	}()
-
 	hashedCollection, _ := hashing.HashString(collection)
 
 	_, err := client.Collection(hashedCollection).Doc(document).Delete(ctx)
@@ -211,21 +163,6 @@ func DeleteDocument(collection string, document string) error {
 
 // IncrementCounter counts up the counter in one document.
 func IncrementCounter(collection string, document string) {
-	client, errClient := app.Firestore(ctx)
-
-	if errClient != nil {
-		log.Printf("Error creating db client: %v", errClient)
-		return
-	}
-
-	defer func() {
-		errClosingClient := client.Close()
-
-		if errClosingClient != nil {
-			log.Printf("Error closing db: %v", errClosingClient)
-		}
-	}()
-
 	hashedCollection, errHashCol := hashing.HashString(collection)
 
 	if errHashCol != nil {
