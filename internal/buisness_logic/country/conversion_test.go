@@ -10,10 +10,12 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	database.InitDB()
+	database.InitDB("../../../auth.json")
+
 	countryStub := httptest.NewServer(http.HandlerFunc(stubs.CountryHandler))
 	defer countryStub.Close()
 
+	SetTestCollection()
 	SetTestUrlCountry(countryStub.URL)
 
 	m.Run()
@@ -22,6 +24,16 @@ func TestMain(m *testing.M) {
 func TestGetCountryNameFromCca3(t *testing.T) {
 	countryName, err := GetCountryNameFromCca3("nor")
 
+	errDel := database.DeleteDocument(countryDbCollection, "nor")
+
 	assert.Equal(t, "Norway", countryName)
+	assert.Nil(t, err)
+	assert.Nil(t, errDel)
+}
+
+func TestGetCountryNameFromCca3FromCache(t *testing.T) {
+	countryName, err := GetCountryNameFromCca3("swe")
+
+	assert.Equal(t, "Sweden", countryName)
 	assert.Nil(t, err)
 }
