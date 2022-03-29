@@ -26,12 +26,6 @@ const URL_PARAMETER_WANTED_TIME_FORMAT string = "2006-01-02"
 // UrlParameterWebhookId is the url parm for the webhook id.
 const UrlParameterWebhookId string = "id"
 
-// CovidCasesBaseUrl covid cases api base urlutil
-const CovidCasesBaseUrl string = "https://covid19-graphql.now.sh"
-
-// CovidTrackerBaseUrl covidtracker api base urlutil
-const CovidTrackerBaseUrl string = "https://covidtrackerapi.bsg.ox.ac.uk/api/"
-
 // CovidTrackerEndpoint endpoint for doing the search.
 const CovidTrackerEndpoint string = "v2/stringency/actions/"
 
@@ -40,3 +34,21 @@ const CovidCasesDBCollection string = "covidcases"
 
 // PolicyDBCollection is the collection name for the policy caching collection.
 const PolicyDBCollection string = "stringency"
+
+var (
+	// CovidCasesBaseUrl covid cases api base url
+	CovidCasesBaseUrl = "https://covid19-graphql.now.sh"
+
+	// CovidTrackerBaseUrl covidtracker api base url
+	CovidTrackerBaseUrl = "https://covidtrackerapi.bsg.ox.ac.uk/api/"
+)
+
+// SetTestUrlCases sets the test url for the cases api.
+func SetTestUrlCases(testUrl string) {
+	CovidCasesBaseUrl = testUrl
+}
+
+// SetTestUrlPolicy sets the test url for the policy api.
+func SetTestUrlPolicy(testUrl string) {
+	CovidTrackerBaseUrl = testUrl
+}

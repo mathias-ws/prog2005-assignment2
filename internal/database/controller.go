@@ -19,7 +19,7 @@ var app *firebase.App
 // InitDB initializes the database setup.
 func InitDB() {
 	ctx = context.Background()
-	opt := option.WithCredentialsFile("internal/database/auth.json")
+	opt := option.WithCredentialsFile("auth.json")
 	app, _ = firebase.NewApp(ctx, nil, opt)
 }
 
