@@ -44,6 +44,9 @@ var (
 
 	CountryApiUrl       = "https://restcountries.com/v3.1/alpha/"
 	CountryDbCollection = "cca3tocountry"
+
+	// CounterDbCollection the name of the database collection.
+	CounterDbCollection = "counter"
 )
 
 // SetTestUrlCases sets the test url for the cases api.
@@ -66,4 +69,5 @@ func SetTestDB() {
 	PolicyDBCollection = "teststringency"
 	CovidCasesDBCollection = "testcovidcases"
 	CountryDbCollection = "testcca3tocountry"
+	CounterDbCollection = "testcounter"
 }

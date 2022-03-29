@@ -2,6 +2,7 @@ package counter
 
 import (
 	"assignment-2/internal/buisness_logic/country"
+	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/structs"
@@ -18,7 +19,7 @@ func CountUp(countryName string) error {
 		}
 	}
 
-	database.IncrementCounter(CounterDbCollection, countryName)
+	database.IncrementCounter(constants.CounterDbCollection, countryName)
 
 	return nil
 }
@@ -35,7 +36,7 @@ func GetNumberOfTimes(countryName string) (int, error) {
 	}
 
 	var obtainedCountry structs.CountryCounter
-	database.GetDocument(CounterDbCollection, countryName, &obtainedCountry)
+	database.GetDocument(constants.CounterDbCollection, countryName, &obtainedCountry)
 
 	if (structs.CountryCounter{}) == obtainedCountry {
 		return 0, custom_errors.GetNoObjectFoundError()
