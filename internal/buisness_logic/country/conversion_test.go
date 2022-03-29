@@ -12,6 +12,7 @@ import (
 
 func TestMain(m *testing.M) {
 	database.InitDB("../../../auth.json")
+	defer database.CloseFirestore()
 
 	countryStub := httptest.NewServer(http.HandlerFunc(stubs.CountryHandler))
 	defer countryStub.Close()
