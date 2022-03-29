@@ -151,8 +151,9 @@ func WriteDocument(collection string, document string, data interface{}) error {
 // DeleteDocument deletes a document from a collection.
 func DeleteDocument(collection string, document string) error {
 	hashedCollection, _ := hashing.HashString(collection)
+	hashedDoc, _ := hashing.HashString(document)
 
-	_, err := client.Collection(hashedCollection).Doc(document).Delete(ctx)
+	_, err := client.Collection(hashedCollection).Doc(hashedDoc).Delete(ctx)
 	if err != nil {
 		log.Printf("Error deleteing document: %v", err)
 		return err
