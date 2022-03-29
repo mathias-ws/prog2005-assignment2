@@ -6,11 +6,12 @@ import (
 	"assignment-2/internal/json_parsing"
 	"assignment-2/internal/structs"
 	"assignment-2/internal/web_client"
+	"log"
 	"strings"
 	"time"
 )
 
-// buildSearchUrl builds a search urlutil for the country api.
+// buildSearchUrl builds a search url for the country api.
 func buildSearchUrl(cca3Code string) string {
 	urlToSearch := strings.Builder{}
 	urlToSearch.WriteString(countryApiUrl)
@@ -48,11 +49,13 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 		return "", custom_errors.GetFailedToDecode()
 	}
 
-	err := database.WriteDocument(countryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
+	go func() {
+		err := database.WriteDocument(countryDbCollection, cca3Code, map[string]string{"name": country[0].Name.Common})
 
-	if err != nil {
-		return "", err
-	}
+		if err != nil {
+			log.Printf("Error writing to db: %v", err)
+		}
+	}()
 
 	return country[0].Name.Common, nil
 }
