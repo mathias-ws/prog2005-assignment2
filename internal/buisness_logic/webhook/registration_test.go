@@ -23,24 +23,23 @@ func TestRegister(t *testing.T) {
 	request, _ := http.NewRequest(http.MethodPost, "", bytes.NewBuffer(jsonData))
 
 	resultingStruct := structs.WebHookRegistration{
-		Id:                  "",
 		Url:                 "https://my.webhook/askljfhao83hiofa",
 		Country:             "Norway",
 		Calls:               3,
-		CallsAtRegistration: 1}
+		CallsAtRegistration: 0}
 
 	hash, err := Register(request)
 
 	testFetch := structs.WebHookRegistration{}
 	database.GetDocument(constants.WebhookDbCollection,
-		"7fbfd72f256dd5ffee45dc1df669ef9ebb76d539f1c4b775bc815d9729782a77", &testFetch)
+		"b9156dda4114476e0a499bf2182416381491011f262af679eca6520e582910a5", &testFetch)
 
 	//Removes the testing object.
 	errDel := database.DeleteDocument(constants.WebhookDbCollection,
-		"7fbfd72f256dd5ffee45dc1df669ef9ebb76d539f1c4b775bc815d9729782a77")
+		"b9156dda4114476e0a499bf2182416381491011f262af679eca6520e582910a5")
 
 	assert.Nil(t, err)
-	assert.Equal(t, "7fbfd72f256dd5ffee45dc1df669ef9ebb76d539f1c4b775bc815d9729782a77", hash)
+	assert.Equal(t, "b9156dda4114476e0a499bf2182416381491011f262af679eca6520e582910a5", hash)
 	assert.Equal(t, resultingStruct, testFetch)
 	assert.Nil(t, errDel)
 }
