@@ -9,14 +9,14 @@ import (
 
 // GetAllRegistered returns a slice of all webhooks.
 func GetAllRegistered() ([]structs.WebHookRegistration, error) {
-	return database.GetAllWebhooks(webhookDbCollection, "")
+	return database.GetAllWebhooks(constants.WebhookDbCollection, "")
 }
 
 // GetOne returns one webhook found in the database.
 func GetOne(urlParam map[string]string) (structs.WebHookRegistration, error) {
 	var obtainedWebhook structs.WebHookRegistration
 
-	database.GetDocument(webhookDbCollection, urlParam[constants.UrlParameterWebhookId], &obtainedWebhook)
+	database.GetDocument(constants.WebhookDbCollection, urlParam[constants.UrlParameterWebhookId], &obtainedWebhook)
 
 	if (structs.WebHookRegistration{}) == obtainedWebhook {
 		return structs.WebHookRegistration{}, custom_errors.GetWebhookNotFoundError()

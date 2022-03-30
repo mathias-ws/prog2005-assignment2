@@ -3,6 +3,7 @@ package webhook
 import (
 	"assignment-2/internal/buisness_logic/counter"
 	"assignment-2/internal/buisness_logic/country"
+	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/structs"
@@ -22,7 +23,7 @@ func Check(countryName string) {
 		}
 	}
 
-	webhooks, err := database.GetAllWebhooks(webhookDbCollection, countryName)
+	webhooks, err := database.GetAllWebhooks(constants.WebhookDbCollection, countryName)
 	if err != nil {
 		return
 	}

@@ -47,6 +47,8 @@ var (
 
 	// CounterDbCollection the name of the database collection.
 	CounterDbCollection = "counter"
+
+	WebhookDbCollection = "webhook"
 )
 
 // SetTestUrlCases sets the test url for the cases api.
@@ -70,4 +72,5 @@ func SetTestDB() {
 	CovidCasesDBCollection = "testcovidcases"
 	CountryDbCollection = "testcca3tocountry"
 	CounterDbCollection = "testcounter"
+	WebhookDbCollection = "testwebhook"
 }

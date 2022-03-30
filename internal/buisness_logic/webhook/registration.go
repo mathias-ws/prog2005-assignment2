@@ -2,6 +2,7 @@ package webhook
 
 import (
 	"assignment-2/internal/buisness_logic/counter"
+	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/hashing"
@@ -24,7 +25,7 @@ func Register(request *http.Request) (string, error) {
 
 	registrationInfo.CallsAtRegistration = numberOfCounts
 
-	err := database.WriteDocument(webhookDbCollection, fmt.Sprintf("%v", registrationInfo), registrationInfo)
+	err := database.WriteDocument(constants.WebhookDbCollection, fmt.Sprintf("%v", registrationInfo), registrationInfo)
 	if err != nil {
 		return "", err
 	}
