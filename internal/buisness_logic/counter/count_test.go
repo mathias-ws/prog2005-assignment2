@@ -67,7 +67,7 @@ func TestCountCached(t *testing.T) {
 	currentCount, errGet := GetNumberOfTimes("Sweden")
 
 	// To make sure that the caching is done
-	time.Sleep(time.Millisecond * 500)
+	time.Sleep(time.Second)
 
 	// Replaces it in the db so that it always is 1.
 	errDel := database.DeleteDocument(constants.CounterDbCollection, "Sweden")
@@ -86,7 +86,7 @@ func TestCountCachedCca3(t *testing.T) {
 	currentCount, errGet := GetNumberOfTimes("Sweden")
 
 	// To make sure that the caching is done
-	time.Sleep(time.Millisecond * 500)
+	time.Sleep(time.Second)
 
 	// Replaces it in the db so that it always is 1.
 	errDel := database.DeleteDocument(constants.CounterDbCollection, "Sweden")
