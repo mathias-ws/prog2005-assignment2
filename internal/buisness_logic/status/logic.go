@@ -2,6 +2,7 @@ package status
 
 import (
 	"assignment-2/internal/constants"
+	"assignment-2/internal/database"
 	"assignment-2/internal/web_client"
 	"fmt"
 	"net/http"
@@ -23,12 +24,24 @@ func getUptime() string {
 	return fmt.Sprintf("%dh %dm %ds", hours, minutes, seconds)
 }
 
+// getNumberOfWebhooks gets all the webhooks and returns the length of the slice.
+func getNumberOfWebhooks() (int, error) {
+	webhooks, err := database.GetAllWebhooks(constants.WebhookDbCollection, "")
+
+	if err != nil {
+		return -1, err
+	}
+
+	return len(webhooks), err
+}
+
 // GetStatusInfo gets the diagnosis information and turns it into a struct.
 func GetStatusInfo() status {
 	// Gets the status codes.
 	covidCasesApiStatusCode, errCases := web_client.GetStatusCode(constants.CovidCasesBaseUrl)
 	covidPolicyApiStatusCode, errPolicy := web_client.GetStatusCode(constants.CovidTrackerBaseUrl)
 	countryApiStatusCode, errCountry := web_client.GetStatusCode(constants.CountryApiUrl)
+	numberOfWebhooks, _ := getNumberOfWebhooks()
 
 	// If the apis are unreachable set a proper error code.
 	if errCases != nil {
@@ -42,5 +55,5 @@ func GetStatusInfo() status {
 	}
 
 	return generateOutputStruct(covidCasesApiStatusCode, covidPolicyApiStatusCode, countryApiStatusCode,
-		0, getUptime())
+		numberOfWebhooks, getUptime())
 }
