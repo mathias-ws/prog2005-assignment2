@@ -28,6 +28,7 @@ func GetStatusInfo() status {
 	// Gets the status codes.
 	covidCasesApiStatusCode, errCases := web_client.GetStatusCode(constants.CovidCasesBaseUrl)
 	covidPolicyApiStatusCode, errPolicy := web_client.GetStatusCode(constants.CovidTrackerBaseUrl)
+	countryApiStatusCode, errCountry := web_client.GetStatusCode(constants.CountryApiUrl)
 
 	// If the apis are unreachable set a proper error code.
 	if errCases != nil {
@@ -36,6 +37,10 @@ func GetStatusInfo() status {
 	if errPolicy != nil {
 		covidPolicyApiStatusCode = http.StatusBadGateway
 	}
+	if errCountry != nil {
+		countryApiStatusCode = http.StatusBadGateway
+	}
 
-	return generateOutputStruct(covidCasesApiStatusCode, covidPolicyApiStatusCode, 0, getUptime())
+	return generateOutputStruct(covidCasesApiStatusCode, covidPolicyApiStatusCode, countryApiStatusCode,
+		0, getUptime())
 }
