@@ -49,7 +49,7 @@ func TestGetStatusInfo(t *testing.T) {
 		PolicyApiStatusCode:  200,
 		NumberOfWebhooks:     4,
 		Version:              constants.PROGRAM_VERSION,
-		Uptime:               "0h 0m 0s",
+		Uptime:               getUptime(),
 	}
 
 	actual := GetStatusInfo()
@@ -68,7 +68,7 @@ func TestGetStatusInfoNoInternet(t *testing.T) {
 		PolicyApiStatusCode:  502,
 		NumberOfWebhooks:     4,
 		Version:              constants.PROGRAM_VERSION,
-		Uptime:               "0h 0m 0s",
+		Uptime:               getUptime(),
 	}
 
 	actual := GetStatusInfo()
