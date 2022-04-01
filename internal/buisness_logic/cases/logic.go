@@ -105,3 +105,19 @@ func GetCovidCases(urlParameters map[string]string) (structs.CovidCasesOutput, e
 
 	return outputStruct, nil
 }
+
+// GetStatusCode returns the status code of the cases api.
+func GetStatusCode() (int, error) {
+	request, err := createGraphQlRequest("Norway")
+	if err != nil {
+		return 0, err
+	}
+
+	response, err := web_client.PostRequest(constants.CovidCasesBaseUrl, request)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return response.StatusCode, nil
+}

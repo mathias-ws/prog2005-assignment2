@@ -1,6 +1,7 @@
 package status
 
 import (
+	"assignment-2/internal/buisness_logic/cases"
 	"assignment-2/internal/constants"
 	"assignment-2/internal/database"
 	"assignment-2/internal/web_client"
@@ -38,7 +39,7 @@ func getNumberOfWebhooks() (int, error) {
 // GetStatusInfo gets the diagnosis information and turns it into a struct.
 func GetStatusInfo() status {
 	// Gets the status codes.
-	covidCasesApiStatusCode, errCases := web_client.GetStatusCode(constants.CovidCasesBaseUrl)
+	covidCasesApiStatusCode, errCases := cases.GetStatusCode()
 	covidPolicyApiStatusCode, errPolicy := web_client.GetStatusCode(constants.CovidTrackerBaseUrl)
 	countryApiStatusCode, errCountry := web_client.GetStatusCode(constants.CountryApiUrl)
 	numberOfWebhooks, _ := getNumberOfWebhooks()
