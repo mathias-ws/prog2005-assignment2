@@ -36,7 +36,7 @@ func createGraphQlRequest(country string) ([]byte, error) {
 
 	if err != nil {
 		log.Println(err)
-		return nil, custom_errors.GetFailedToDecode()
+		return nil, custom_errors.GetFailedToEncode()
 	}
 
 	return jsonValue, nil
