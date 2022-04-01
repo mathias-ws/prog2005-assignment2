@@ -91,3 +91,10 @@ type Policy struct {
 	PolicyTypeCode          string `json:"policy_type_code"`
 	PolicyValueDisplayField string `json:"policy_value_display_field"`
 }
+
+// WebHookPost contains the data that is sent when a webhook is triggered.
+type WebHookPost struct {
+	Id      string `json:"webhook_id"`
+	Country string `json:"country"`
+	Calls   int    `json:"calls"`
+}

@@ -29,6 +29,8 @@ const UrlParameterWebhookId string = "id"
 // CovidTrackerEndpoint endpoint for doing the search.
 const CovidTrackerEndpoint string = "v2/stringency/actions/"
 
+const WebhookTestCheckVerificationCollection string = "webhookclient"
+
 var (
 	// CovidCasesBaseUrl covid cases api base url
 	CovidCasesBaseUrl = "https://covid19-graphql.now.sh"
@@ -49,6 +51,8 @@ var (
 	CounterDbCollection = "counter"
 
 	WebhookDbCollection = "webhook"
+
+	WebhookClientUrl string = ""
 )
 
 // SetTestUrlCases sets the test url for the cases api.
@@ -64,6 +68,11 @@ func SetTestUrlPolicy(testUrl string) {
 // SetTestUrlCountry sets the test url for the country api.
 func SetTestUrlCountry(testUrl string) {
 	CountryApiUrl = testUrl
+}
+
+// SetTestUrlWebhookClient sets the test url for the webhook client.
+func SetTestUrlWebhookClient(testUrl string) {
+	WebhookClientUrl = testUrl
 }
 
 //SetTestDB sets the db collections to test mode.
