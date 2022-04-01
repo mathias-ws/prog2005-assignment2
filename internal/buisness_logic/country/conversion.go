@@ -16,6 +16,7 @@ import (
 func buildSearchUrl(cca3Code string) string {
 	urlToSearch := strings.Builder{}
 	urlToSearch.WriteString(constants.CountryApiUrl)
+	urlToSearch.WriteString(constants.CountryApiPage)
 	urlToSearch.WriteString(countryApiCodeParam)
 	urlToSearch.WriteString(cca3Code)
 	urlToSearch.WriteString(countryApiFieldParam)

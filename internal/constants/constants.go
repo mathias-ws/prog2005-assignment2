@@ -31,6 +31,9 @@ const CovidTrackerEndpoint string = "v2/stringency/actions/"
 
 const WebhookTestCheckVerificationCollection string = "webhookclient"
 
+// CountryApiPage the page that is used as a base for the country api cca3 search.
+const CountryApiPage string = "/v3.1/alpha/"
+
 var (
 	// CovidCasesBaseUrl covid cases api base url
 	CovidCasesBaseUrl = "https://covid19-graphql.now.sh"
@@ -44,7 +47,7 @@ var (
 	// PolicyDBCollection is the collection name for the policy caching collection.
 	PolicyDBCollection = "stringency"
 
-	CountryApiUrl       = "https://restcountries.com/v3.1/alpha/"
+	CountryApiUrl       = "https://restcountries.com"
 	CountryDbCollection = "cca3tocountry"
 
 	// CounterDbCollection the name of the database collection.
