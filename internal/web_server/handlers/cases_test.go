@@ -3,7 +3,6 @@ package handlers
 import (
 	"assignment-2/internal/constants"
 	"assignment-2/internal/database"
-	"assignment-2/test/stubs"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -11,18 +10,6 @@ import (
 	"testing"
 	"time"
 )
-
-func TestMain(m *testing.M) {
-	database.InitDB("../../../auth.json")
-
-	casesStub := httptest.NewServer(http.HandlerFunc(stubs.CasesHandler))
-	defer casesStub.Close()
-
-	constants.SetTestDB()
-	constants.SetTestUrlCases(casesStub.URL)
-
-	m.Run()
-}
 
 func TestCovidCasesHandlerInvalidMethod(t *testing.T) {
 	req, errReq := http.NewRequest(http.MethodPost, "/corona/v1/cases", nil)
