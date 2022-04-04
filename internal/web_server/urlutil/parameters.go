@@ -47,10 +47,6 @@ func GetUrlParametersCases(url *url.URL) (map[string]string, error) {
 	obtainedQuery := url.Query()
 	parametersToReturn := map[string]string{}
 
-	if !strutils.CheckIfStringIsNotEmpty(obtainedQuery[constants.URL_COUNTRY_NAME_PARAM][0]) {
-		return nil, custom_errors.GetParameterError()
-	}
-
 	// Checks if the url has the country parameter
 	if obtainedQuery.Has(constants.URL_COUNTRY_NAME_PARAM) {
 		// Handling us
