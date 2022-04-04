@@ -33,6 +33,11 @@ func handleGetRequestCases(w http.ResponseWriter, r *http.Request) {
 
 	// Checks for errors in the process of getting the covid cases information.
 	if errCases != nil {
+		if errCases.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
+			custom_errors.HttpErrorFromBackendApi(w)
+			return
+		}
+
 		custom_errors.HttpUnknownServerError(w)
 		return
 	}
