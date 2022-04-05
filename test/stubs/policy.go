@@ -28,6 +28,7 @@ func PolicyHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
+	w.Header().Set("content-type", "application/json")
 	encoder := json.NewEncoder(w)
 
 	err := encoder.Encode(jsonData)
