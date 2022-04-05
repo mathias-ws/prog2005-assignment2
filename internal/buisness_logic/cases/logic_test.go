@@ -2,6 +2,7 @@ package cases
 
 import (
 	"assignment-2/internal/constants"
+	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
 	"assignment-2/internal/structs"
 	"assignment-2/test/stubs"
@@ -96,4 +97,23 @@ func TestGetCovidCasesFromCache(t *testing.T) {
 	assert.Equal(t, expected, result)
 	assert.Nil(t, err)
 	assert.Nil(t, errCount)
+}
+
+func TestGetStatusCode(t *testing.T) {
+	statusCode, err := GetStatusCode()
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, statusCode)
+}
+
+func TestGetStatusCodeNoAccess(t *testing.T) {
+	originalUrl := constants.CovidCasesBaseUrl
+	constants.SetTestUrlCases("http://askfj")
+
+	statusCode, err := GetStatusCode()
+
+	constants.SetTestUrlCases(originalUrl)
+
+	assert.Equal(t, custom_errors.GetUnableToReachBackendApisError(), err)
+	assert.Equal(t, 0, statusCode)
 }
