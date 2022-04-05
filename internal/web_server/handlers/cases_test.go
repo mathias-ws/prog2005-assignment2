@@ -73,6 +73,8 @@ func TestCovidCasesHandlerWrongQuery(t *testing.T) {
 }
 
 func TestCovidCasesHandlerNoInternet(t *testing.T) {
+	originalUrl := constants.CovidCasesBaseUrl
+
 	errDel := database.DeleteDocument(constants.CovidCasesDBCollection, "Norway")
 	assert.Nil(t, errDel)
 
@@ -86,6 +88,8 @@ func TestCovidCasesHandlerNoInternet(t *testing.T) {
 	handler := http.HandlerFunc(CovidCasesHandler)
 
 	handler.ServeHTTP(responseRecorder, req)
+
+	constants.SetTestUrlCases(originalUrl)
 
 	assert.Equal(t, http.StatusBadGateway, responseRecorder.Code)
 }

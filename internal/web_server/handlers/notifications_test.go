@@ -75,7 +75,10 @@ func TestNotificationHandlerGetAllWebhooks(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expectedList, webhooks)
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[0].Id))
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[1].Id))
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[2].Id))
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[3].Id))
 }
 
 func TestNotificationHandlerGetOneWebhook(t *testing.T) {
@@ -153,7 +156,10 @@ func TestNotificationHandlerGetInvalidParameters(t *testing.T) {
 	}
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
-	assert.Equal(t, expectedList, webhooks)
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[0].Id))
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[1].Id))
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[2].Id))
+	assert.Contains(t, fmt.Sprintf("%v", webhooks), fmt.Sprintf("%v ", expectedList[3].Id))
 }
 
 func TestNotificationHandlerGetInvalidID(t *testing.T) {
@@ -172,8 +178,8 @@ func TestNotificationHandlerGetInvalidID(t *testing.T) {
 
 func TestAddNewWebhook(t *testing.T) {
 	testPost := map[string]interface{}{
-		"url":     "https://webhook.site/bf1c45f9-7ca4-4867-a17b-d7a10a49cea6",
-		"country": "Sweden",
+		"url":     "https://test.site/bf1c45f9-7ca4-4867-a17b-d7a10a49cea6",
+		"country": "UK",
 		"calls":   2,
 	}
 
@@ -193,13 +199,13 @@ func TestAddNewWebhook(t *testing.T) {
 
 	handler.ServeHTTP(responseRecorder, req)
 
-	errDel := database.DeleteDocument(constants.WebhookDbCollection, "64dc957d991f64cbc8b8534ef07b0e9f9a730b31c693630256106eaa3ccdf4cc")
+	errDel := database.DeleteDocument(constants.WebhookDbCollection, "fd9a9aac700914e468762cfe64bf8bb18ccef8889624aedf6ee6ed234ef770aa")
 
 	result := responseRecorder.Result()
 	body, _ := io.ReadAll(result.Body)
 
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
-	assert.Contains(t, string(body), "64dc957d991f64cbc8b8534ef07b0e9f9a730b31c693630256106eaa3ccdf4cc")
+	assert.Contains(t, string(body), "fd9a9aac700914e468762cfe64bf8bb18ccef8889624aedf6ee6ed234ef770aa")
 	assert.Nil(t, errDel)
 }
 

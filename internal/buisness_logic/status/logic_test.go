@@ -38,16 +38,22 @@ func TestGetUptime(t *testing.T) {
 func TestGetNumberOfWebhooks(t *testing.T) {
 	webhooks, err := getNumberOfWebhooks()
 
+	allWebhooks, errGetWebhooks := database.GetAllWebhooks(constants.WebhookDbCollection, "")
+	assert.Nil(t, errGetWebhooks)
+
 	assert.Nil(t, err)
-	assert.Equal(t, 4, webhooks)
+	assert.Equal(t, len(allWebhooks), webhooks)
 }
 
 func TestGetStatusInfo(t *testing.T) {
+	webhooks, errGetWebhooks := database.GetAllWebhooks(constants.WebhookDbCollection, "")
+	assert.Nil(t, errGetWebhooks)
+
 	expect := status{
 		CountryApiStatusCode: 200,
 		CasesApiStatusCode:   200,
 		PolicyApiStatusCode:  200,
-		NumberOfWebhooks:     4,
+		NumberOfWebhooks:     len(webhooks),
 		Version:              constants.PROGRAM_VERSION,
 		Uptime:               getUptime(),
 	}
@@ -62,11 +68,14 @@ func TestGetStatusInfoNoInternet(t *testing.T) {
 	constants.SetTestUrlCountry("http://oiasdnf")
 	constants.SetTestUrlPolicy("http://oiasdnf")
 
+	webhooks, errGetWebhooks := database.GetAllWebhooks(constants.WebhookDbCollection, "")
+	assert.Nil(t, errGetWebhooks)
+
 	expect := status{
 		CountryApiStatusCode: 502,
 		CasesApiStatusCode:   502,
 		PolicyApiStatusCode:  502,
-		NumberOfWebhooks:     4,
+		NumberOfWebhooks:     len(webhooks),
 		Version:              constants.PROGRAM_VERSION,
 		Uptime:               getUptime(),
 	}

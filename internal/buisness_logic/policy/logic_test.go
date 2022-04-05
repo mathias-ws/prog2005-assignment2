@@ -105,7 +105,7 @@ func TestBuildSearchUrl(t *testing.T) {
 		constants.URL_SCOPE_PARAMETER:    "2022-02-10",
 	}
 
-	assert.Equal(t, constants.CovidTrackerBaseUrl+"v2/stringency/actions/nor/2022-02-10",
+	assert.Equal(t, constants.CovidTrackerBaseUrl+"/v2/stringency/actions/nor/2022-02-10",
 		buildSearchUrl(params))
 }
 

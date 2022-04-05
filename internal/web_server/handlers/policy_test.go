@@ -100,6 +100,7 @@ func TestPolicyHandlerWrongParams(t *testing.T) {
 }
 
 func TestPolicyHandlerNoAccessToBackendApi(t *testing.T) {
+	originalUrl := constants.CovidTrackerBaseUrl
 	constants.SetTestUrlPolicy("http://aslkfh")
 
 	req, errReq := http.NewRequest(http.MethodGet, "/corona/v1/policy?country=nor&scope=2022-03-04", nil)
@@ -109,6 +110,8 @@ func TestPolicyHandlerNoAccessToBackendApi(t *testing.T) {
 	handler := http.HandlerFunc(PolicyHandler)
 
 	handler.ServeHTTP(responseRecorder, req)
+
+	constants.SetTestUrlPolicy(originalUrl)
 
 	assert.Equal(t, http.StatusInternalServerError, responseRecorder.Code)
 }
