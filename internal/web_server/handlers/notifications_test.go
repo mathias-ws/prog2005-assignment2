@@ -6,6 +6,7 @@ import (
 	"assignment-2/internal/structs"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"log"
@@ -227,4 +228,55 @@ func TestAddNewWebhookWrongBody(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 	assert.Nil(t, errDel)
+}
+
+func TestDeleteWebhook(t *testing.T) {
+	sampleWebhook := structs.WebHookRegistration{
+		Url:                 "test.com",
+		Country:             "Canada",
+		Calls:               4,
+		CallsAtRegistration: 0,
+	}
+
+	errCreate := database.WriteDocument(constants.WebhookDbCollection, fmt.Sprintf("%v", sampleWebhook),
+		&sampleWebhook)
+	assert.Nil(t, errCreate)
+
+	req, errReq := http.NewRequest(http.MethodDelete,
+		"/corona/v1/notifications?id=b70016087deaefe13d655c905f8d1afe45edaf8c854b4fd7663a7fdcfd1900e7", nil)
+	assert.Nil(t, errReq)
+
+	responseRecorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(NotificationHandler)
+
+	handler.ServeHTTP(responseRecorder, req)
+
+	var dataFromDb structs.WebHookRegistration
+	database.GetDocument(constants.WebhookDbCollection, fmt.Sprintf("%v", sampleWebhook), &dataFromDb)
+
+	assert.Equal(t, structs.WebHookRegistration{}, dataFromDb)
+}
+
+func TestDeleteWebhookNoId(t *testing.T) {
+	req, errReq := http.NewRequest(http.MethodDelete, "/corona/v1/notifications", nil)
+	assert.Nil(t, errReq)
+
+	responseRecorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(NotificationHandler)
+
+	handler.ServeHTTP(responseRecorder, req)
+
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Result().StatusCode)
+}
+
+func TestDeleteWebhookWrongId(t *testing.T) {
+	req, errReq := http.NewRequest(http.MethodDelete, "/corona/v1/notifications?id=ldsifhsig", nil)
+	assert.Nil(t, errReq)
+
+	responseRecorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(NotificationHandler)
+
+	handler.ServeHTTP(responseRecorder, req)
+
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Result().StatusCode)
 }
