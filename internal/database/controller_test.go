@@ -54,15 +54,18 @@ func TestGetDocumentByHash(t *testing.T) {
 	assert.Equal(t, expected, testStruct)
 }
 
-func TestGetDocument(t *testing.T) {
+func TestGetDocumentCca3(t *testing.T) {
 	testStruct := structs.CountryInfo{}
 
 	expected := structs.CountryInfo{
-		Common: "Norway",
+		Common: "Netherlands",
 	}
 
 	GetDocument(constants.CountryDbCollection,
-		"nor", &testStruct)
+		"nld", &testStruct)
+
+	errDel := DeleteDocument(constants.CountryDbCollection, "Netherlands")
+	assert.Nil(t, errDel)
 
 	assert.Equal(t, expected.Common, testStruct.Common)
 }
