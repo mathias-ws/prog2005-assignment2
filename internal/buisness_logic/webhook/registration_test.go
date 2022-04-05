@@ -28,6 +28,9 @@ func TestRegister(t *testing.T) {
 		Calls:               3,
 		CallsAtRegistration: 0}
 
+	errDelCount := database.DeleteDocument(constants.CounterDbCollection, "Norway")
+	assert.Nil(t, errDelCount)
+
 	hash, err := Register(request)
 
 	testFetch := structs.WebHookRegistration{}
