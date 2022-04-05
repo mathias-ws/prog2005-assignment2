@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func TestCovidCasesHandlerInvalidMethod(t *testing.T) {
@@ -25,7 +24,7 @@ func TestCovidCasesHandlerInvalidMethod(t *testing.T) {
 }
 
 func TestCovidCasesHandler(t *testing.T) {
-	req, errReq := http.NewRequest(http.MethodGet, "/corona/v1/cases?country=norway", nil)
+	req, errReq := http.NewRequest(http.MethodGet, "/corona/v1/cases?country=Norway", nil)
 
 	assert.Nil(t, errReq)
 
@@ -34,12 +33,16 @@ func TestCovidCasesHandler(t *testing.T) {
 
 	handler.ServeHTTP(responseRecorder, req)
 
-	body, _ := io.ReadAll(responseRecorder.Body)
+	result := responseRecorder.Result()
 
-	time.Sleep(time.Millisecond * 500)
 	errDel := database.DeleteDocument(constants.CovidCasesDBCollection, "Norway")
+	errDelCount := database.DeleteDocument(constants.CounterDbCollection, "Norway")
+
+	body, _ := io.ReadAll(result.Body)
 
 	assert.Nil(t, errDel)
+	assert.Nil(t, errDelCount)
+	assert.Equal(t, http.StatusOK, result.StatusCode)
 	assert.Equal(t, "{\n\t\"country\": \"Norway\",\n\t\"date\": \"2022-03-28\",\n\t\"confirmed\": 1399714,\n\t\"recovered\": 0,\n\t\"deaths\": 2339,\n\t\"growth_rate\": 0.0014853631627073677\n}\n", string(body))
 }
 
