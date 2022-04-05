@@ -73,6 +73,9 @@ func handleDeleteRequest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		custom_errors.HttpSearchParameters(w)
 		return
+	} else if len(urlParams) == 0 {
+		custom_errors.HttpSearchParameters(w)
+		return
 	}
 
 	err = webhook.Delete(urlParams)
