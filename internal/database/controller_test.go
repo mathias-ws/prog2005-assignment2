@@ -71,7 +71,7 @@ func TestGetDocumentCca3(t *testing.T) {
 }
 
 func TestGetAllWebhooks(t *testing.T) {
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second * 3)
 	webhooks, err := GetAllWebhooks(constants.WebhookDbCollection, "")
 
 	assert.Nil(t, err)
