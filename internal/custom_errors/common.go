@@ -59,3 +59,8 @@ func GetUnableToSendRequestError() error {
 func GetNoObjectFoundError() error {
 	return errors.New("no object found")
 }
+
+// GetMissingJsonFieldsError returns error message for when all json fields are not set.
+func GetMissingJsonFieldsError() error {
+	return errors.New("all json fields are not present")
+}

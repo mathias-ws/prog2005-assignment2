@@ -21,6 +21,10 @@ func Register(request *http.Request) (string, error) {
 		return "", custom_errors.GetFailedToDecode()
 	}
 
+	if registrationInfo.Calls != 0 || registrationInfo.Country != "" || registrationInfo.Url != "" {
+		return "", custom_errors.GetMissingJsonFieldsError()
+	}
+
 	numberOfCounts, _ := counter.GetNumberOfTimes(registrationInfo.Country)
 
 	registrationInfo.CallsAtRegistration = numberOfCounts

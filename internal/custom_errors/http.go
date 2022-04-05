@@ -30,6 +30,11 @@ func HttpNoContent(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// HttpWrongJsonInfo http error for when the user provides the wrong json structure when posting.
+func HttpWrongJsonInfo(w http.ResponseWriter) {
+	http.Error(w, "Some information is missing from the json body, see the documentation.", http.StatusBadRequest)
+}
+
 // HttpNotFound gives an error message that the endpoint does not exist.
 func HttpNotFound(w http.ResponseWriter) {
 	http.Error(w, "The endpoint does not exist, please see the documentation: "+

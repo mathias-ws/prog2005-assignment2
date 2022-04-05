@@ -27,6 +27,9 @@ func NotificationHandler(w http.ResponseWriter, r *http.Request) {
 func handleRegistration(w http.ResponseWriter, r *http.Request) {
 	webhookId, err := webhook.Register(r)
 	if err != nil {
+		if err.Error() == custom_errors.GetMissingJsonFieldsError().Error() {
+			custom_errors.HttpWrongJsonInfo(w)
+		}
 		return
 	}
 
