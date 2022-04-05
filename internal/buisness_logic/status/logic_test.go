@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 func TestMain(m *testing.M) {
@@ -36,6 +37,7 @@ func TestGetUptime(t *testing.T) {
 }
 
 func TestGetNumberOfWebhooks(t *testing.T) {
+	time.Sleep(time.Second * 2)
 	webhooks, err := getNumberOfWebhooks()
 
 	allWebhooks, errGetWebhooks := database.GetAllWebhooks(constants.WebhookDbCollection, "")
@@ -64,6 +66,7 @@ func TestGetStatusInfo(t *testing.T) {
 }
 
 func TestGetStatusInfoNoInternet(t *testing.T) {
+	time.Sleep(time.Second * 2)
 	constants.SetTestUrlCases("http://oiasdnf")
 	constants.SetTestUrlCountry("http://oiasdnf")
 	constants.SetTestUrlPolicy("http://oiasdnf")
