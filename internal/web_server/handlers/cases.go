@@ -36,10 +36,10 @@ func handleGetRequestCases(w http.ResponseWriter, r *http.Request) {
 		if errCases.Error() == custom_errors.GetUnableToReachBackendApisError().Error() {
 			custom_errors.HttpErrorFromBackendApi(w)
 			return
+		} else {
+			custom_errors.HttpUnknownServerError(w)
+			return
 		}
-
-		custom_errors.HttpUnknownServerError(w)
-		return
 	}
 
 	errEncoding := json.Encode(w, covidCases)
