@@ -15,9 +15,6 @@ func TestMain(m *testing.M) {
 	casesStub := httptest.NewServer(http.HandlerFunc(stubs.CasesHandler))
 	defer casesStub.Close()
 
-	webhookStub := httptest.NewServer(http.HandlerFunc(stubs.Webhook))
-	defer webhookStub.Close()
-
 	policyStub := httptest.NewServer(http.HandlerFunc(stubs.PolicyHandler))
 	defer policyStub.Close()
 
@@ -26,7 +23,6 @@ func TestMain(m *testing.M) {
 
 	constants.SetTestDB()
 	constants.SetTestUrlCases(casesStub.URL)
-	constants.SetTestUrlCases(webhookStub.URL)
 	constants.SetTestUrlPolicy(policyStub.URL)
 	constants.SetTestUrlCountry(countryStub.URL)
 
