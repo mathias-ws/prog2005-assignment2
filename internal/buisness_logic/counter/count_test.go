@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func TestMain(m *testing.M) {
@@ -25,20 +24,21 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetCachedCca3(t *testing.T) {
-	currentCount, errGet := GetNumberOfTimes("swe")
+	currentCount, errGet := GetNumberOfTimes("fra")
+
+	errDel := database.DeleteDocument(constants.CountryDbCollection, "France")
 
 	assert.Equal(t, 1, currentCount)
 	assert.Nil(t, errGet)
+	assert.Nil(t, errDel)
 }
 
 func TestCountCreateNew(t *testing.T) {
-	errCountUp := CountUp("Norway")
+	errCountUp := CountUp("Ireland")
 
-	currentCount, errGet := GetNumberOfTimes("Norway")
+	currentCount, errGet := GetNumberOfTimes("Ireland")
 
-	// To make sure that the caching is done
-	time.Sleep(time.Second)
-	errDel := database.DeleteDocument(constants.CounterDbCollection, "Norway")
+	errDel := database.DeleteDocument(constants.CounterDbCollection, "Ireland")
 
 	assert.Equal(t, 1, currentCount)
 	assert.Nil(t, errCountUp)
@@ -47,31 +47,27 @@ func TestCountCreateNew(t *testing.T) {
 }
 
 func TestCountCreateNewCca3(t *testing.T) {
-	errCountUp := CountUp("nor")
+	errCountUp := CountUp("lva")
 
-	currentCount, errGet := GetNumberOfTimes("Norway")
+	currentCount, errGet := GetNumberOfTimes("Latvia")
 
-	// To make sure that the caching is done
-	time.Sleep(time.Second)
-	errDel := database.DeleteDocument(constants.CounterDbCollection, "Norway")
+	errDelCountry := database.DeleteDocument(constants.CountryDbCollection, "Latvia")
+	errDel := database.DeleteDocument(constants.CounterDbCollection, "Latvia")
 
 	assert.Equal(t, 1, currentCount)
 	assert.Nil(t, errCountUp)
 	assert.Nil(t, errGet)
 	assert.Nil(t, errDel)
+	assert.Nil(t, errDelCountry)
 }
 
 func TestCountCached(t *testing.T) {
-	errCountUp := CountUp("Sweden")
+	errCountUp := CountUp("Netherlands")
 
-	// To make sure that the caching is done
-	time.Sleep(time.Second)
+	currentCount, errGet := GetNumberOfTimes("Netherlands")
 
-	currentCount, errGet := GetNumberOfTimes("Sweden")
-
-	// Replaces it in the db so that it always is 1.
-	errDel := database.DeleteDocument(constants.CounterDbCollection, "Sweden")
-	errReplace := CountUp("Sweden")
+	errDel := database.DeleteDocument(constants.CounterDbCollection, "Netherlands")
+	errReplace := CountUp("Netherlands")
 
 	assert.Equal(t, 2, currentCount)
 	assert.Nil(t, errCountUp)
@@ -81,20 +77,19 @@ func TestCountCached(t *testing.T) {
 }
 
 func TestCountCachedCca3(t *testing.T) {
-	errCountUp := CountUp("swe")
+	errCountUp := CountUp("nld")
 
-	currentCount, errGet := GetNumberOfTimes("Sweden")
+	currentCount, errGet := GetNumberOfTimes("Netherlands")
 
-	// To make sure that the caching is done
-	time.Sleep(time.Second)
+	errDelCountry := database.DeleteDocument(constants.CountryDbCollection, "Netherlands")
 
-	// Replaces it in the db so that it always is 1.
-	errDel := database.DeleteDocument(constants.CounterDbCollection, "Sweden")
-	errReplace := CountUp("Sweden")
+	errDel := database.DeleteDocument(constants.CounterDbCollection, "Netherlands")
+	errReplace := CountUp("Netherlands")
 
 	assert.Equal(t, 2, currentCount)
 	assert.Nil(t, errCountUp)
 	assert.Nil(t, errGet)
 	assert.Nil(t, errDel)
 	assert.Nil(t, errReplace)
+	assert.Nil(t, errDelCountry)
 }
