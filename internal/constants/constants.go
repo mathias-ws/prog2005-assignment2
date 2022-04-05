@@ -27,7 +27,7 @@ const URL_PARAMETER_WANTED_TIME_FORMAT string = "2006-01-02"
 const UrlParameterWebhookId string = "id"
 
 // CovidTrackerEndpoint endpoint for doing the search.
-const CovidTrackerEndpoint string = "v2/stringency/actions/"
+const CovidTrackerEndpoint string = "/v2/stringency/actions/"
 
 const WebhookTestCheckVerificationCollection string = "webhookclient"
 
@@ -39,7 +39,7 @@ var (
 	CovidCasesBaseUrl = "https://covid19-graphql.now.sh"
 
 	// CovidTrackerBaseUrl covidtracker api base url
-	CovidTrackerBaseUrl = "https://covidtrackerapi.bsg.ox.ac.uk/api/"
+	CovidTrackerBaseUrl = "https://covidtrackerapi.bsg.ox.ac.uk/api"
 
 	// CovidCasesDBCollection is the collection name for the covid cases collection.
 	CovidCasesDBCollection = "covidcases"
