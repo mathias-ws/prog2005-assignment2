@@ -1,9 +1,14 @@
 package handlers
 
 import (
+	"assignment-2/internal/constants"
+	"assignment-2/internal/database"
 	"assignment-2/internal/structs"
+	"bytes"
 	"encoding/json"
 	"github.com/stretchr/testify/assert"
+	"io"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -162,4 +167,64 @@ func TestNotificationHandlerGetInvalidID(t *testing.T) {
 	handler.ServeHTTP(responseRecorder, req)
 
 	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
+}
+
+func TestAddNewWebhook(t *testing.T) {
+	testPost := map[string]interface{}{
+		"url":     "https://webhook.site/bf1c45f9-7ca4-4867-a17b-d7a10a49cea6",
+		"country": "Sweden",
+		"calls":   2,
+	}
+
+	jsonData, err := json.Marshal(testPost)
+
+	if err != nil {
+		log.Printf("Error marshalling data: %v", err)
+		return
+	}
+
+	req, errReq := http.NewRequest(http.MethodPost, "/corona/v1/notifications", bytes.NewBuffer(jsonData))
+
+	assert.Nil(t, errReq)
+
+	responseRecorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(NotificationHandler)
+
+	handler.ServeHTTP(responseRecorder, req)
+
+	errDel := database.DeleteDocument(constants.WebhookDbCollection, "64dc957d991f64cbc8b8534ef07b0e9f9a730b31c693630256106eaa3ccdf4cc")
+
+	result := responseRecorder.Result()
+	body, _ := io.ReadAll(result.Body)
+
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
+	assert.Contains(t, string(body), "64dc957d991f64cbc8b8534ef07b0e9f9a730b31c693630256106eaa3ccdf4cc")
+	assert.Nil(t, errDel)
+}
+
+func TestAddNewWebhookWrongBody(t *testing.T) {
+	testPost := map[string]interface{}{
+		"country": "Sweden",
+	}
+
+	jsonData, err := json.Marshal(testPost)
+
+	if err != nil {
+		log.Printf("Error marshalling data: %v", err)
+		return
+	}
+
+	req, errReq := http.NewRequest(http.MethodPost, "/corona/v1/notifications", bytes.NewBuffer(jsonData))
+
+	assert.Nil(t, errReq)
+
+	responseRecorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(NotificationHandler)
+
+	handler.ServeHTTP(responseRecorder, req)
+
+	errDel := database.DeleteDocument(constants.WebhookDbCollection, "64dc957d991f64cbc8b8534ef07b0e9f9a730b31c693630256106eaa3ccdf4cc")
+
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
+	assert.Nil(t, errDel)
 }
