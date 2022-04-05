@@ -58,9 +58,9 @@ func TestGetStatusInfo(t *testing.T) {
 }
 
 func TestGetStatusInfoNoInternet(t *testing.T) {
-	constants.SetTestUrlCases("oiasdnf")
-	constants.SetTestUrlCountry("oiasdnf")
-	constants.SetTestUrlPolicy("oiasdnf")
+	constants.SetTestUrlCases("http://oiasdnf")
+	constants.SetTestUrlCountry("http://oiasdnf")
+	constants.SetTestUrlPolicy("http://oiasdnf")
 
 	expect := status{
 		CountryApiStatusCode: 502,
