@@ -73,6 +73,9 @@ func TestCovidCasesHandlerWrongQuery(t *testing.T) {
 }
 
 func TestCovidCasesHandlerNoInternet(t *testing.T) {
+	errDel := database.DeleteDocument(constants.CovidCasesDBCollection, "Norway")
+	assert.Nil(t, errDel)
+
 	constants.SetTestUrlCases("aslkfj")
 
 	req, errReq := http.NewRequest(http.MethodGet, "/corona/v1/cases?country=norway", nil)
