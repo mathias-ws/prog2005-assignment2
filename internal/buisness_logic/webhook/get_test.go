@@ -11,7 +11,7 @@ func TestGetAllRegistered(t *testing.T) {
 	webhooks, err := GetAllRegistered()
 
 	assert.Nil(t, err)
-	assert.Equal(t, 3, len(webhooks))
+	assert.Equal(t, 4, len(webhooks))
 }
 
 func TestGetOne(t *testing.T) {
