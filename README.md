@@ -282,3 +282,9 @@ available on port 80 on the ip of the host.
 # Known bugs
 
 # Extras
+
+* A short term cache of the cases endpoint is implemented to reduce requests to the backend api and to make the api
+  respond faster. The cache is short-lived (12 hours) to always give the most up-to-date information.
+* Collection of statistics of how many times a given country is called. This is also returned in the webhooks to give
+  the user some information.
+* Hashing of the database collection and document names, and also the webhook ids.
