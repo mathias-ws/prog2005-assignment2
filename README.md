@@ -296,7 +296,8 @@ two is just a simple way to quickly get it running.
 ## Go build
 
 If not already done, please follow the general steps before proceeding. These steps will help you compile the project
-and run the binary.
+and run the binary. To build this project go 1.17 or higher must be installed. Se the go docs for how to check you
+version and how to install go.
 
 1: to build the binary run the following
 command: `go build -a -ldflags '-extldflags "-static"' -o assignment-2 cmd/main.go`, it should provide a self-contained
