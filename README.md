@@ -58,10 +58,10 @@ Status codes:
 Example body:
 
     {
-    "country_code": "nor",
-    "date_value": "2022-01-02",
-    "stringency": 51.85,
-    "policies": 20
+        "country_code": "nor",
+        "date_value": "2022-01-02",
+        "stringency": 51.85,
+        "policies": 20
     }
 
 ## Cases
