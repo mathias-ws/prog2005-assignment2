@@ -225,6 +225,33 @@ This is the only time to view the webhook id, so save it if needed.
 When doing a delete request there will be no response, but the status code 200 will be returned. To verify that it has
 been deleted it is possible to send a get request with the id, the body should be empty.
 
+### Status
+
+The status endpoint provides information about the service and the availability of the backend apis the service is
+reliant on.
+
+#### Request
+
+Only a get request is possible.
+
+Example request:
+
+    /corona/v1/status
+
+#### Response
+
+The response will contain the status code of the backend apis, the number of currently registered webhooks, the version
+of the services and the uptime of the service. An example body is:
+
+    {
+      "cases_api_status": 200,
+      "policy_api_status": 200,
+      "country_api_status": 200,
+      "number_of_webhooks": 1,
+      "version": "v1",
+      "uptime": "0h 0m 14s"
+    }
+
 # Webhook triggered
 
 When a webhook is triggered the server does a post request to the provided url. The body will contain the webhook id,
