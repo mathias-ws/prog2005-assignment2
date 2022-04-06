@@ -240,9 +240,42 @@ Example body:
 
 # How to deploy
 
+This project can be deployed either using the provided Dockerfile or building it using `go build`. Either way a
+firestore service account credential file must be provided. It must be present in the root directory and be
+called `auth.json`.
+
+Both of the following methods have some common steps to be done.
+
+1: clone the repo,
+using `git clone https://git.gvk.idi.ntnu.no/course/prog2005/prog2005-2022-workspace/mathias_ws/assignment-2.git`.   
+2: change into the cloned directory: `cd assignment-2`.  
+3: follow the firestore documentation to create an empty database and a service account authentication file.  
+4: move the file into the current folder (`assignment-2`) and rename it to `auth.json`.  
+5: follow the steps for you desired deployment method following:
+
 ## Docker
 
+If not already done, please follow the general steps before proceeding. These steps will help you build a docker image
+of the project and do a simple deployment. This method requires you to already have a working docker environment on
+linux.
+
+1: run `docker build . -t assigmnet2:latest`, this can take some time so be patient.  
+2: run the container using `docker run --name assignment-2 -d -p 80:80 --restart unless-stopped assigmnet2:latest`. The
+service can be reached on port 80 on the ip of the host.
+
+Please see docker's documentation for more parameters or ways to deploy a docker image. The deployment option in step
+two is just a simple way to quickly get it running.
+
 ## Go build
+
+If not already done, please follow the general steps before proceeding. These steps will help you compile the project
+and run the binary.
+
+1: to build the binary run the following
+command: `go build -a -ldflags '-extldflags "-static"' -o assignment-2 cmd/main.go`, it should provide a self-contained
+binary called assignment-2. This file can be moved anywhere you please.  
+2: in the location the `assignment-2` file is placed use `./assignment-2` to run the service. The service should be
+available on port 80 on the ip of the host.
 
 # Design choices
 
