@@ -306,6 +306,19 @@ available on port 80 on the ip of the host.
 
 # Design choices
 
+The feature set of this is api is close to the specification given in the assignment. Some additional features have been
+added, see the Extra section. The project aims for high cohesion and loose coupling. This project is created to be
+highly modular to ease the maintenance and the re-usability in further projects. The api relies on the three backend
+apis heavily, without them this api will not work.
+
+I chose to use parameters when searching instead of adding the search string(s) into the path. This to make it clearer
+for the user to see what information is to be added where. It also makes it easier to add additional features like:
+searching for multiple names and/or countries. It also makes it easier to reuse the code for other endpoints.
+
+The Dockerfiles ends up building the docker image based on the scratch base image for security and reliability reasons.
+Only the necessary packages and dependencies are added to the container image. This minimizes the attack surface and
+there will be fewer things to break making it more stable and reliable.
+
 # Known bugs
 
 * The country api does not always return the same name of a country as the cases api uses. This can cause some issues
