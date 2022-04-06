@@ -95,6 +95,8 @@ Status codes:
 * 500: Undefined server side error.
 * 502: Unable to reach the backend apis.
 
+An invalid country parameter will yield an empty json structure.
+
 Example body:
 
     {
