@@ -11,6 +11,7 @@ import (
 	"assignment-2/internal/web_client"
 	"encoding/json"
 	"log"
+	"time"
 )
 
 // createGraphQlRequest Generates the body for the graphql request to the backend api.
@@ -53,18 +54,21 @@ func GetCovidCases(urlParameters map[string]string) (structs.CovidCasesOutput, e
 		country, &dataFromDatabase)
 
 	if (structs.CovidCasesOutput{}) != dataFromDatabase {
-		// Counts up the number of times the country has been searched.
-		go func() {
-			err := counter.CountUp(dataFromDatabase.Country)
+		// Cache only for twelve hours.
+		if !(time.Since(dataFromDatabase.TimeStamp).Hours() > (time.Hour * 12).Hours()) {
+			// Counts up the number of times the country has been searched.
+			go func() {
+				err := counter.CountUp(dataFromDatabase.Country)
 
-			if err != nil {
-				log.Printf("Error counting up the number of searches: %v", err)
-			}
+				if err != nil {
+					log.Printf("Error counting up the number of searches: %v", err)
+				}
 
-			webhook.Check(dataFromDatabase.Country)
-		}()
+				webhook.Check(dataFromDatabase.Country)
+			}()
 
-		return dataFromDatabase, nil
+			return dataFromDatabase, nil
+		}
 	}
 
 	requestBody, err := createGraphQlRequest(country)
