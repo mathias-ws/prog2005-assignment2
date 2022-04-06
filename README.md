@@ -320,6 +320,13 @@ The Dockerfiles ends up building the docker image based on the scratch base imag
 Only the necessary packages and dependencies are added to the container image. This minimizes the attack surface and
 there will be fewer things to break making it more stable and reliable.
 
+The tests are reliant on having some test data already populated into the database. This will make it impossible to run
+the tests without the test database. Some tests might also contain some sleeps or use some functions that is being
+tested later to make the tests run. This is because of some concurrency issues when go is running tests in parallel. For
+example the test for adding a webhook in the logic package might run at the same time as the database function for
+getting all webhooks are tested. This will cause the number of webhooks to maybe be different. This could have also been
+solved using `go test -p ./...` as the tests are run sequentially.
+
 # Known bugs
 
 * The country api does not always return the same name of a country as the cases api uses. This can cause some issues
