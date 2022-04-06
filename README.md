@@ -345,3 +345,4 @@ solved using `go test -p ./...` as the tests are run sequentially.
 * Collection of statistics of how many times a given country is called. This is also returned in the webhooks to give
   the user some information.
 * Hashing of the database collection and document names, and also the webhook ids.
+* Added a pipeline that run tests and automatically builds the image and pushes it to my docker registry.
