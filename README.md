@@ -225,6 +225,19 @@ This is the only time to view the webhook id, so save it if needed.
 When doing a delete request there will be no response, but the status code 200 will be returned. To verify that it has
 been deleted it is possible to send a get request with the id, the body should be empty.
 
+# Webhook triggered
+
+When a webhook is triggered the server does a post request to the provided url. The body will contain the webhook id,
+the name of the country and the total amount of times the country have been searched for in the api.
+
+Example body:
+
+    {
+        "webhook_id": "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470",
+        "country": "Sweden",
+        "calls": 24
+    }
+
 # How to deploy
 
 ## Docker
