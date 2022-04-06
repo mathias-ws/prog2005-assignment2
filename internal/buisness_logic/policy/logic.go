@@ -11,6 +11,7 @@ import (
 	"assignment-2/internal/web_client"
 	"log"
 	"strings"
+	"time"
 )
 
 // countPolicies counts the number of policies in place.
@@ -59,18 +60,21 @@ func FindPolicyInformation(urlParameters map[string]string) (structs.PolicyOutpu
 		urlParameters[constants.URL_COUNTRY_NAME_PARAM]+urlParameters[constants.URL_SCOPE_PARAMETER], &dataFromDatabase)
 
 	if (structs.PolicyOutput{}) != dataFromDatabase {
-		// Counts up the number of times the country has been searched.
-		go func() {
-			err := counter.CountUp(dataFromDatabase.CountryCode)
+		if !(time.Since(dataFromDatabase.TimeStamp).Hours() > (time.Hour * 24 * 20).Hours()) {
 
-			if err != nil {
-				log.Printf("Error counting up the number of searches: %v", err)
-			}
+			// Counts up the number of times the country has been searched.
+			go func() {
+				err := counter.CountUp(dataFromDatabase.CountryCode)
 
-			webhook.Check(dataFromDatabase.CountryCode)
-		}()
+				if err != nil {
+					log.Printf("Error counting up the number of searches: %v", err)
+				}
 
-		return dataFromDatabase, nil
+				webhook.Check(dataFromDatabase.CountryCode)
+			}()
+
+			return dataFromDatabase, nil
+		}
 	}
 
 	response, err := web_client.GetRequest(buildSearchUrl(urlParameters))
