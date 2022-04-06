@@ -9,6 +9,9 @@ This api relies on the covidtracker api from the university of Oxford: https://c
 information. For the covid cases this api relies on https://covid19-graphql.now.sh from rlindskog on GitHub. It uses
 data from the Johns Hopkins University.
 
+The api also supports webhooks. Webhooks can be registered with custom triggering parameters. When a webhook is
+triggered information about how many times a given country has been search for is provided.
+
 [TOC]
 
 # Endpoints
