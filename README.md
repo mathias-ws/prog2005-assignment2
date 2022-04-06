@@ -13,13 +13,56 @@ data from the Johns Hopkins University.
 
 # Endpoints
 
+The api has four endpoint:
+
+    /corona/v1/notifications
+    /corona/v1/policy
+    /corona/v1/cases
+    corona/v1/status
+
+If no endpoint is found the error code 404 not found is returned. This indicates that the user entered a wrong path.
+
 ## Policy
+
+This endpoint can be used to get information about policies in a given country at a given date. If no date is provided,
+today's date is used.
 
 ### Request
 
+The policy endpoint can be used with both a scope and country parameter or just the country parameter.
+
 #### Parameters
 
+`country` is the country that the stringency and policy information is returned for. It must be the alpha three code for
+the country and not the full name.  
+`scope` is the date that you want to see the stringency and policy information for. The date must be provided on the
+form yyyy-mm-dd.
+
+Example request:
+
+    /corona/v1/policy?country=nor
+    /corona/v1/policy?country=nor&scope=2021-10-20
+
 ### Response
+
+A response will have the content type `application/json`.
+
+Status codes:
+
+* 200: Everything is ok.
+* 400: Client side error, wrong parameter/other.
+* 405: When using other methods than get.
+* 500: Undefined server side error.
+* 502: Unable to reach the backend apis.
+
+Example body:
+
+    {
+    "country_code": "nor",
+    "date_value": "2022-01-02",
+    "stringency": 51.85,
+    "policies": 20
+    }
 
 ## Cases
 
