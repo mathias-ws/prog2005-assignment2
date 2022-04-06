@@ -281,6 +281,15 @@ available on port 80 on the ip of the host.
 
 # Known bugs
 
+* The country api does not always return the same name of a country as the cases api uses. This can cause some issues
+  causing the service to not return a valid response.
+* The cases api uses some inconsistent names of countries. This is not handled by this service. Some examples are:
+  South, Korea and US. Please see the documentation of the backend case api to see what country names it is using.
+* The default scope of the policy endpoint will almost always return an error because the backend api does not usually
+  have data for the current day.
+* Country api might sometimes show up with the status code of 502, and therefor not be available. This is probably
+  because of a certificate issue with the service. Usually it works again after trying multiple times.
+
 # Extras
 
 * A short term cache of the cases endpoint is implemented to reduce requests to the backend api and to make the api
