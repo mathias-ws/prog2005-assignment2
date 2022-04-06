@@ -66,11 +66,45 @@ Example body:
 
 ## Cases
 
+This endpoint returns information about the most recent covid cases in a given country. The data includes number of
+cases, number of deaths and growth rate.
+
 ### Request
+
+A request to this endpoint must be a get request and contain the country parameter.
 
 #### Parameters
 
+`country` is the country that to retrieve the cases information for. It can be a full name or an alpha three code. Note
+that not all alpha three codes will work correctly, please see the known bugs section.
+
+Example request:
+
+    /corona/v1/cases?country=norway
+    /corona/v1/cases?country=nor
+
 ### Response
+
+A response will have the content type `application/json`.
+
+Status codes:
+
+* 200: Everything is ok.
+* 400: Client side error, wrong parameter/other.
+* 405: When using other methods than get.
+* 500: Undefined server side error.
+* 502: Unable to reach the backend apis.
+
+Example body:
+
+    {
+        "country": "Norway",
+        "date": "2022-03-28",
+        "confirmed": 1399714,
+        "recovered": 0,
+        "deaths": 2339,
+        "growth_rate": 0.0014853631627073677
+    }
 
 ## Notifications
 
