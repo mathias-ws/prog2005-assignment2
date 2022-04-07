@@ -43,7 +43,7 @@ The policy endpoint can be used with both a scope and country parameter or just 
 `country` is the country that the stringency and policy information is returned for. It must be the alpha three code for
 the country and not the full name.  
 `scope` is the date that you want to see the stringency and policy information for. The date must be provided on the
-form yyyy-mm-dd.
+form yyyy-mm-dd. The date can not be set to the future.
 
 Example request:
 
