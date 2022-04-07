@@ -28,7 +28,7 @@ func TestCheckIfStringIsNotEmptyCamelCase(t *testing.T) {
 }
 
 func TestCheckIfValidDateFormatValid(t *testing.T) {
-	assert.Equal(t, true, CheckIfValidDateFormat("2022-12-22"))
+	assert.Equal(t, true, CheckIfValidDateFormat("2021-12-22"))
 }
 
 func TestCheckIfValidDateFormatMissingDash(t *testing.T) {
@@ -48,5 +48,9 @@ func TestCheckIfValidDateFormatZeroDate(t *testing.T) {
 }
 
 func TestCheckIfValidDateFormatValidDate2(t *testing.T) {
-	assert.Equal(t, true, CheckIfValidDateFormat("2022-12-02"))
+	assert.Equal(t, true, CheckIfValidDateFormat("2021-12-02"))
+}
+
+func TestCheckIfValidDateFormatDateInFuture(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("2030-12-02"))
 }
