@@ -21,7 +21,7 @@ The api has four endpoint:
     /corona/v1/notifications
     /corona/v1/policy
     /corona/v1/cases
-    corona/v1/status
+    /corona/v1/status
 
 If no endpoint is found the error code 404 not found is returned. This indicates that the user entered a wrong path.
 
@@ -60,12 +60,14 @@ Status codes:
 
 Example body:
 
-    {
-        "country_code": "nor",
-        "date_value": "2022-01-02",
-        "stringency": 51.85,
-        "policies": 20
-    }
+```json
+{
+  "country_code": "nor",
+  "date_value": "2022-01-02",
+  "stringency": 51.85,
+  "policies": 20
+}
+ ```
 
 ## Cases
 
@@ -102,14 +104,16 @@ An invalid country parameter will yield an empty json structure.
 
 Example body:
 
-    {
-        "country": "Norway",
-        "date": "2022-03-28",
-        "confirmed": 1399714,
-        "recovered": 0,
-        "deaths": 2339,
-        "growth_rate": 0.0014853631627073677
-    }
+```json
+{
+  "country": "Norway",
+  "date": "2022-03-28",
+  "confirmed": 1399714,
+  "recovered": 0,
+  "deaths": 2339,
+  "growth_rate": 0.0014853631627073677
+}
+ ```
 
 ## Notifications
 
@@ -136,11 +140,13 @@ Example request:
 When registering a new webhook the rest method post is used. The body of a valid post request must have a json body
 following the following pattern:
 
-    {
-        "url": "https://cool.webhook/safag3wwgwefsoij9",
-        "country": "Norway",
-        "calls": 10
-    }
+```json
+{
+  "url": "https://cool.webhook/safag3wwgwefsoij9",
+  "country": "Norway",
+  "calls": 10
+}
+ ```
 
 The url field should contain the url that is to be triggered when the webhook is triggered. The country field should
 contain the full name of a country. The country must be in either the cases api or the countries api, please see the
@@ -182,11 +188,13 @@ Status codes:
 
 When using the id parameter to get information about a given webhook the following body is returned:
 
-    {
-        "url": "https://cool.webhook/safag3wwgwefsoij9",
-        "country": "Norway",
-        "calls": 10
-    }
+```json
+{
+  "url": "https://cool.webhook/safag3wwgwefsoij9",
+  "country": "Norway",
+  "calls": 10
+}
+ ```
 
 It contains the same information as the one being posted at registration.
 
@@ -195,28 +203,32 @@ It contains the same information as the one being posted at registration.
 When fetching all webhooks, they will be returned as a list. All registered webhooks, with their ids will be in the
 list. Example response:
 
-    [
-    {
-        "id": "21222154417c758332ab2764adccf61d809bcab49f92ddde8796debd2c18b20b",
-        "url": "https://cool.webhook/safag3wwgwefsoij9",
-        "country": "Norway",
-        "calls": 10
-    },
-    {
-        "id": "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470",
-        "url": "https://webhook.site/bf1c45f9-7ca4-4867-a17b-d7a10a49cea6",
-        "country": "Sweden",
-        "calls": 2
-    }
-    ]
+```json
+[
+  {
+    "id": "21222154417c758332ab2764adccf61d809bcab49f92ddde8796debd2c18b20b",
+    "url": "https://cool.webhook/safag3wwgwefsoij9",
+    "country": "Norway",
+    "calls": 10
+  },
+  {
+    "id": "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470",
+    "url": "https://webhook.site/bf1c45f9-7ca4-4867-a17b-d7a10a49cea6",
+    "country": "Sweden",
+    "calls": 2
+  }
+]
+ ```
 
 #### Post response
 
 When sending a post request to register a new webhook the following body with a webhook id will be returned:
 
-    {
-        "webhook_id": "21222154417c758332ab2764adccf61d809bcab49f92ddde8796debd2c18b20b"
-    }
+```json
+{
+  "webhook_id": "21222154417c758332ab2764adccf61d809bcab49f92ddde8796debd2c18b20b"
+}
+ ```
 
 This is the only time to view the webhook id, so save it if needed.
 
@@ -243,14 +255,16 @@ Example request:
 The response will contain the status code of the backend apis, the number of currently registered webhooks, the version
 of the services and the uptime of the service. An example body is:
 
-    {
-      "cases_api_status": 200,
-      "policy_api_status": 200,
-      "country_api_status": 200,
-      "number_of_webhooks": 1,
-      "version": "v1",
-      "uptime": "0h 0m 14s"
-    }
+```json
+{
+  "cases_api_status": 200,
+  "policy_api_status": 200,
+  "country_api_status": 200,
+  "number_of_webhooks": 1,
+  "version": "v1",
+  "uptime": "0h 0m 14s"
+}
+ ```
 
 # Webhook triggered
 
@@ -259,11 +273,13 @@ the name of the country and the total amount of times the country have been sear
 
 Example body:
 
-    {
-        "webhook_id": "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470",
-        "country": "Sweden",
-        "calls": 24
-    }
+```json
+{
+  "webhook_id": "a2c4d3e5e592a8b75da5d9b3a27ad846a40338ffe2ed00771179e63991619470",
+  "country": "Sweden",
+  "calls": 24
+}
+ ```
 
 # How to deploy
 
