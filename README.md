@@ -336,6 +336,9 @@ The Dockerfiles ends up building the docker image based on the scratch base imag
 Only the necessary packages and dependencies are added to the container image. This minimizes the attack surface and
 there will be fewer things to break making it more stable and reliable.
 
+For testing, I decided to use a third party library for assertion. This was because the code was cleaner, so it is
+easier to read. I used the same library as the one that was shown in class.
+
 The tests are reliant on having some test data already populated into the database. This will make it impossible to run
 the tests without the test database. Some tests might also contain some sleeps or use some functions that is being
 tested later to make the tests run. This is because of some concurrency issues when go is running tests in parallel. For
