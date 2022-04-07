@@ -25,11 +25,6 @@ func HttpUnknownServerError(w http.ResponseWriter) {
 	http.Error(w, "Server side error, please try again later", http.StatusInternalServerError)
 }
 
-// HttpNoContent http error for when no content is returned.
-func HttpNoContent(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusNoContent)
-}
-
 // HttpWrongJsonInfo http error for when the user provides the wrong json structure when posting.
 func HttpWrongJsonInfo(w http.ResponseWriter) {
 	http.Error(w, "Some information is missing from the json body, see the documentation.", http.StatusBadRequest)
