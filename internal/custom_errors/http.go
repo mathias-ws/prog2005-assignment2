@@ -41,3 +41,8 @@ func HttpNotFound(w http.ResponseWriter) {
 		"https://git.gvk.idi.ntnu.no/course/prog2005/prog2005-2022-workspace/mathias_ws/assignment-2/-/blob/main/README.md",
 		http.StatusNotFound)
 }
+
+// HttpNoPolicy gives an error message that the policy endpoint did not find any data matching the search criteria.
+func HttpNoPolicy(w http.ResponseWriter) {
+	http.Error(w, "The policy country and scope did not return any valid data.", http.StatusNotFound)
+}

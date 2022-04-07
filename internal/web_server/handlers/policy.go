@@ -32,6 +32,11 @@ func handleGetRequestPolicy(w http.ResponseWriter, r *http.Request) {
 
 	// Checks for errors in the process of getting the policy and stringency information.
 	if errPolicy != nil {
+		if errPolicy.Error() == custom_errors.GetFailedToDecode().Error() {
+			custom_errors.HttpNoPolicy(w)
+			return
+		}
+
 		custom_errors.HttpUnknownServerError(w)
 		return
 	}
