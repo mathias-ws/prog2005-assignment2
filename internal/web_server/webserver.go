@@ -13,6 +13,7 @@ func setHandlers() {
 	http.HandleFunc(policyLocation, handlers.PolicyHandler)
 	http.HandleFunc(casesLocation, handlers.CovidCasesHandler)
 	http.HandleFunc(webhookLocation, handlers.NotificationHandler)
+	http.HandleFunc(defaultLocation, handlers.DefaultHandler)
 }
 
 // StartWebServer starts the webserver for the api.
