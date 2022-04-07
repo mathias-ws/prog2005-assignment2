@@ -369,3 +369,14 @@ The test coverage ended up being 100% of the files and 75,3% of the statements a
 * Added a pipeline that run tests and automatically builds the image and pushes it to my docker registry.
 * Caching of the country api to reduce time for the user and to reduce the load on the country api.
 * Use of some goroutines to parallelize some tasks.
+
+# Improvements
+
+Some known things that could be improved in the project. These have not been implemented yet because of time
+constraints.
+
+* Use goroutines on the status endpoint to fetch data faster.
+* Some better error handling.
+* Policy: instead of having the default scope as the current date, it could be the date were the newest data is
+  available.
+* Some better tests, that don't have concurrency issues.
