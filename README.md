@@ -373,6 +373,10 @@ The test coverage ended up being 100% of the files and 75,3% of the statements a
 * Added a pipeline that run tests and automatically builds the image and pushes it to my docker registry.
 * Caching of the country api to reduce time for the user and to reduce the load on the country api.
 * Use of some goroutines to parallelize some tasks.
+* Advanced tasks: converting cca3 codes to country names in the cases endpoint.
+* Advanced tasks: unified counting of country name and cca3 codes.
+* Advanced tasks: cca3 converts to country name when registering a webhook.
+* Advanced tasks: the caches are automatically purged after x number of hours.
 
 # Improvements
 
