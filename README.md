@@ -10,7 +10,8 @@ data regarding confirmed cases, deaths, growth rate and some other information.
 
 This api relies on the covidtracker api from the university of Oxford: https://covidtracker.bsg.ox.ac.uk for the policy
 information. For the covid cases this api relies on https://covid19-graphql.now.sh from rlindskog on GitHub. It uses
-data from the Johns Hopkins University.
+data from the Johns Hopkins University. This service also relies on restcountries api for converting cca3 country codes
+to country names. The documentation can be found here: https://restcountries.com.
 
 The api also supports webhooks. Webhooks can be registered with custom triggering parameters. When a webhook is
 triggered information about how many times a given country has been search for is provided.
