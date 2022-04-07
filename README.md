@@ -126,7 +126,7 @@ triggered when a specified country has been called x number of times in any of t
 
 ### Request
 
-The endpoint supports the three rest methods of: get, post and delete.
+The endpoint supports three rest methods: get, post and delete.
 
 #### Get request
 
