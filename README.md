@@ -182,7 +182,7 @@ Status codes:
 
 * 200: Everything is ok.
 * 400: Client side error, wrong parameter/other.
-* 405: When using other methods than get.
+* 405: When using other methods than the supported ones.
 * 500: Undefined server side error.
 * 502: Unable to reach the backend apis.
 
