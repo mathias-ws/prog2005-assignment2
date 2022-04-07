@@ -2,6 +2,7 @@ package webhook
 
 import (
 	"assignment-2/internal/buisness_logic/counter"
+	"assignment-2/internal/buisness_logic/country"
 	"assignment-2/internal/constants"
 	"assignment-2/internal/custom_errors"
 	"assignment-2/internal/database"
@@ -28,6 +29,15 @@ func Register(request *http.Request) (string, error) {
 	numberOfCounts, _ := counter.GetNumberOfTimes(registrationInfo.Country)
 
 	registrationInfo.CallsAtRegistration = numberOfCounts
+
+	if len(registrationInfo.Country) == 3 {
+		countryName, errCca3 := country.GetCountryNameFromCca3(registrationInfo.Country)
+		if errCca3 != nil {
+			return "", errCca3
+		}
+
+		registrationInfo.Country = countryName
+	}
 
 	err := database.WriteDocument(constants.WebhookDbCollection, fmt.Sprintf("%v", registrationInfo), registrationInfo)
 	if err != nil {
