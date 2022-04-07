@@ -348,3 +348,4 @@ The test coverage ended up being 100% of the files and 75,3% of the statements a
   the user some information.
 * Hashing of the database collection and document names, and also the webhook ids.
 * Added a pipeline that run tests and automatically builds the image and pushes it to my docker registry.
+* Caching of the country api to reduce time for the user and to reduce the load on the country api.
