@@ -327,6 +327,8 @@ example the test for adding a webhook in the logic package might run at the same
 getting all webhooks are tested. This will cause the number of webhooks to maybe be different. This could have also been
 solved using `go test -p ./...` as the tests are run sequentially.
 
+The test coverage ended up being 100% of the files and 75,3% of the statements according to goland.
+
 # Known bugs
 
 * The country api does not always return the same name of a country as the cases api uses. This can cause some issues
