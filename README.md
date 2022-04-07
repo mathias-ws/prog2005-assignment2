@@ -388,3 +388,4 @@ constraints.
 * Policy: instead of having the default scope as the current date, it could be the date were the newest data is
   available.
 * Some better tests, that don't have concurrency issues.
+* Give a response when a webhook is deleted, to make it clearer for the user.
