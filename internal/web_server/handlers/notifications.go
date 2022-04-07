@@ -29,6 +29,7 @@ func handleRegistration(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err.Error() == custom_errors.GetMissingJsonFieldsError().Error() {
 			custom_errors.HttpWrongJsonInfo(w)
+			return
 		}
 		custom_errors.HttpUnknownServerError(w)
 		return
