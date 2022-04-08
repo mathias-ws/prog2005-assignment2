@@ -85,6 +85,7 @@ type Stringency struct {
 	Deaths           int     `json:"deaths"`
 	StringencyActual float64 `json:"stringency_actual"`
 	Stringency       float64 `json:"stringency"`
+	Msg              string  `json:"-,omitempty"`
 }
 
 type Policy struct {

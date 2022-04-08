@@ -88,7 +88,8 @@ func FindPolicyInformation(urlParameters map[string]string) (structs.PolicyOutpu
 	json_parsing.Decode(response, &obtainedPolicyInformation)
 
 	//TODO: if not all data is populated yet, it goes here... Intended behaviour?
-	if (structs.PolicyInputFromApi{}.StringencyData.CountryCode) == obtainedPolicyInformation.StringencyData.CountryCode {
+	if (structs.PolicyInputFromApi{}.StringencyData.CountryCode) == obtainedPolicyInformation.StringencyData.CountryCode ||
+		obtainedPolicyInformation.StringencyData.Msg == "Data unavailable" {
 		return structs.PolicyOutput{}, custom_errors.GetFailedToDecode()
 	}
 
