@@ -298,7 +298,9 @@ using `git clone https://git.gvk.idi.ntnu.no/course/prog2005/prog2005-2022-works
 2: change into the cloned directory: `cd assignment-2`.  
 3: follow the firestore documentation to create an empty database and a service account authentication file.  
 4: move the file into the current folder (`assignment-2`) and rename it to `auth.json`.  
-5: follow the steps for you desired deployment method following:
+5: to make the application more secure you need to change the hash secret. To do this, change the string on line 16 in
+the file `internal/hashing/hash.go`. The longer the string is, the better. Try to make it unguessable.  
+6: follow the steps for you desired deployment method following:
 
 ## Docker
 
