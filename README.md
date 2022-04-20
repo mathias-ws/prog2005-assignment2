@@ -327,6 +327,32 @@ binary called assignment-2. This file can be moved anywhere you please.
 2: in the location the `assignment-2` file is placed use `./assignment-2` to run the service. The service should be
 available on port 80 on the ip of the host.
 
+## Testing
+Some tests assume that there are some data in the database. Without these all the tests won't run.
+
+Country collection:
+* Norway
+* France
+* Latvia
+* Netherlands
+* Sweden
+
+Counter collection:
+* Netherlands, count 1
+
+Policy collection:
+* CountryCode: "swe", Policy 2, Scope "2022-10-05", Stringency 13.89
+
+Cases collection:
+* confirmed 1399714, country "Norway", date "2022-03-28", deaths 2339, growth_rate 0.0014853631627073677, recovered 0
+* confirmed 1399714, country "Sweden", date "2022-03-28", deaths 2339, growth_rate 0.0014853631627073677, recovered 0
+
+Webhook collection:
+* Calls 2, CallsAtRegistration 1, Country "Sweden", Url "https://funny.url.go.fast/very-nice/swe"
+* Calls 5, CallsAtRegistration 1, Country "Finland", Url "https://funny.url.go.fast/very-nice/fin"
+* Calls 5, CallsAtRegistration 0, Country "Denmark", Url "https://funny.url.go.fast/very-nice/den"
+* Calls 3, CallsAtRegistration 1, Country "Norway", Url "https://my.webhook/askljfhao83hiofa"
+
 # Design choices
 
 The feature set of this is api is close to the specification given in the assignment. Some additional features have been
