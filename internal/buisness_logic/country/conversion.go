@@ -31,7 +31,7 @@ func GetCountryNameFromCca3(cca3Code string) (string, error) {
 
 	if (structs.CountryInfo{}) != countryObtainedFromDb {
 		// Checks if the cache is more than ten days old, if not it will return the item from the db.
-		if !(time.Since(countryObtainedFromDb.TimeStamp).Hours() > (time.Hour * 24 * 10).Hours()) {
+		if !(time.Since(countryObtainedFromDb.TimeStamp).Hours() > (time.Hour * 24 * 50).Hours()) {
 			return countryObtainedFromDb.Common, nil
 		}
 	}
