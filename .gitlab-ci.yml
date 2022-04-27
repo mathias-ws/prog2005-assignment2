@@ -29,7 +29,7 @@ stages:
 test:
   stage: test
   script:
-    - go test ./...
+    - go test ./... -p 1
 
 build:
   stage: build
