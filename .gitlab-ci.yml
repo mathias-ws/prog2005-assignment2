@@ -20,6 +20,7 @@ before_script:
   - mkdir -p "$GOPATH/src/$(dirname $REPO_NAME)"
   - ln -svf "$CI_PROJECT_DIR" "$GOPATH/src/$REPO_NAME"
   - cd "$GOPATH/src/$REPO_NAME"
+  - echo $firestore | base64 -d > $GOPATH/src/$REPO_NAME/auth.json
 
 stages:
   - test
@@ -37,6 +38,7 @@ build:
     entrypoint: [""]
   script:
     - mkdir -p /kaniko/.docker
+    - echo $firestore | base64 -d > ${CI_PROJECT_DIR}/auth.json
     - echo "{\"auths\":{\"registry.local.mathiaswskoglund.com\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
     - >-
       /kaniko/executor
