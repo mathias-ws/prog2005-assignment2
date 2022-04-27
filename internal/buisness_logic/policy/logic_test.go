@@ -142,7 +142,7 @@ func TestFindPolicyInformationCached(t *testing.T) {
 	outputExpect := structs.PolicyOutput{
 		CountryCode: "swe",
 		Policy:      2,
-		TimeStamp:   time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
+		TimeStamp:   time.Date(2022, time.July, 1, 10, 44, 33, 0, time.UTC),
 		Stringency:  13.89,
 		Scope:       "2022-10-05",
 	}

@@ -82,13 +82,13 @@ func TestGetCovidCasesFromCache(t *testing.T) {
 	result, err := GetCovidCases(urlParams)
 
 	expected := structs.CovidCasesOutput{
-		Country:        "Sweden",
+		Country:        "Norway",
 		Date:           "2022-03-28",
 		ConfirmedCases: 1399714,
 		Recovered:      0,
 		Deaths:         2339,
 		GrowthRate:     0.0014853631627073677,
-		TimeStamp:      time.Date(2022, time.March, 29, 17, 47, 44, 297000000, time.UTC)}
+		TimeStamp:      time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC)}
 
 	// To make sure that the caching is done
 	time.Sleep(time.Millisecond * 500)
