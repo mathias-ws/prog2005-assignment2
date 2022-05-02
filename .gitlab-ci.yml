@@ -5,11 +5,13 @@ stages:
 test:
   stage: test
   image: golang:latest
+  variables:
+    REPO_NAME: gitlab.com/mathias_ws/assignment-2
   before_script:
-    - mkdir -p "$GOPATH/src/assignment-2"
-    - ln -svf "$CI_PROJECT_DIR" "$GOPATH/src/assignment-2"
-    - cd "$GOPATH/src/assignment-2"
-    - echo $firestore | base64 -d > $GOPATH/src/assignment-2/auth.json
+    - mkdir -p "$GOPATH/src/$(dirname $REPO_NAME)"
+    - ln -svf "$CI_PROJECT_DIR" "$GOPATH/src/$REPO_NAME"
+    - cd "$GOPATH/src/$REPO_NAME"
+    - echo $firestore | base64 -d > $GOPATH/src/$REPO_NAME/auth.json
   script:
     - go test ./... -p 1
 
