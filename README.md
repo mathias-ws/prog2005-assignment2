@@ -238,8 +238,14 @@ This is the only time to view the webhook id, so save it if needed.
 
 #### Delete response
 
-When doing a delete request there will be no response, but the status code 200 will be returned. To verify that it has
+When doing a delete request the status code 200 will be returned. To verify that it has
 been deleted it is possible to send a get request with the id, the body should be empty.
+
+```json
+{
+  "message": "webhook deleted"
+}
+```
 
 ### Status
 
@@ -328,9 +334,11 @@ binary called assignment-2. This file can be moved anywhere you please.
 available on port 80 on the ip of the host.
 
 ## Testing
+
 Some tests assume that there are some data in the database. Without these all the tests won't run.
 
 Country collection:
+
 * Norway
 * France
 * Latvia
@@ -338,16 +346,20 @@ Country collection:
 * Sweden
 
 Counter collection:
+
 * Netherlands, count 1
 
 Policy collection:
+
 * CountryCode: "swe", Policy 2, Scope "2022-10-05", Stringency 13.89
 
 Cases collection:
+
 * confirmed 1399714, country "Norway", date "2022-03-28", deaths 2339, growth_rate 0.0014853631627073677, recovered 0
 * confirmed 1399714, country "Sweden", date "2022-03-28", deaths 2339, growth_rate 0.0014853631627073677, recovered 0
 
 Webhook collection:
+
 * Calls 2, CallsAtRegistration 1, Country "Sweden", Url "https://funny.url.go.fast/very-nice/swe"
 * Calls 5, CallsAtRegistration 1, Country "Finland", Url "https://funny.url.go.fast/very-nice/fin"
 * Calls 5, CallsAtRegistration 0, Country "Denmark", Url "https://funny.url.go.fast/very-nice/den"
@@ -414,4 +426,3 @@ constraints.
 * Use goroutines on the status endpoint to fetch data faster.
 * Some better error handling.
 * Some better tests, that don't have concurrency issues.
-* Give a response when a webhook is deleted, to make it clearer for the user.
