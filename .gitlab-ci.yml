@@ -7,8 +7,8 @@ test:
   image: golang:latest
   before_script:
     - mkdir -p "$GOPATH/src/assignment-2"
-    - ln -svf "$CI_PROJECT_DIR" "$GOPATH/src/$REPO_NAME"
-    - cd "$GOPATH/src/$REPO_NAME"
+    - ln -svf "$CI_PROJECT_DIR" "$GOPATH/src/assignment-2"
+    - cd "$GOPATH/src/assignment-2"
     - echo $firestore | base64 -d > $GOPATH/src/assignment-2/auth.json
   script:
     - go test ./... -p 1
