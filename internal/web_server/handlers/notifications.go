@@ -80,8 +80,14 @@ func handleDeleteRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = webhook.Delete(urlParams)
+	message, err := webhook.Delete(urlParams)
+
 	if err != nil {
+		return
+	}
+
+	errEncode := json.Encode(w, message)
+	if errEncode != nil {
 		return
 	}
 }

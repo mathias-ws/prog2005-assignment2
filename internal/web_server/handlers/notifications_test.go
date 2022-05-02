@@ -257,9 +257,13 @@ func TestDeleteWebhook(t *testing.T) {
 
 	handler.ServeHTTP(responseRecorder, req)
 
+	result := responseRecorder.Result()
+	body, _ := io.ReadAll(result.Body)
+
 	var dataFromDb structs.WebHookRegistration
 	database.GetDocument(constants.WebhookDbCollection, fmt.Sprintf("%v", sampleWebhook), &dataFromDb)
 
+	assert.Contains(t, string(body), "webhook deleted")
 	assert.Equal(t, structs.WebHookRegistration{}, dataFromDb)
 }
 
