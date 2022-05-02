@@ -11,7 +11,7 @@ test:
     - cd "$GOPATH/src/$REPO_NAME"
     - echo $firestore | base64 -d > $GOPATH/src/assignment-2/auth.json
   script:
-    - go test ./...
+    - go test ./... -p 1
 
 build:
   stage: build
@@ -21,10 +21,10 @@ build:
   script:
     - mkdir -p /kaniko/.docker
     - echo $firestore | base64 -d > ${CI_PROJECT_DIR}/auth.json
-    - echo "{\"auths\":{\"registry.local.mathiaswskoglund.com\":{\"auth\":\"$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
+    - echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n mathiasws:${REGISTRY_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
     - >-
       /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "registry.local.mathiaswskoglund.com/assignment-2:latest"
+      --destination "mathiasws/assignment2:latest"
       --force
