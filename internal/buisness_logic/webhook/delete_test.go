@@ -23,7 +23,7 @@ func TestDelete(t *testing.T) {
 		constants.UrlParameterWebhookId: "0bc71804a34c3fd2ff6cc12f4423ac24562c664913f8e6a08a03b8d61c4f0e97",
 	}
 
-	errDel := Delete(params)
+	message, errDel := Delete(params)
 
 	testFetch := structs.WebHookRegistration{}
 	database.GetDocument(constants.WebhookDbCollection,
@@ -31,6 +31,6 @@ func TestDelete(t *testing.T) {
 
 	assert.Nil(t, errDel)
 	assert.Nil(t, errWrite)
-
+	assert.Contains(t, message["message"], "webhook deleted")
 	assert.Equal(t, structs.WebHookRegistration{}, testFetch)
 }
