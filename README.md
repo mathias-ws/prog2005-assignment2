@@ -310,6 +310,12 @@ the file `internal/hashing/hash.go`. The longer the string is, the better. Try t
 
 ## Docker
 
+A docker image of this project is available on docker hub as `mathiasws/assignment2:latest`.
+To run the image use: `docker run --name assignment-2 -d -p 80:80 --restart unless-stopped mathiasws/assignment2:latest`
+.
+
+### Build locally
+
 If not already done, please follow the general steps before proceeding. These steps will help you build a docker image
 of the project and do a simple deployment. This method requires you to already have a working docker environment on
 linux.
