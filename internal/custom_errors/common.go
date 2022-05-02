@@ -64,3 +64,8 @@ func GetNoObjectFoundError() error {
 func GetMissingJsonFieldsError() error {
 	return errors.New("all json fields are not present")
 }
+
+// GetErrorParsingTime returns error message for when all json fields are not set.
+func GetErrorParsingTime() error {
+	return errors.New("unable to parse time")
+}

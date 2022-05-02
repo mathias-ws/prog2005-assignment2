@@ -9,6 +9,7 @@ import (
 	"assignment-2/internal/json_parsing"
 	"assignment-2/internal/structs"
 	"assignment-2/internal/web_client"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -87,10 +88,36 @@ func FindPolicyInformation(urlParameters map[string]string) (structs.PolicyOutpu
 
 	json_parsing.Decode(response, &obtainedPolicyInformation)
 
-	//TODO: if not all data is populated yet, it goes here... Intended behaviour?
-	if (structs.PolicyInputFromApi{}.StringencyData.CountryCode) == obtainedPolicyInformation.StringencyData.CountryCode ||
-		obtainedPolicyInformation.StringencyData.Msg == "Data unavailable" {
-		return structs.PolicyOutput{}, custom_errors.GetFailedToDecode()
+	if (structs.PolicyInputFromApi{}.StringencyData.CountryCode) == obtainedPolicyInformation.StringencyData.CountryCode {
+		if urlParameters[constants.URL_SCOPE_PARAMETER] == time.Now().Format(constants.URL_PARAMETER_WANTED_TIME_FORMAT) {
+			date, errTime := time.Parse(constants.URL_PARAMETER_WANTED_TIME_FORMAT, urlParameters[constants.URL_SCOPE_PARAMETER])
+
+			if errTime != nil {
+				log.Println(custom_errors.GetErrorParsingTime())
+				return structs.PolicyOutput{}, custom_errors.GetErrorParsingTime()
+			}
+
+			for i := 0; i < 7; i++ {
+				date = date.AddDate(0, 0, -1)
+
+				urlParameters = map[string]string{constants.URL_COUNTRY_NAME_PARAM: urlParameters[constants.URL_COUNTRY_NAME_PARAM],
+					constants.URL_SCOPE_PARAMETER: fmt.Sprintf("%v", date.Format(constants.URL_PARAMETER_WANTED_TIME_FORMAT))}
+
+				response, err := web_client.GetRequest(buildSearchUrl(urlParameters))
+
+				if err != nil {
+					return structs.PolicyOutput{}, err
+				}
+
+				json_parsing.Decode(response, &obtainedPolicyInformation)
+
+				if obtainedPolicyInformation.StringencyData.CountryCode != (structs.PolicyInputFromApi{}.StringencyData.CountryCode) {
+					break
+				}
+			}
+		} else {
+			return structs.PolicyOutput{}, custom_errors.GetFailedToDecode()
+		}
 	}
 
 	outputStruct := generateOutputStruct(obtainedPolicyInformation, urlParameters)
