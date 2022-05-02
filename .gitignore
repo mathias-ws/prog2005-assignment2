@@ -25,6 +25,7 @@
 
 # GoLand specific
 *.idea
+.idea
 
 # Exclude the firebase auth file.
 auth.json
