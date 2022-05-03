@@ -54,3 +54,27 @@ func TestCheckIfValidDateFormatValidDate2(t *testing.T) {
 func TestCheckIfValidDateFormatDateInFuture(t *testing.T) {
 	assert.Equal(t, false, CheckIfValidDateFormat("2030-12-02"))
 }
+
+func TestCheckIfValidDateWrongYearDigits(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("22021-12-02"))
+}
+
+func TestCheckIfValidDateWrongYearLetters(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("fa2021-12-02"))
+}
+
+func TestCheckIfValidDateWrongMonthDigits(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("2021-212-02"))
+}
+
+func TestCheckIfValidDateWrongMonthLetters(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("2021-f12-02"))
+}
+
+func TestCheckIfValidDateWrongDayDigits(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("2021-12-0232"))
+}
+
+func TestCheckIfValidDateWrongDayLetters(t *testing.T) {
+	assert.Equal(t, false, CheckIfValidDateFormat("2021-12-02gds"))
+}
