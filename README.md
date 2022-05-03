@@ -1,7 +1,9 @@
 # Assignment 2
 
 The deployed version of this project can be reached at: http://10.212.140.40. This is only available on the NTNU
-network.
+network. A public version of the api is available at http://34.88.54.141.
+
+The docker image can be found on docker hub: https://hub.docker.com/r/mathiasws/assignment2.
 
 Project for the second assignment in PROG2005-Cloud Technologies 2022. This rest api is created for getting information
 about covid policies and cases in different countries around the world. With this api you can se any past or present
